@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
   },
   topMoversText: {
-    fontWeight: '600',
+    fontWeight: 'bold',
     fontSize: 21,
     marginTop: 32,
     marginBottom: 10,

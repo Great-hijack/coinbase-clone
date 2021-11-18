@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: 'bold',
     color: 'gray',
   },
   balanceText: {

@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   tickerText: {
     fontSize: 15,
-    fontWeight: '600',
+    fontWeight: 'bold',
     marginRight: 5,
   },
   priceText: {

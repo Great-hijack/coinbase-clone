@@ -56,7 +56,7 @@ const Watchlist: FC<TopMoversProps> = ({coinData}) => {
 
 const styles = StyleSheet.create({
   watchlistText: {
-    fontWeight: '600',
+    fontWeight: 'bold',
     fontSize: 21,
     marginTop: 30,
     marginBottom: 10,

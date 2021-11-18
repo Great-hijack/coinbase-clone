@@ -60,14 +60,14 @@ const styles = StyleSheet.create({
   },
   newsText: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   sortButton: {
     flexDirection: 'row',
   },
   sortButtonText: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   sortIcon: {
     marginTop: 3,

@@ -72,12 +72,12 @@ const styles = StyleSheet.create({
   },
   newsText: {
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   viewMoreButton: {
     color: Colors.cbBlue,
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
 });
 

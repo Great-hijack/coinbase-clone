@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     marginHorizontal: '6%',
   },
   growText: {
-    fontWeight: '600',
+    fontWeight: 'bold',
     fontSize: 21,
     marginTop: 30,
   },
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   subTitle: {
     fontSize: 16,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   getStarted: {
     fontSize: 20,
     color: Colors.cbBlue,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   percentText: {
     fontSize: 16,
@@ -108,11 +108,11 @@ const styles = StyleSheet.create({
   },
   cash: {
     fontSize: 21,
-    fontWeight: '600',
+    fontWeight: 'bold',
   },
   percent: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: 'bold',
     color: 'gray',
     textAlignVertical: 'bottom',
   },

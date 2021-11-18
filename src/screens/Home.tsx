@@ -135,7 +135,7 @@ const Home = ({navigation}: Props) => {
         <View style={styles.promotion}>
           <View style={{flex: 1}}>
             <Text style={{fontSize: 16, color: '#0009'}}>Earn up to 5% APR</Text>
-            <Text style={{fontSize: 18, fontWeight: '600'}}>Learn how to earn rewards on Coinbase</Text>
+            <Text style={{fontSize: 18, fontWeight: 'bold'}}>Learn how to earn rewards on Coinbase</Text>
           </View>
           <Image style={styles.image} source={{uri: 'https://i.imgur.com/9EEaSaS.png'}} />
           <Ionicons name="ios-close-circle" size={30} color={'#0003'} style={styles.closeIcon} />
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     width: 100,
   },
   title: {
-    fontWeight: '600',
+    fontWeight: 'bold',
     letterSpacing: 0.5,
     fontSize: 21,
     marginBottom: 8,
