@@ -56,7 +56,7 @@ export const fetchAssetsData = () => {
                objectBalance[item[1]].push(item);
             });
             Object.keys(objectBalance).map((key, i) => {
-               let sum = objectBalance[key].map((item,index) => item[2]).reduce((a, b) => a + b);
+               let sum = objectBalance[key].map((item : any,index : any) => item[2]).reduce((a : any, b : any) => a + b);
 
                objectTotal.push([i, key, sum]);
             });
