@@ -9,6 +9,7 @@ import Coin from "../../models/Coin";
 import {getCoinData, getCoinPrice} from "../../utils";
 
 import cmpData from "../../data/CoinMarketCapData";
+import {Balance} from "./history";
 
 
 export const SET_ASSETS_DATA = 'SET_ASSETS_DATA';
@@ -46,17 +47,25 @@ export const fetchAssetsData = () => {
                 );
             });
 
-            console.log('----fetchAssetsData----', coinData);
-
             let assetsData: Asset[] = [];
-            balanceHistory.sort(function (a: any, b: any) {
+
+            let objectBalance : any = {};
+            let objectTotal : Balance[] = [];
+            balanceHistory.forEach((item) => {
+               objectBalance[item[1]] = objectBalance[item[1]] || [];
+               objectBalance[item[1]].push(item);
+            });
+            Object.keys(objectBalance).map((key, i) => {
+               let sum = objectBalance[key].map((item,index) => item[2]).reduce((a, b) => a + b);
+
+               objectTotal.push([i, key, sum]);
+            });
+
+            objectTotal.sort(function (a: any, b: any) {
                 return b[2] - a[2]
             });
-            balanceHistory.map((value, index) => {
-                if (value[2] <= 0.0) {
-                    console.log('balanceValue is empty', index);
-                    return;
-                }
+            objectTotal.map((value, index) => {
+
                 let id : number ;
                 let name : string;
                 let symbol: string;
