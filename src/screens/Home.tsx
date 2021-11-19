@@ -1,16 +1,6 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  RefreshControl,
-  ScrollView,
-  SafeAreaView,
-  Image,
-  LogBox,
-  Dimensions
-} from 'react-native';
+import {StyleSheet, View, Text, RefreshControl, ScrollView, SafeAreaView, Image, LogBox, Dimensions} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {useScrollToTop} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -96,14 +86,14 @@ const Home = ({navigation}: Props) => {
 
   const ref = useRef(null);
   useScrollToTop(ref);
-  const handleScroll = (event : any) => {
+  const handleScroll = (event: any) => {
     const positionY = event.nativeEvent.contentOffset.y;
-    if (positionY > 220){
-        setShowTotal(true);
-    }else {
-        setShowTotal(false);
+    if (positionY > 220) {
+      setShowTotal(true);
+    } else {
+      setShowTotal(false);
     }
-  }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -111,16 +101,13 @@ const Home = ({navigation}: Props) => {
         <View style={{flex: 1}}>
           <Ionicons name="ios-menu-outline" size={30} color={'#0009'} style={styles.menuIcon} />
         </View>
-        <View style={{flexDirection:"row" , justifyContent:"center"}} >
-
-          <Text style={styles.titleTotal} >
-            {isShowTotal ? "$188,535.45" : ""}
-          </Text>
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+          <Text style={styles.titleTotal}>{isShowTotal ? '$188,535.45' : ''}</Text>
         </View>
         <View style={{flex: 1}}>
           <Ionicons name="ios-notifications-outline" size={25} color={'#0009'} style={styles.bellIcon} />
-          <View style={styles.badgeWrapper} >
-            <Text style={styles.badgeText} >4</Text>
+          <View style={styles.badgeWrapper}>
+            <Text style={styles.badgeText}>4</Text>
           </View>
         </View>
       </View>
@@ -128,7 +115,9 @@ const Home = ({navigation}: Props) => {
         contentContainerStyle={{alignItems: 'center'}}
         showsVerticalScrollIndicator={false}
         ref={ref}
-        onScroll={(event) => {handleScroll(event)}}
+        onScroll={event => {
+          handleScroll(event);
+        }}
         refreshControl={<RefreshControl tintColor="rgb(233, 233, 243)" refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.promotion}>
           <View style={{flex: 1}}>
@@ -139,6 +128,7 @@ const Home = ({navigation}: Props) => {
           <Ionicons name="ios-close-circle" size={30} color={'#0003'} style={styles.closeIcon} />
         </View>
         <BalanceGraph data={graphData} onChangeRange={setRange} range={range} />
+        {console.log('-----ssss----', assetsData)}
         <AssetsList assetsData={assetsData} isHomeScreen={true} sortHandler={sortHandler} />
         <CBButton title="See all" outline />
         <GrowBalance />
@@ -169,19 +159,19 @@ const styles = StyleSheet.create({
   menuIcon: {
     marginLeft: 15,
   },
-  titleTotal : {
+  titleTotal: {
     fontWeight: 'bold',
-    fontSize:18,
-    color:'gray',
-    alignContent:'center',
-    textAlignVertical:'center',
+    fontSize: 18,
+    color: 'gray',
+    alignContent: 'center',
+    textAlignVertical: 'center',
   },
   bellIcon: {
     alignSelf: 'flex-end',
     marginRight: 15,
   },
-  badgeWrapper : {
-    flex:1,
+  badgeWrapper: {
+    flex: 1,
     position: 'absolute',
     right: 5,
     top: -10,
@@ -190,16 +180,16 @@ const styles = StyleSheet.create({
     width: 18,
     borderRadius: 19,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   badgeText: {
-    justifyContent:'center',
-    alignSelf:'center',
-    alignItems:'center',
-    alignContent:'center',
-    textAlignVertical:'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
+    textAlignVertical: 'center',
     fontSize: 14,
-    color: 'white'
+    color: 'white',
   },
   promotion: {
     flexDirection: 'row',

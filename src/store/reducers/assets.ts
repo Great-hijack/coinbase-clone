@@ -1,6 +1,6 @@
-import { AnyAction } from 'redux';
+import {AnyAction} from 'redux';
 import Asset from '../../models/Asset';
-import { SET_ASSETS_DATA } from '../actions/assets';
+import {SET_ASSETS_DATA} from '../actions/assets';
 
 export interface AssetsState {
   assetsData: Asset[];

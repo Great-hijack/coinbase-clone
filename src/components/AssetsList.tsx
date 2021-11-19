@@ -30,7 +30,7 @@ const AssetsList: FC<AssetsProps> = ({assetsData, isHomeScreen, sortHandler}) =>
       <FlatList
         scrollEnabled={!isHomeScreen}
         showsVerticalScrollIndicator={false}
-        data={isHomeScreen ? assetsData.slice(0, 5) : assetsData}
+        data={isHomeScreen ? assetsData : assetsData}
         keyExtractor={item => item.id.toString()}
         style={{marginHorizontal: 8}}
         renderItem={itemData => {
