@@ -35,8 +35,6 @@ import {balanceHistory} from '../data/BalanceHistory';
 import {DateRange} from '../store/actions/history';
 import {HistoryState} from '../store/reducers/history';
 
-const {width, height} = Dimensions.get('window');
-
 interface RootState {
   watchlist: WatchlistState;
   topMovers: TopMoversState;

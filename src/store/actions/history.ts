@@ -54,7 +54,6 @@ type Props = {
 export const fetchGraphData = ({balanceHistory, range}: Props) => {
   const timeFrom = Date.now() / 1000 - API_PARAMS[range].timeDiff;
   const coins = balanceHistory.reduce((prev, current) => [...prev, current[1]], []);
-
   return async (dispatch: ThunkDispatch<AssetsState, void, Action>) => {
     try {
       const fetchHistoryData = coins.map(coin => {
