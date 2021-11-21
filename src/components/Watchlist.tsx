@@ -1,5 +1,5 @@
 import React, {FC, useCallback} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableHighlight, Image} from 'react-native';
 import {useDispatch} from 'react-redux';
 import DraggableFlatList, {RenderItemParams} from 'react-native-draggable-flatlist';
 import * as Haptics from 'expo-haptics';
@@ -8,6 +8,8 @@ import WatchlistItem from './WatchlistItem';
 import * as watchlistActions from '../store/actions/watchlist';
 import Coin from '../models/Coin';
 import Colors from '../constants/Colors';
+import {FlatList} from 'react-native-gesture-handler';
+import {getLocaleCurrencyString} from '../utils';
 
 interface TopMoversProps {
   coinData: Coin[];
@@ -16,19 +18,43 @@ interface TopMoversProps {
 const Watchlist: FC<TopMoversProps> = ({coinData}) => {
   const dispatch = useDispatch();
 
-  const renderItem = useCallback(({item, drag, isActive}: RenderItemParams<Coin>) => {
+  const renderItem = ({item}) => {
     return (
-      <WatchlistItem
-        id={item.id}
-        name={item.name}
-        symbol={item.symbol}
-        price={item.price}
-        percentChange={item.percentChange}
-        drag={drag}
-        isActive={isActive}
-      />
+      <TouchableHighlight
+        underlayColor={'#FAFBFE'}
+        onPress={() => {
+          console.log(item.symbol);
+        }}>
+        <View style={styles.listItem}>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Image
+              style={styles.logo}
+              source={{
+                uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${item.id.toString()}.png`,
+              }}
+            />
+            <View>
+              <Text style={styles.nameText}>{item.name}</Text>
+              <Text style={styles.tickerText}>{item.symbol}</Text>
+            </View>
+          </View>
+          <View>
+            <Text style={styles.priceText}>${getLocaleCurrencyString(item.price.toFixed(2))}</Text>
+            <Text
+              style={[
+                {
+                  color: item.percentChange > 0 ? Colors.positiveGreen : Colors.negativeRed,
+                },
+                styles.changeText,
+              ]}>
+              {item.percentChange > 0 ? '+' : ''}
+              {item.percentChange.toFixed(2)}%
+            </Text>
+          </View>
+        </View>
+      </TouchableHighlight>
     );
-  }, []);
+  };
 
   return (
     <View
@@ -39,16 +65,7 @@ const Watchlist: FC<TopMoversProps> = ({coinData}) => {
       }}>
       <Text style={styles.watchlistText}>Watchlist</Text>
       <View style={[{height: coinData.length * 75}, styles.watchlistContainer]}>
-        <DraggableFlatList
-          data={coinData}
-          keyExtractor={item => item.id.toString()}
-          scrollEnabled={false}
-          onDragBegin={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
-          onDragEnd={({data}) => {
-            dispatch(watchlistActions.updateCoinData(data));
-          }}
-          renderItem={renderItem}
-        />
+        <FlatList data={coinData} keyExtractor={item => item.id.toString()} scrollEnabled={false} renderItem={renderItem} />
       </View>
     </View>
   );
@@ -64,6 +81,38 @@ const styles = StyleSheet.create({
   watchlistContainer: {
     width: '88%',
     backgroundColor: 'white',
+  },
+  listItem: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 75,
+    padding: 16,
+    paddingHorizontal: 0,
+    justifyContent: 'space-between',
+  },
+  logo: {
+    width: 32,
+    height: 32,
+    marginRight: 16,
+    borderRadius: 16,
+    borderWidth: 0.3,
+    borderColor: Colors.border,
+  },
+  nameText: {
+    fontSize: 17,
+    width: 145,
+  },
+  tickerText: {
+    color: Colors.secondarySubtitle,
+    fontSize: 16,
+  },
+  priceText: {
+    fontSize: 17,
+    textAlign: 'right',
+  },
+  changeText: {
+    textAlign: 'right',
+    fontSize: 16,
   },
 });
 

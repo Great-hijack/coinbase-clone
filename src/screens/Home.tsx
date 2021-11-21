@@ -124,6 +124,7 @@ const Home = ({navigation}: Props) => {
         onScroll={event => {
           handleScroll(event);
         }}
+        nestedScrollEnabled={false}
         refreshControl={<RefreshControl tintColor="rgb(233, 233, 243)" refreshing={refreshing} onRefresh={onRefresh} />}>
         <View style={styles.promotion}>
           <View style={{flex: 1}}>
