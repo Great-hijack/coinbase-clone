@@ -29,7 +29,7 @@ const AssetsListItem: FC<AssetsListItemProps> = ({id, name, symbol, price, balan
           </View>
           <View style={{alignItems: 'flex-end'}}>
             <Text style={{}}>${getLocaleCurrencyString(balanceAsUSD.toFixed(2))}</Text>
-            <Text style={{}}>{`${balance} ${symbol}`}</Text>
+            <Text style={{}}>{`${price} ${symbol}`}</Text>
           </View>
         </View>
       </View>

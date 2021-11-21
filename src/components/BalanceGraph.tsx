@@ -12,8 +12,6 @@ interface BalanceGraphProps {
 const BalanceGraph: FC<BalanceGraphProps> = ({data, range, onChangeRange}) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Total balance</Text>
-      <Text style={styles.balanceText}>$188,535.45</Text>
       {!!data && (
         <LineChart
           style={{height: 200}}

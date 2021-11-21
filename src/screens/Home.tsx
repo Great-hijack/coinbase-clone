@@ -24,6 +24,7 @@ import Colors from '../constants/Colors';
 import {balanceHistory} from '../data/BalanceHistory';
 import {DateRange} from '../store/actions/history';
 import {HistoryState} from '../store/reducers/history';
+import {getLocaleCurrencyString} from '../utils';
 
 interface RootState {
   watchlist: WatchlistState;
@@ -95,6 +96,10 @@ const Home = ({navigation}: Props) => {
     }
   };
 
+  const total = getLocaleCurrencyString(
+    assetsData.reduce((preVal, currentVal) => preVal + currentVal.price * currentVal.balance, 0).toFixed(2)
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -102,8 +107,9 @@ const Home = ({navigation}: Props) => {
           <Ionicons name="ios-menu-outline" size={30} color={'#0009'} style={styles.menuIcon} />
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Text style={styles.titleTotal}>{isShowTotal ? '$188,535.45' : ''}</Text>
+          <Text style={styles.titleTotal}>{isShowTotal ? `$${total}` : ''}</Text>
         </View>
+
         <View style={{flex: 1}}>
           <Ionicons name="ios-notifications-outline" size={25} color={'#0009'} style={styles.bellIcon} />
           <View style={styles.badgeWrapper}>
@@ -127,8 +133,13 @@ const Home = ({navigation}: Props) => {
           <Image style={styles.image} source={{uri: 'https://i.imgur.com/9EEaSaS.png'}} />
           <Ionicons name="ios-close-circle" size={30} color={'#0003'} style={styles.closeIcon} />
         </View>
+
+        <View style={styles.totalContainer}>
+          <Text style={styles.headerText}>Total balance</Text>
+          <Text style={styles.balanceText}>${total} </Text>
+        </View>
+
         <BalanceGraph data={graphData} onChangeRange={setRange} range={range} />
-        {console.log('-----ssss----', assetsData)}
         <AssetsList assetsData={assetsData} isHomeScreen={true} sortHandler={sortHandler} />
         <CBButton title="See all" outline />
         <GrowBalance />
@@ -211,6 +222,16 @@ const styles = StyleSheet.create({
     height: 80,
     width: 100,
   },
+  totalContainer: {
+    width: '100%',
+    paddingHorizontal: '6%',
+    marginTop: 25,
+  },
+  headerText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'gray',
+  },
   title: {
     fontWeight: 'bold',
     letterSpacing: 0.5,
@@ -224,6 +245,10 @@ const styles = StyleSheet.create({
   },
   sectionHeader: {
     fontSize: 20,
+  },
+  balanceText: {
+    fontSize: 28,
+    fontWeight: '700',
   },
 });
 

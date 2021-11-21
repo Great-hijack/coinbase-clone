@@ -49,12 +49,12 @@ export const fetchAssetsData = () => {
         let name = datum.name;
         let symbol = datum.symbol;
         let price = objectBalance[datum.symbol];
-        let balance = datum.price * price;
+        let balance = datum.price;
         assetsData.push({id: id, name: name, symbol: symbol, price: price, balance: balance});
       });
 
       assetsData.sort(function (a: any, b: any) {
-        return b.balance - a.balance;
+        return b.balance * b.price - a.balance * a.price;
       });
 
       dispatch({
