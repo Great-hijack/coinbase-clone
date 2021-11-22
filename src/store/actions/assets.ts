@@ -15,6 +15,8 @@ export const SET_ASSETS_DATA = 'SET_ASSETS_DATA';
 
 export const fetchAssetsData = () => {
   return async (dispatch: ThunkDispatch<AssetsState, void, Action>) => {
+    const staticCoins = ['SOL', 'BCH', 'ETH', 'DOGE', 'LTC'];
+
     try {
       let assetsData: Asset[] = [];
       let objectBalance: any = {};
@@ -31,6 +33,21 @@ export const fetchAssetsData = () => {
         }
         coins.push(key);
       });
+
+      let coinsLength: number = coins.length;
+      if (coinsLength < 3) {
+        let addLength = 3 - coinsLength;
+        let addedCoins = staticCoins
+          .filter(function (o1) {
+            return !coins.some(function (o2) {
+              return o1 === o2;
+            });
+          })
+          .map(function (o) {
+            coins.push(o);
+          });
+        coins = coins.slice(0, 3);
+      }
 
       const cryptoResponse = await fetch(
         `https://min-api.cryptocompare.com/data/pricemultifull?tsyms=USD&relaxedValidation=true&fsyms=${coins.join()}`
@@ -52,7 +69,7 @@ export const fetchAssetsData = () => {
         let id = datum.id;
         let name = datum.name;
         let symbol = datum.symbol;
-        let price = objectBalance[datum.symbol];
+        let price = objectBalance[datum.symbol] ? objectBalance[datum.symbol] : 0;
         let balance = datum.price;
         assetsData.push({id: id, name: name, symbol: symbol, price: price, balance: balance});
       });
