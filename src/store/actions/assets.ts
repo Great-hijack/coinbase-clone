@@ -18,7 +18,6 @@ export const fetchAssetsData = () => {
     try {
       let assetsData: Asset[] = [];
       let objectBalance: any = {};
-      let objectTotal: string[] = [];
       let coins: string[] = [];
       balanceHistory.forEach(item => {
         let coinKey = item[1];
@@ -26,6 +25,9 @@ export const fetchAssetsData = () => {
       });
 
       Object.keys(objectBalance).map((key, index) => {
+        if (key === 'USD') {
+          return;
+        }
         coins.push(key);
       });
 
@@ -56,6 +58,18 @@ export const fetchAssetsData = () => {
       assetsData.sort(function (a: any, b: any) {
         return b.balance * b.price - a.balance * a.price;
       });
+
+      if (!Object.keys(objectBalance).find(key => key === 'USDC')) {
+        assetsData.unshift({id: 3408, name: 'USD Coin', symbol: 'USDC', price: 0, balance: 0});
+      } else {
+        assetsData.unshift({id: 3408, name: 'USD Coin', symbol: 'USDC', price: objectBalance['USDC'], balance: 0});
+      }
+
+      if (!Object.keys(objectBalance).find(key => key === 'USD')) {
+        assetsData.unshift({id: 0, name: 'USD Dollar', symbol: 'USD', price: 0, balance: 0});
+      } else {
+        assetsData.unshift({id: 0, name: 'USD Dollar', symbol: 'USD', price: objectBalance['USD'], balance: 1});
+      }
 
       dispatch({
         type: SET_ASSETS_DATA,
