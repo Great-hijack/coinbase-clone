@@ -15,9 +15,18 @@ export const SET_ASSETS_DATA = 'SET_ASSETS_DATA';
 
 export const fetchAssetsData = () => {
   return async (dispatch: ThunkDispatch<AssetsState, void, Action>) => {
-    const staticCoins = ['SOL', 'BCH', 'ETH', 'DOGE', 'LTC'];
-
     try {
+      var staticCoins: string[] = [];
+      const coinResponse = await fetch(
+        `https://www.coinbase.com/api/v2/assets/search?base=USD&country=US&filter=all&include_prices=true&limit=5&order=asc&page=1&query=&resolution=day&sort=rank`
+      );
+      const coinResponseJson = await coinResponse.json();
+      const coinResponseData = coinResponseJson['data'];
+
+      coinResponseData.map(item => {
+        staticCoins.unshift(item.base as string);
+      });
+
       let assetsData: Asset[] = [];
       let objectBalance: any = {};
       let coins: string[] = [];
