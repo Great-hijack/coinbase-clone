@@ -43,7 +43,7 @@ export const getCoinData = async () => {
   }
 };
 
-export function changeAssetsPosition(arr, old_index, new_index) {
+export function changeAssetsPosition(arr: Asset[], old_index: number, new_index: number): Asset[] {
   while (old_index < 0) {
     old_index += arr.length;
   }
