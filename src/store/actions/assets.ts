@@ -6,7 +6,7 @@ import {AssetsState} from '../reducers/assets';
 import Asset from '../../models/Asset';
 import {balanceHistory} from '../../data/BalanceHistory';
 import Coin from '../../models/Coin';
-import {getCoinData, getCoinPrice} from '../../utils';
+import {changeAssetsPosition, getCoinData, getCoinPrice} from '../../utils';
 
 import cmpData from '../../data/CoinMarketCapData';
 import {Balance} from './history';
@@ -19,6 +19,7 @@ export const fetchAssetsData = () => {
       let assetsData: Asset[] = [];
       let objectBalance: any = {};
       let coins: string[] = [];
+      let usdCoinIndex: number = 0;
       balanceHistory.forEach(item => {
         let coinKey = item[1];
         objectBalance[coinKey] = objectBalance[coinKey] ? objectBalance[coinKey] + item[2] : item[2];
@@ -43,6 +44,7 @@ export const fetchAssetsData = () => {
         const cmpDetails = cmpData.data.find(cmpCoin => coinDetails.FROMSYMBOL === cmpCoin.symbol);
         const coinID = cmpDetails?.id ?? 0;
         const coinName = cmpDetails?.name ?? 'Unknown';
+
         coinData.push(new Coin(coinID, coinName, coin, coinDetails.PRICE, coinDetails.CHANGEPCT24HOUR));
       });
 
@@ -54,17 +56,21 @@ export const fetchAssetsData = () => {
         let balance = datum.price;
         assetsData.push({id: id, name: name, symbol: symbol, price: price, balance: balance});
       });
-
       assetsData.sort(function (a: any, b: any) {
         return b.balance * b.price - a.balance * a.price;
       });
 
+      assetsData.find(function (value, index) {
+        if (value.symbol === 'USDC') {
+          usdCoinIndex = index;
+          return;
+        }
+      });
+      assetsData = changeAssetsPosition(assetsData, usdCoinIndex, 0);
+
       if (!Object.keys(objectBalance).find(key => key === 'USDC')) {
         assetsData.unshift({id: 3408, name: 'USD Coin', symbol: 'USDC', price: 0, balance: 0});
-      } else {
-        assetsData.unshift({id: 3408, name: 'USD Coin', symbol: 'USDC', price: objectBalance['USDC'], balance: 0});
       }
-
       if (!Object.keys(objectBalance).find(key => key === 'USD')) {
         assetsData.unshift({id: 0, name: 'USD Dollar', symbol: 'USD', price: 0, balance: 0});
       } else {
