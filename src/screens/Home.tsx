@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   titleTotal: {
     fontWeight: 'bold',
     fontSize: 18,
-    color: 'gray',
+    color: '#4F4C4F',
     alignContent: 'center',
     textAlignVertical: 'center',
   },

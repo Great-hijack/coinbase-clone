@@ -83,7 +83,7 @@ const TabBar = ({state, navigation}: BottomTabBarProps) => {
                 </View>
               ) : (
                 <View style={{alignItems: 'center'}}>
-                  {iconType == 'Fontisto' && <Fontisto name={iconName as any} size={20} color={itemColor} style={{marginBottom: 2}} />}
+                  {iconType == 'Fontisto' && <Fontisto name={iconName as any} size={19} color={itemColor} style={{marginBottom: 2}} />}
                   {iconType == 'FontAwesome' && (
                     <FontAwesome name={iconName as any} size={18} color={itemColor} style={{marginBottom: 2}} />
                   )}
