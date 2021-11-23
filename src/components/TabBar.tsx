@@ -34,10 +34,8 @@ const TabBar = ({state, navigation}: BottomTabBarProps) => {
         let iconType;
         switch (route.name) {
           case 'Home':
-            // iconName = 'home';
-            // iconType = 'Foundation';
-            iconName = 'home-variant';
-            iconType = 'MaterialCommunityIcons';
+            iconName = 'home';
+            iconType = 'Foundation';
             break;
           case 'Portfolio':
             iconName = 'pie-chart-1';
@@ -87,20 +85,34 @@ const TabBar = ({state, navigation}: BottomTabBarProps) => {
                 <View style={{alignItems: 'center'}}>
                   {iconType == 'Fontisto' && <Fontisto name={iconName as any} size={20} color={itemColor} style={{marginBottom: 2}} />}
                   {iconType == 'FontAwesome' && (
-                    <FontAwesome name={iconName as any} size={20} color={itemColor} style={{marginBottom: 2}} />
+                    <FontAwesome name={iconName as any} size={18} color={itemColor} style={{marginBottom: 2}} />
                   )}
                   {iconType == 'Ionicons' && <Ionicons name={iconName as any} size={20} color={itemColor} style={{marginBottom: 2}} />}
                   {iconType == 'MaterialCommunityIcons' && (
-                    <MaterialCommunityIcons name={iconName as any} size={20} color={itemColor} style={{marginBottom: 2}} />
+                    <MaterialCommunityIcons name={iconName as any} size={21} color={itemColor} style={{marginBottom: 2}} />
                   )}
-                  {iconType == 'Foundation' && <Foundation name={iconName as any} size={20} color={itemColor} style={{marginBottom: 2}} />}
+                  {iconType == 'Foundation' && (
+                    <Foundation name={iconName as any} size={24} color={itemColor} style={{marginBottom: 2, marginTop: -2}} />
+                  )}
                   {iconType == 'MaterialIcons' && (
                     <MaterialIcons name={iconName as any} size={20} color={itemColor} style={{marginBottom: 2}} />
                   )}
                   {iconType == 'SimpleLineIcons' && (
                     <MaterialIcons name={iconName as any} size={20} color={itemColor} style={{marginBottom: 2}} />
                   )}
-                  <Text style={[{color: itemColor}, styles.tabBarText]} selectable>
+                  <Text
+                    style={[
+                      {color: itemColor},
+                      styles.tabBarText,
+                      route.name === 'Home'
+                        ? {marginTop: -2}
+                        : route.name === 'Trade'
+                        ? {marginTop: 1}
+                        : route.name === 'For You'
+                        ? {marginTop: -1}
+                        : {marginTop: 0},
+                    ]}
+                    selectable>
                     {route.name}
                   </Text>
                 </View>

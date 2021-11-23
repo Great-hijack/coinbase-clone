@@ -53,7 +53,7 @@ const Home = ({navigation}: Props) => {
   useEffect(() => {
     Animated.timing(totalAnimValue, {
       toValue: isShowTotal ? 1 : 0,
-      duration: 900,
+      duration: 500,
       useNativeDriver: true,
     }).start();
   }, [isShowTotal]);
