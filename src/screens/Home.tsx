@@ -49,9 +49,14 @@ const Home = ({navigation}: Props) => {
   const [range, setRange] = useState('1H');
   const [isShowTotal, setShowTotal] = useState(false);
   const totalAnimValue = useRef(new Animated.Value(1)).current;
-  const animatedStyle = {
-    transform: [{scale: totalAnimValue}],
-  };
+
+  useEffect(() => {
+    Animated.timing(totalAnimValue, {
+      toValue: isShowTotal ? 1 : 0,
+      duration: 250,
+      useNativeDriver: true,
+    }).start();
+  }, [isShowTotal]);
 
   const dispatch = useDispatch();
   const loadData = useCallback(async () => {
@@ -113,7 +118,9 @@ const Home = ({navigation}: Props) => {
           <Ionicons name="ios-menu-outline" size={30} color={'#0009'} style={styles.menuIcon} />
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Text style={styles.titleTotal}>{isShowTotal ? `$${total}` : ''}</Text>
+          <Animated.Text style={{opacity: totalAnimValue}}>
+            <Text style={styles.titleTotal}>{`$${total}`}</Text>
+          </Animated.Text>
         </View>
 
         <View style={{flex: 1}}>
@@ -123,6 +130,7 @@ const Home = ({navigation}: Props) => {
           </View>
         </View>
       </View>
+
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
         showsVerticalScrollIndicator={false}
@@ -143,10 +151,7 @@ const Home = ({navigation}: Props) => {
 
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>Total balance</Text>
-
-          <Animated.View style={[styles.totalAnimContainer, animatedStyle]}>
-            <Text style={styles.balanceText}>${total} </Text>
-          </Animated.View>
+          <Text style={styles.balanceText}>${total} </Text>
         </View>
 
         <BalanceGraph data={graphData} onChangeRange={setRange} range={range} />
@@ -236,10 +241,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: '6%',
     marginTop: 25,
-  },
-  totalAnimContainer: {
-    flex: 1,
-    flexDirection: 'row',
   },
   headerText: {
     fontSize: 16,
