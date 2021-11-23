@@ -53,7 +53,7 @@ const Home = ({navigation}: Props) => {
   useEffect(() => {
     Animated.timing(totalAnimValue, {
       toValue: isShowTotal ? 1 : 0,
-      duration: 250,
+      duration: 900,
       useNativeDriver: true,
     }).start();
   }, [isShowTotal]);
@@ -98,7 +98,6 @@ const Home = ({navigation}: Props) => {
   useScrollToTop(ref);
   const handleScroll = (event: any) => {
     const positionY = event.nativeEvent.contentOffset.y;
-    totalAnimValue.setValue((220 - positionY / 2) / 220);
 
     if (positionY > 220) {
       setShowTotal(true);
@@ -115,7 +114,7 @@ const Home = ({navigation}: Props) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={{flex: 1}}>
-          <Ionicons name="ios-menu-outline" size={30} color={'#0009'} style={styles.menuIcon} />
+          <Ionicons name="ios-menu-outline" size={30} color={'#4F4C4F'} style={styles.menuIcon} />
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           <Animated.Text style={{opacity: totalAnimValue}}>
@@ -124,7 +123,7 @@ const Home = ({navigation}: Props) => {
         </View>
 
         <View style={{flex: 1}}>
-          <Ionicons name="ios-notifications-outline" size={25} color={'#0009'} style={styles.bellIcon} />
+          <Ionicons name="ios-notifications-outline" size={25} color={'#4F4C4F'} style={styles.bellIcon} />
           <View style={styles.badgeWrapper}>
             <Text style={styles.badgeText}>4</Text>
           </View>

@@ -25,7 +25,7 @@ const AssetsListItem: FC<AssetsListItemProps> = ({id, name, symbol, price, balan
           </View>
           <View style={{alignItems: 'flex-end'}}>
             <Text style={{}}>${getLocaleCurrencyString(balanceAsUSD.toFixed(2))}</Text>
-            <Text style={id == 0 ? {display: 'none'} : {display: 'flex'}}>{`${price} ${symbol}`}</Text>
+            <Text style={id == 0 ? {display: 'none'} : {display: 'flex', color: '#85848D'}}>{`${price} ${symbol}`}</Text>
           </View>
         </View>
       </View>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   nameText: {
     fontSize: 17,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
   },
 });
 
