@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Text, RefreshControl, ScrollView, SafeAreaView, Image, LogBox, Dimensions} from 'react-native';
+import {StyleSheet, View, Text, RefreshControl, ScrollView, SafeAreaView, Image, LogBox, Dimensions, Animated} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {useScrollToTop} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -48,6 +48,10 @@ const Home = ({navigation}: Props) => {
   const [refreshing, setRefreshing] = useState(false);
   const [range, setRange] = useState('1H');
   const [isShowTotal, setShowTotal] = useState(false);
+  const totalAnimValue = useRef(new Animated.Value(1)).current;
+  const animatedStyle = {
+    transform: [{scale: totalAnimValue}],
+  };
 
   const dispatch = useDispatch();
   const loadData = useCallback(async () => {
@@ -89,6 +93,8 @@ const Home = ({navigation}: Props) => {
   useScrollToTop(ref);
   const handleScroll = (event: any) => {
     const positionY = event.nativeEvent.contentOffset.y;
+    totalAnimValue.setValue((220 - positionY / 2) / 220);
+
     if (positionY > 220) {
       setShowTotal(true);
     } else {
@@ -137,7 +143,10 @@ const Home = ({navigation}: Props) => {
 
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>Total balance</Text>
-          <Text style={styles.balanceText}>${total} </Text>
+
+          <Animated.View style={[styles.totalAnimContainer, animatedStyle]}>
+            <Text style={styles.balanceText}>${total} </Text>
+          </Animated.View>
         </View>
 
         <BalanceGraph data={graphData} onChangeRange={setRange} range={range} />
@@ -227,6 +236,10 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: '6%',
     marginTop: 25,
+  },
+  totalAnimContainer: {
+    flex: 1,
+    flexDirection: 'row',
   },
   headerText: {
     fontSize: 16,
