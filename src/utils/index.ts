@@ -59,3 +59,12 @@ export function changeAssetsPosition(arr: Asset[], old_index: number, new_index:
   arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
   return arr;
 }
+
+export const getMinMax: (data: number[]) => number[] = data => {
+  const dataLength = data.length;
+  const minVal = Math.min(...data);
+  const maxVal = Math.max(...data);
+  const minValIndex = data.indexOf(minVal);
+  const maxValIndex = data.indexOf(maxVal);
+  return [Number(minVal.toFixed(2)), minValIndex, Number(maxVal.toFixed(2)), maxValIndex, dataLength];
+};
