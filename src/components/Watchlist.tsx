@@ -99,20 +99,20 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
   },
   nameText: {
-    fontSize: 17,
+    fontSize: 19,
     width: 145,
   },
   tickerText: {
     color: Colors.secondarySubtitle,
-    fontSize: 16,
+    fontSize: 17,
   },
   priceText: {
-    fontSize: 17,
+    fontSize: 18,
     textAlign: 'right',
   },
   changeText: {
     textAlign: 'right',
-    fontSize: 16,
+    fontSize: 17,
   },
 });
 

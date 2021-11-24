@@ -27,7 +27,7 @@ const GrowBalance: FC<GrowBalanceProps> = ({}) => {
       </View>
       <View style={[styles.itemContain, styles.earnedContain]}>
         <Text style={styles.title}>Interest earned</Text>
-        <Text style={styles.subTitle}>Earn up to 4.00% APY on your crypto</Text>
+        <Text style={styles.subTitle}>Earn up to 4.00% APY on your crypto on Coinbase</Text>
         <View style={styles.bottom}>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={styles.cash}>$1,016.499998</Text>
@@ -86,11 +86,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   title: {
-    fontSize: 18,
+    fontSize: 19,
     fontWeight: 'bold',
   },
   subTitle: {
-    fontSize: 16,
+    fontSize: 17,
     color: 'gray',
     marginTop: 5,
   },

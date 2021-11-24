@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   btnText: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 17,
+    fontSize: 19,
   },
   outline: {
     borderWidth: 1,

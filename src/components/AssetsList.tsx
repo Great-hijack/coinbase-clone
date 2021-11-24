@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
+import {View, StyleSheet, FlatList} from 'react-native';
 
 import AssetsListItem from './AssetsListItem';
 import Asset from '../models/Asset';
@@ -18,21 +17,12 @@ const AssetsList: FC<AssetsProps> = ({assetsData, isHomeScreen, sortHandler}) =>
         width: '100%',
         alignSelf: 'flex-start',
       }}>
-      {isHomeScreen && (
-        <View style={styles.listHeader}>
-          <Text style={styles.newsText}>Your assets</Text>
-          <TouchableOpacity style={styles.sortButton} onPress={sortHandler}>
-            <Text style={styles.sortButtonText}>Balance </Text>
-            <Ionicons name="ios-chevron-down" size={20} style={styles.sortIcon} />
-          </TouchableOpacity>
-        </View>
-      )}
       <FlatList
         scrollEnabled={!isHomeScreen}
         showsVerticalScrollIndicator={false}
         data={isHomeScreen ? assetsData : assetsData}
         keyExtractor={item => item.id.toString()}
-        style={{marginHorizontal: 8}}
+        style={{marginHorizontal: 8, marginTop: 32}}
         renderItem={itemData => {
           return (
             <AssetsListItem

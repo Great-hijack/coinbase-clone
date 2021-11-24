@@ -24,8 +24,8 @@ const AssetsListItem: FC<AssetsListItemProps> = ({id, name, symbol, price, balan
             <Text style={styles.nameText}>{name}</Text>
           </View>
           <View style={{alignItems: 'flex-end'}}>
-            <Text style={{}}>${getLocaleCurrencyString(balanceAsUSD.toFixed(2))}</Text>
-            <Text style={id == 0 ? {display: 'none'} : {display: 'flex', color: '#85848D'}}>{`${price} ${symbol}`}</Text>
+            <Text style={styles.priceText}>${getLocaleCurrencyString(balanceAsUSD.toFixed(2))}</Text>
+            <Text style={id == 0 ? {display: 'none'} : styles.balanceText}>{`${price} ${symbol}`}</Text>
           </View>
         </View>
       </View>
@@ -49,8 +49,18 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
   },
   nameText: {
-    fontSize: 17,
+    fontSize: 19,
     fontWeight: 'normal',
+  },
+  priceText: {
+    fontSize: 15,
+    fontWeight: 'normal',
+  },
+  balanceText: {
+    fontSize: 15,
+    fontWeight: 'normal',
+    display: 'flex',
+    color: '#85848D',
   },
 });
 
