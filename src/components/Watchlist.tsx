@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
   },
   nameText: {
-    fontSize: 19,
+    fontSize: 18,
     width: 145,
   },
   tickerText: {
@@ -107,12 +107,12 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   priceText: {
-    fontSize: 18,
+    fontSize: 16,
     textAlign: 'right',
   },
   changeText: {
     textAlign: 'right',
-    fontSize: 17,
+    fontSize: 16,
   },
 });
 

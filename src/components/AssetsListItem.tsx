@@ -49,15 +49,15 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
   },
   nameText: {
-    fontSize: 19,
+    fontSize: 18,
     fontWeight: 'normal',
   },
   priceText: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: 'normal',
   },
   balanceText: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: 'normal',
     display: 'flex',
     color: '#85848D',

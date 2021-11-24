@@ -2,10 +2,9 @@ import React, {FC, useEffect, useState, useRef} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native';
 import {LineChart, Grid} from 'react-native-svg-charts';
 import {DateRange} from '../store/actions/history';
-import {getMinMax, getLocaleCurrencyString} from '../utils';
+import {getMinMax} from '../utils';
 
 const windowsWidth = Dimensions.get('window').width;
-const windowsHeight = Dimensions.get('window').height;
 
 interface BalanceGraphProps {
   data: number[];
@@ -34,7 +33,18 @@ const BalanceGraph: FC<BalanceGraphProps> = ({data, range, onChangeRange}) => {
       minValLeft = 0;
       minVal = 0;
     }
-
+    let minInterVal = windowsWidth - minValLeft;
+    let maxInterVal = windowsWidth - maxValLeft;
+    if (minInterVal < 60) {
+      minValLeft = minValLeft - 30;
+    } else if (minValLeft < 10) {
+      minValLeft = minValLeft + 10;
+    }
+    if (maxInterVal < 60) {
+      maxValLeft = maxValLeft - 20;
+    } else if (maxValLeft < 10) {
+      maxValLeft = maxValLeft + 10;
+    }
     setMinMaxData([minVal, minValLeft, maxVal, maxValLeft]);
   }, [data]);
 
@@ -85,10 +95,11 @@ const styles = StyleSheet.create({
   rangeSelector: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    marginTop: 20,
   },
   rangeText: {
     fontSize: 16,
-    color: 'black',
+    color: 'gray',
   },
   selected: {
     color: '#1140EE',
@@ -97,10 +108,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: -5,
     transform: [{translateX: -20}],
+    color: 'gray',
   },
   maxValText: {
     position: 'absolute',
     top: -5,
+    color: 'gray',
     transform: [{translateX: -20}],
   },
 });

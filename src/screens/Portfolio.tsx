@@ -99,7 +99,7 @@ const Portfolio = () => {
   const handleScroll = (event: any) => {
     const positionY = event.nativeEvent.contentOffset.y;
 
-    if (positionY > 220) {
+    if (positionY > 50) {
       setShowTotal(true);
     } else {
       setShowTotal(false);
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   totalContainer: {
     width: '100%',
     paddingHorizontal: '6%',
-    marginTop: 25,
+    marginTop: 8,
   },
   headerText: {
     fontSize: 16,
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   balanceText: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: '700',
   },
 });
