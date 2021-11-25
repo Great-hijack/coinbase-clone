@@ -11,7 +11,7 @@ export const API_PARAMS = {
   },
   '1D': {
     url: 'histominute',
-    limit: 6 * 60,
+    limit: 24 * 60,
     timeDiff: 24 * 60 * 60,
   },
   '1W': {
