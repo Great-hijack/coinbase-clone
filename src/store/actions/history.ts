@@ -6,12 +6,12 @@ export const SET_GRAPH_DATA = 'SET_GRAPH_DATA';
 export const API_PARAMS = {
   '1H': {
     url: 'histominute',
-    limit: 60 * 5,
+    limit: 60,
     timeDiff: 60 * 60,
   },
   '1D': {
-    url: 'histohour',
-    limit: 24 * 5,
+    url: 'histominute',
+    limit: 6 * 60,
     timeDiff: 24 * 60 * 60,
   },
   '1W': {
@@ -21,7 +21,7 @@ export const API_PARAMS = {
   },
   '1M': {
     url: 'histoday',
-    limit: 30 * 5,
+    limit: 30,
     timeDiff: 30 * 24 * 60 * 60,
   },
   '1Y': {
