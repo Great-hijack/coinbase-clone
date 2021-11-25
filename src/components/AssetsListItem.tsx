@@ -10,15 +10,17 @@ interface AssetsListItemProps {
   symbol: string;
   price: number;
   balance: number;
+  imgUrl: string;
 }
 
-const AssetsListItem: FC<AssetsListItemProps> = ({id, name, symbol, price, balance}) => {
+const AssetsListItem: FC<AssetsListItemProps> = ({id, name, symbol, price, balance, imgUrl}) => {
   const balanceAsUSD = price * balance;
 
   return (
     <TouchableHighlight style={styles.listItem} underlayColor="#FBFAFB">
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image style={styles.logo} source={id == 0 ? DolloarImg : {uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${id}.png`}} />
+        {/* <Image style={styles.logo} source={id == 0 ? DolloarImg : {uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${id}.png`}} /> */}
+        <Image style={styles.logo} source={id == 0 ? DolloarImg : {uri: `https://www.cryptocompare.com/${imgUrl}`}} />
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
           <View>
             <Text style={styles.nameText}>{name}</Text>

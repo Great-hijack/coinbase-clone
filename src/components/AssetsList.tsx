@@ -31,6 +31,7 @@ const AssetsList: FC<AssetsProps> = ({assetsData, isHomeScreen, sortHandler}) =>
               symbol={itemData.item.symbol}
               price={itemData.item.price}
               balance={itemData.item.balance}
+              imgUrl={itemData.item.imgUrl}
             />
           );
         }}

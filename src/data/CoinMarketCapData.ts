@@ -77049,6 +77049,23 @@ let cmpData = {
         token_address: '0x9196e18bc349b1f64bc08784eae259525329a1ad',
       },
     },
+    {
+      id: 100000,
+      name: 'Ethereum 2',
+      symbol: 'ETH2',
+      slug: 'pussy-financial',
+      rank: 2581,
+      is_active: 1,
+      first_historical_data: '2021-05-07T16:18:05.000Z',
+      last_historical_data: '2021-05-07T18:28:05.000Z',
+      platform: {
+        id: 1027,
+        name: 'Ethereum',
+        symbol: 'ETH',
+        slug: 'ethereum',
+        token_address: '0x9196e18bc349b1f64bc08784eae259525329a1ad',
+      },
+    },
   ],
 };
 

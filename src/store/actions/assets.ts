@@ -22,8 +22,7 @@ export const fetchAssetsData = () => {
       const coinResponseJson = await coinResponse.json();
       const coinResponseData = coinResponseJson['data'];
 
-      const sampleCoins: any = coinResponseData.map(item => item.base);
-      const staticCoins: any = sampleCoins.filter(item => item !== 'ETH2');
+      const staticCoins: any = coinResponseData.map(item => item.base);
 
       let assetsData: Asset[] = [];
       let objectBalance: any = {};
@@ -54,13 +53,12 @@ export const fetchAssetsData = () => {
         `https://min-api.cryptocompare.com/data/pricemultifull?tsyms=USD&relaxedValidation=true&fsyms=${coins.join()}`
       );
       const cryptoResponseData = await cryptoResponse.json();
-
       const coinData = coins.map(item => {
         const coinDetails = cryptoResponseData.RAW[item].USD;
         const cmpDetails = cmpData.data.find(cmpCoin => coinDetails.FROMSYMBOL === cmpCoin.symbol);
         const coinID = cmpDetails?.id ?? 0;
         const coinName = cmpDetails?.name ?? 'Unknown';
-        return new Coin(coinID, coinName, item, coinDetails.PRICE, coinDetails.CHANGEPCT24HOUR);
+        return new Coin(coinID, coinName, item, coinDetails.PRICE, coinDetails.CHANGEPCT24HOUR, coinDetails.IMAGEURL);
       });
 
       assetsData = coinData.map(datum => {
@@ -69,29 +67,23 @@ export const fetchAssetsData = () => {
         let symbol = datum.symbol;
         let price = datum.price;
         let balance = objectBalance[datum.symbol] ? objectBalance[datum.symbol] : 0;
-        return {id: id, name: name, symbol: symbol, price: price, balance: balance};
+        let imgUrl = datum.imgUrl;
+        return {id: id, name: name, symbol: symbol, price: price, balance: balance, imgUrl};
       });
       assetsData.sort(function (a: any, b: any) {
         return b.balance * b.price - a.balance * a.price;
       });
-
-      assetsData.find((value, index) => {
-        if (value.symbol === 'USDC') {
-          usdCoinIndex = index;
-          return;
-        }
-      });
+      usdCoinIndex = assetsData.findIndex(val => val.symbol === 'USDC') == -1 ? 0 : assetsData.findIndex(val => val.symbol === 'USDC');
       assetsData = changeAssetsPosition(assetsData, usdCoinIndex, 0);
 
-      if (objectBalance['USDC'] === 'undefined' || objectBalance['USDC'] == null) {
-        assetsData.unshift({id: 3408, name: 'USD Coin', symbol: 'USDC', price: 0, balance: 0});
+      if (objectBalance['USDC'] === undefined || objectBalance['USDC'] == null) {
+        assetsData.unshift({id: 3408, name: 'USD Coin', symbol: 'USDC', price: 0, balance: 0, imgUrl: '/media/34835941/usdc.png'});
       }
-      if (objectBalance['USD'] === 'undefined' || objectBalance['USD'] == null) {
-        assetsData.unshift({id: 0, name: 'USD Dollar', symbol: 'USD', price: 0, balance: 0});
+      if (objectBalance['USD'] === undefined || objectBalance['USD'] == null) {
+        assetsData.unshift({id: 0, name: 'USD Dollar', symbol: 'USD', price: 0, balance: 0, imgUrl: ''});
       } else {
-        assetsData.unshift({id: 0, name: 'USD Dollar', symbol: 'USD', price: 1, balance: objectBalance['USD']});
+        assetsData.unshift({id: 0, name: 'USD Dollar', symbol: 'USD', price: 1, balance: objectBalance['USD'], imgUrl: ''});
       }
-
       dispatch({
         type: SET_ASSETS_DATA,
         assetsData: assetsData,
