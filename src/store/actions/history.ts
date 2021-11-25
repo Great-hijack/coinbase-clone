@@ -69,6 +69,7 @@ export const fetchGraphData = ({balanceHistory, range}: Props) => {
 
       const graphData = balanceHistory.reduce((prev, current) => {
         const data = historyData[current[1]].Data.Data.map(item => (item.time > current[0] ? item.high * current[2] : 0));
+
         if (prev) {
           return prev.map((v, i) => v + data[i]);
         } else {
@@ -76,10 +77,20 @@ export const fetchGraphData = ({balanceHistory, range}: Props) => {
         }
       }, null);
 
-      dispatch({
-        type: SET_GRAPH_DATA,
-        graphData: graphData,
-      });
+      if (range === '1D') {
+        const filteredGraphData = graphData?.filter((item, index) => {
+          return index % 6 === 0;
+        });
+        dispatch({
+          type: SET_GRAPH_DATA,
+          graphData: filteredGraphData,
+        });
+      } else {
+        dispatch({
+          type: SET_GRAPH_DATA,
+          graphData: graphData,
+        });
+      }
     } catch (err) {
       throw err;
     }
