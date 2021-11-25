@@ -16,16 +16,14 @@ export const SET_ASSETS_DATA = 'SET_ASSETS_DATA';
 export const fetchAssetsData = () => {
   return async (dispatch: ThunkDispatch<AssetsState, void, Action>) => {
     try {
-      var staticCoins: string[] = [];
       const coinResponse = await fetch(
         `https://www.coinbase.com/api/v2/assets/search?base=USD&country=US&filter=all&include_prices=true&limit=5&order=asc&page=1&query=&resolution=day&sort=rank`
       );
       const coinResponseJson = await coinResponse.json();
       const coinResponseData = coinResponseJson['data'];
 
-      coinResponseData.map(item => {
-        staticCoins.unshift(item.base as string);
-      });
+      const sampleCoins: any = coinResponseData.map(item => item.base);
+      const staticCoins: any = sampleCoins.filter(item => item !== 'ETH2');
 
       let assetsData: Asset[] = [];
       let objectBalance: any = {};
@@ -36,7 +34,7 @@ export const fetchAssetsData = () => {
         objectBalance[coinKey] = objectBalance[coinKey] ? objectBalance[coinKey] + item[2] : item[2];
       });
 
-      Object.keys(objectBalance).map((key, index) => {
+      Object.keys(objectBalance).forEach(key => {
         if (key === 'USD') {
           return;
         }
@@ -45,48 +43,39 @@ export const fetchAssetsData = () => {
 
       let coinsLength: number = coins.length;
       if (coinsLength < 3) {
-        let addLength = 3 - coinsLength;
-        let addedCoins = staticCoins
-          .filter(function (o1) {
-            return !coins.some(function (o2) {
-              return o1 === o2;
-            });
-          })
-          .map(function (o) {
-            coins.push(o);
+        staticCoins
+          .filter(o1 => !coins.some(o2 => o1 === o2))
+          .forEach(item => {
+            coins.push(item);
           });
         coins = coins.slice(0, 3);
       }
-
       const cryptoResponse = await fetch(
         `https://min-api.cryptocompare.com/data/pricemultifull?tsyms=USD&relaxedValidation=true&fsyms=${coins.join()}`
       );
       const cryptoResponseData = await cryptoResponse.json();
 
-      const coinData: Coin[] = [];
-      coins.forEach(coin => {
-        // Find ID from CMP data, if it doesn't exist use 1
-        const coinDetails = cryptoResponseData.RAW[coin].USD;
+      const coinData = coins.map(item => {
+        const coinDetails = cryptoResponseData.RAW[item].USD;
         const cmpDetails = cmpData.data.find(cmpCoin => coinDetails.FROMSYMBOL === cmpCoin.symbol);
         const coinID = cmpDetails?.id ?? 0;
         const coinName = cmpDetails?.name ?? 'Unknown';
-
-        coinData.push(new Coin(coinID, coinName, coin, coinDetails.PRICE, coinDetails.CHANGEPCT24HOUR));
+        return new Coin(coinID, coinName, item, coinDetails.PRICE, coinDetails.CHANGEPCT24HOUR);
       });
 
-      coinData.map((datum, index) => {
+      assetsData = coinData.map(datum => {
         let id = datum.id;
         let name = datum.name;
         let symbol = datum.symbol;
-        let price = objectBalance[datum.symbol] ? objectBalance[datum.symbol] : 0;
-        let balance = datum.price;
-        assetsData.push({id: id, name: name, symbol: symbol, price: price, balance: balance});
+        let price = datum.price;
+        let balance = objectBalance[datum.symbol] ? objectBalance[datum.symbol] : 0;
+        return {id: id, name: name, symbol: symbol, price: price, balance: balance};
       });
       assetsData.sort(function (a: any, b: any) {
         return b.balance * b.price - a.balance * a.price;
       });
 
-      assetsData.find(function (value, index) {
+      assetsData.find((value, index) => {
         if (value.symbol === 'USDC') {
           usdCoinIndex = index;
           return;
@@ -94,13 +83,13 @@ export const fetchAssetsData = () => {
       });
       assetsData = changeAssetsPosition(assetsData, usdCoinIndex, 0);
 
-      if (!Object.keys(objectBalance).find(key => key === 'USDC')) {
+      if (objectBalance['USDC'] === 'undefined' || objectBalance['USDC'] == null) {
         assetsData.unshift({id: 3408, name: 'USD Coin', symbol: 'USDC', price: 0, balance: 0});
       }
-      if (!Object.keys(objectBalance).find(key => key === 'USD')) {
+      if (objectBalance['USD'] === 'undefined' || objectBalance['USD'] == null) {
         assetsData.unshift({id: 0, name: 'USD Dollar', symbol: 'USD', price: 0, balance: 0});
       } else {
-        assetsData.unshift({id: 0, name: 'USD Dollar', symbol: 'USD', price: objectBalance['USD'], balance: 1});
+        assetsData.unshift({id: 0, name: 'USD Dollar', symbol: 'USD', price: 1, balance: objectBalance['USD']});
       }
 
       dispatch({

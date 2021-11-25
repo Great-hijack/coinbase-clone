@@ -4510,8 +4510,7 @@ let cmpData = {
         name: 'Neo',
         symbol: 'NEO',
         slug: 'neo',
-        token_address:
-          '602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7',
+        token_address: '602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7',
       },
     },
     {
@@ -75268,8 +75267,7 @@ let cmpData = {
         name: 'Stellar',
         symbol: 'XLM',
         slug: 'stellar',
-        token_address:
-          'GANJI4SIO7HKFDPSFYVNPOM54KNQXYGSODDLV6FI4DJGSQQJXHZON5FA',
+        token_address: 'GANJI4SIO7HKFDPSFYVNPOM54KNQXYGSODDLV6FI4DJGSQQJXHZON5FA',
       },
     },
     {

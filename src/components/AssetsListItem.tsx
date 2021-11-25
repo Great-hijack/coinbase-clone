@@ -25,7 +25,7 @@ const AssetsListItem: FC<AssetsListItemProps> = ({id, name, symbol, price, balan
           </View>
           <View style={{alignItems: 'flex-end'}}>
             <Text style={styles.priceText}>${getLocaleCurrencyString(balanceAsUSD.toFixed(2))}</Text>
-            <Text style={id == 0 ? {display: 'none'} : styles.balanceText}>{`${price} ${symbol}`}</Text>
+            <Text style={id == 0 ? {display: 'none'} : styles.balanceText}>{`${balance} ${symbol}`}</Text>
           </View>
         </View>
       </View>
