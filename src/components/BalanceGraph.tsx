@@ -9,10 +9,11 @@ const windowsWidth = Dimensions.get('window').width;
 interface BalanceGraphProps {
   data: number[];
   range: string;
+  color: string;
   onChangeRange: (range: string) => void;
 }
 
-const BalanceGraph: FC<BalanceGraphProps> = ({data, range, onChangeRange}) => {
+const BalanceGraph: FC<BalanceGraphProps> = ({data, range, color, onChangeRange}) => {
   const [minMaxData, setMinMaxData] = useState([0, 0, 0, 0]);
 
   useEffect(() => {
@@ -52,12 +53,7 @@ const BalanceGraph: FC<BalanceGraphProps> = ({data, range, onChangeRange}) => {
     <View style={styles.container}>
       {!!data && (
         <View>
-          <LineChart
-            style={{height: 200}}
-            data={data}
-            svg={{stroke: 'rgb(50, 115, 244)', strokeWidth: 2}}
-            contentInset={{top: 20, bottom: 20}}
-          />
+          <LineChart style={{height: 200}} data={data} svg={{stroke: color, strokeWidth: 2}} contentInset={{top: 20, bottom: 20}} />
           <Text style={[styles.minValText, {left: minMaxData[1]}]}>
             {minMaxData[0] == 0 && minMaxData[2] == 0 ? '' : `$${minMaxData[0]}`}
           </Text>
@@ -69,7 +65,7 @@ const BalanceGraph: FC<BalanceGraphProps> = ({data, range, onChangeRange}) => {
       <View style={styles.rangeSelector}>
         {Object.keys(DateRange).map(value => (
           <TouchableOpacity key={value} onPress={() => onChangeRange(value)}>
-            <Text style={[styles.rangeText, range === value && styles.selected]}>{value}</Text>
+            <Text style={[styles.rangeText, range === value && {color: color}]}>{value}</Text>
           </TouchableOpacity>
         ))}
       </View>

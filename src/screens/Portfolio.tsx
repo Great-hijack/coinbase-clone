@@ -155,7 +155,7 @@ const Portfolio = ({navigation}: Props) => {
           <Text style={styles.balanceText}>${total} </Text>
         </View>
 
-        <BalanceGraph data={graphData} onChangeRange={setRange} range={range} />
+        <BalanceGraph data={graphData} onChangeRange={setRange} color="#0349FF" range={range} />
         <AssetsList assetsData={assetsData} isHomeScreen={true} sortHandler={sortHandler} navigation={navigation} />
         <CBButton title="See all" outline />
         <GrowBalance />
