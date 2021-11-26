@@ -70,9 +70,7 @@ export const fetchAssetsData = () => {
         let imgUrl = datum.imgUrl;
         return {id: id, name: name, symbol: symbol, price: price, balance: balance, imgUrl};
       });
-      assetsData.sort(function (a: any, b: any) {
-        return b.balance * b.price - a.balance * a.price;
-      });
+      assetsData.sort((a: any, b: any) => b.balance * b.price - a.balance * a.price);
       usdCoinIndex = assetsData.findIndex(val => val.symbol === 'USDC') == -1 ? 0 : assetsData.findIndex(val => val.symbol === 'USDC');
       assetsData = changeAssetsPosition(assetsData, usdCoinIndex, 0);
 
