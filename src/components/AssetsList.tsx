@@ -8,9 +8,10 @@ interface AssetsProps {
   assetsData: Asset[];
   isHomeScreen: boolean;
   sortHandler?: any;
+  navigation: any;
 }
 
-const AssetsList: FC<AssetsProps> = ({assetsData, isHomeScreen, sortHandler}) => {
+const AssetsList: FC<AssetsProps> = ({assetsData, isHomeScreen, sortHandler, navigation}) => {
   return (
     <View
       style={{
@@ -32,6 +33,9 @@ const AssetsList: FC<AssetsProps> = ({assetsData, isHomeScreen, sortHandler}) =>
               price={itemData.item.price}
               balance={itemData.item.balance}
               imgUrl={itemData.item.imgUrl}
+              onItemClicked={() => {
+                navigation.navigate('AssetsDetail');
+              }}
             />
           );
         }}

@@ -1,15 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackParamList} from '../navigation/AppNavigator';
 
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'HomeScreen'>;
-
-type Props = {
-  navigation: HomeScreenNavigationProp;
-};
-
-const Home = ({navigation}: Props) => {
+const Home = () => {
   return (
     <View style={styles.screen}>
       <Text>Home</Text>

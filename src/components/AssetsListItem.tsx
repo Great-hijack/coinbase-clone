@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableHighlight, Pressable} from 'react-native';
 import Colors from '../constants/Colors';
 import {getLocaleCurrencyString} from '../utils';
 import DolloarImg from '../../assets/dollar.png';
@@ -11,15 +11,19 @@ interface AssetsListItemProps {
   price: number;
   balance: number;
   imgUrl: string;
+  onItemClicked: () => void;
 }
 
-const AssetsListItem: FC<AssetsListItemProps> = ({id, name, symbol, price, balance, imgUrl}) => {
+const AssetsListItem: FC<AssetsListItemProps> = ({id, name, symbol, price, balance, imgUrl, onItemClicked}) => {
   const balanceAsUSD = price * balance;
 
   return (
-    <TouchableHighlight style={styles.listItem} underlayColor="#FBFAFB">
+    <Pressable
+      style={styles.listItem}
+      onPress={() => {
+        onItemClicked();
+      }}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        {/* <Image style={styles.logo} source={id == 0 ? DolloarImg : {uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${id}.png`}} /> */}
         <Image style={styles.logo} source={id == 0 ? DolloarImg : {uri: `https://www.cryptocompare.com/${imgUrl}`}} />
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
           <View>
@@ -31,7 +35,7 @@ const AssetsListItem: FC<AssetsListItemProps> = ({id, name, symbol, price, balan
           </View>
         </View>
       </View>
-    </TouchableHighlight>
+    </Pressable>
   );
 };
 

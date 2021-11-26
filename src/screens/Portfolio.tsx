@@ -1,11 +1,23 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Text, RefreshControl, ScrollView, SafeAreaView, Image, LogBox, Dimensions, Animated} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  RefreshControl,
+  ScrollView,
+  SafeAreaView,
+  Image,
+  LogBox,
+  Dimensions,
+  Animated,
+  Pressable,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {useScrollToTop} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {Ionicons} from '@expo/vector-icons';
-import {RootStackParamList} from '../navigation/AppNavigator';
+import {PortfolioStackParamList} from '../navigation/AppNavigator';
 
 import * as watchlistActions from '../store/actions/watchlist';
 import * as assetsActions from '../store/actions/assets';
@@ -22,7 +34,6 @@ import GrowBalance from '../components/GrowBalance';
 import BalanceGraph from '../components/BalanceGraph';
 import Colors from '../constants/Colors';
 import {balanceHistory} from '../data/BalanceHistory';
-import {DateRange} from '../store/actions/history';
 import {HistoryState} from '../store/reducers/history';
 import {getLocaleCurrencyString} from '../utils';
 
@@ -34,13 +45,13 @@ interface RootState {
   history: HistoryState;
 }
 
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'HomeScreen'>;
+type PortfolioScreenNavigationProp = StackNavigationProp<PortfolioStackParamList, 'PortfolioScreen'>;
 
 type Props = {
-  navigation: HomeScreenNavigationProp;
+  navigation: PortfolioScreenNavigationProp;
 };
 
-const Portfolio = () => {
+const Portfolio = ({navigation}: Props) => {
   const watchlistData = useSelector((state: RootState) => state.watchlist.watchlistData);
   const assetsData = useSelector((state: RootState) => state.assets.assetsData);
   const graphData = useSelector((state: RootState) => state.history.graphData);
@@ -145,7 +156,7 @@ const Portfolio = () => {
         </View>
 
         <BalanceGraph data={graphData} onChangeRange={setRange} range={range} />
-        <AssetsList assetsData={assetsData} isHomeScreen={true} sortHandler={sortHandler} />
+        <AssetsList assetsData={assetsData} isHomeScreen={true} sortHandler={sortHandler} navigation={navigation} />
         <CBButton title="See all" outline />
         <GrowBalance />
         <Watchlist coinData={watchlistData} />
