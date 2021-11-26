@@ -34,7 +34,7 @@ export const getCoinData = async () => {
       const cmpDetails = cmpData.data.find(cmpCoin => coinDetails.FROMSYMBOL === cmpCoin.symbol);
       const coinID = cmpDetails?.id ?? 0;
       const coinName = cmpDetails?.name ?? 'Unknown';
-      coinData.push(new Coin(coinID, coinName, coin, coinDetails.PRICE, coinDetails.CHANGEPCT24HOUR));
+      coinData.push(new Coin(coinID, coinName, coin, coinDetails.PRICE, coinDetails.CHANGEPCT24HOUR, coinDetails.IMAGEURL));
     });
 
     return coinData;
