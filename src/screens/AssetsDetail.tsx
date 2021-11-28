@@ -153,7 +153,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
             });
           }}
         />
-        <AssetsDetailAbout />
+        <AssetsDetailAbout name={name} />
       </ScrollView>
 
       <View style={styles.tradeView}>

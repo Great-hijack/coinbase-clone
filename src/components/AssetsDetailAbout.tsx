@@ -3,9 +3,11 @@ import {View, Text, StyleSheet, Image} from 'react-native';
 import {ProgressCircle} from 'react-native-svg-charts';
 import Colors from '../constants/Colors';
 
-interface GrowBalanceProps {}
+interface AssetsDetailAboutProps {
+  name: string;
+}
 
-const AssetsDetailAbout: FC<GrowBalanceProps> = ({}) => {
+const AssetsDetailAbout: FC<AssetsDetailAboutProps> = ({name}: AssetsDetailAboutProps) => {
   return (
     <View style={styles.contain}>
       <View style={[styles.itemContain, styles.bestTimeContain]}>
@@ -17,7 +19,7 @@ const AssetsDetailAbout: FC<GrowBalanceProps> = ({}) => {
       </View>
 
       <View style={styles.about}>
-        <Text style={{fontSize: 24, fontWeight: 'bold'}}>About Bitcoin</Text>
+        <Text style={{fontSize: 24, fontWeight: 'bold'}}>About {name}</Text>
         <Text style={{fontSize: 18}}>
           Bitcoin is the world's first widely-adopted cryptocurrency. With Bitcoin, people can securely and directly send each other digital
           money on the internet.
