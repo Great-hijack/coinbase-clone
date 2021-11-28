@@ -1,10 +1,11 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect, useCallback} from 'react';
 import {View, Text, StyleSheet, ScrollView, Image, TouchableOpacity} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {PortfolioStackParamList} from '../navigation/AppNavigator';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
 import Ionicons from '@expo/vector-icons/build/Ionicons';
+import {AntDesign} from '@expo/vector-icons';
 import {Animated} from 'react-native';
 import {Pressable} from 'react-native';
 import {RouteProp} from '@react-navigation/core';
@@ -13,28 +14,46 @@ import Colors from '../constants/Colors';
 import BalanceGraph from '../components/BalanceGraph';
 import AssetsDetailButton from '../components/AssetsDetailButton';
 import AssetsDetailAbout from '../components/AssetsDetailAbout';
-import {HistoryState} from '../store/reducers/history';
+import {CoinHistoryState} from '../store/reducers/coinhistory';
+import * as coinHistoryActions from '../store/actions/coinhistory';
+import {getLocaleCurrencyString} from '../utils/index';
 
 type AssetsDetailNavigationProp = StackNavigationProp<PortfolioStackParamList, 'AssetsDetail'>;
-type AssetsDetailRouteProp = RouteProp<{params: {id: number}}, 'params'>;
+type AssetsDetailRouteProp = RouteProp<
+  {params: {id: number; symbol: string; price: number; name: string; imgUrl: string; balance: number}},
+  'params'
+>;
 
 type Props = {
-  navigation: AssetsDetailNavigationProp;
+  navigation: any;
   route: AssetsDetailRouteProp;
 };
 
 interface RootState {
-  history: HistoryState;
+  coinhistory: CoinHistoryState;
 }
 
 const AssetsDetail = ({route, navigation}: Props) => {
-  const {id} = route.params;
-
-  const graphData = useSelector((state: RootState) => state.history.graphData);
+  const {id, symbol, price, name, imgUrl, balance} = route.params;
+  const graphData = useSelector((state: RootState) => state.coinhistory.coinGraphData);
   const ref = useRef(null);
   const [range, setRange] = useState('1H');
   const [isShowTotal, setShowTotal] = useState(false);
+  const [coinPrices, setCoinPrices] = useState(['']);
   const totalAnimValue = useRef(new Animated.Value(1)).current;
+  const dispatch = useDispatch();
+
+  const loadGraphData = useCallback(async () => {
+    try {
+      dispatch(coinHistoryActions.fetchGraphData({symbol, range}));
+    } catch (err) {
+      console.log(err);
+    }
+  }, [dispatch, range]);
+
+  useEffect(() => {
+    loadGraphData();
+  }, [loadGraphData]);
 
   useEffect(() => {
     Animated.timing(totalAnimValue, {
@@ -54,6 +73,26 @@ const AssetsDetail = ({route, navigation}: Props) => {
     }
   };
 
+  type Props = {
+    symbol: string;
+  };
+
+  const coinPrice = async ({symbol}: Props) => {
+    const cryptoResponse = await fetch(
+      `https://min-api.cryptocompare.com/data/pricemultifull?tsyms=USD&relaxedValidation=true&fsyms=${symbol}`
+    );
+    const cryptoResponseData = await cryptoResponse.json();
+    setCoinPrices([
+      Number(cryptoResponseData['RAW'][symbol]['USD'].PRICE).toFixed(2),
+      Number(cryptoResponseData['RAW'][symbol]['USD'].CHANGE24HOUR).toFixed(2),
+      Number(cryptoResponseData['RAW'][symbol]['USD'].CHANGEPCT24HOUR).toFixed(2),
+    ]);
+  };
+
+  useEffect(() => {
+    coinPrice({symbol});
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -65,12 +104,12 @@ const AssetsDetail = ({route, navigation}: Props) => {
         </Pressable>
         <View style={{flexDirection: 'row', justifyContent: 'center', flex: 1}}>
           <Animated.Text style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
-            <Text style={styles.titleTotal}>$2222</Text>
+            <Text style={styles.titleTotal}>{`$${getLocaleCurrencyString(coinPrices[0])}`}</Text>
           </Animated.Text>
         </View>
         <View style={{marginEnd: 16}}>
           <Animated.Text style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
-            <Ionicons name="star" size={18} color={'#0349FF'} style={styles.bellIcon} />
+            <AntDesign name="star" size={18} color={'#0349FF'} style={styles.bellIcon} />
           </Animated.Text>
         </View>
       </View>
@@ -84,18 +123,36 @@ const AssetsDetail = ({route, navigation}: Props) => {
         ref={ref}
         nestedScrollEnabled={false}>
         <View style={styles.totalContainer}>
-          <Text style={styles.headerText}>Your balance</Text>
+          <Text style={styles.headerText}>{name} price</Text>
           <View style={{width: '100%', flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.balanceText}>$2222</Text>
+            <Text style={styles.balanceText}>{`$${getLocaleCurrencyString(coinPrices[0])}`}</Text>
             <View style={styles.titleStarView}>
-              <Ionicons name="star" size={18} color={'#0349FF'} style={styles.titleStar} />
+              <AntDesign name="star" size={18} color={'#0349FF'} style={styles.titleStar} />
             </View>
           </View>
-          <Text style={styles.titleChange}>-$222222(0.72%)</Text>
+          <Text style={styles.titleChange}>{`$${coinPrices[1]}(${coinPrices[2]}%)`}</Text>
         </View>
 
         <BalanceGraph data={graphData} onChangeRange={setRange} color="#CC4D19" range={range} />
-        <AssetsDetailButton title="See all" outline />
+        <AssetsDetailButton
+          id={id}
+          title={name}
+          imgUrl={imgUrl}
+          outline
+          price={price}
+          balance={balance}
+          symbol={symbol}
+          onItemClicked={() => {
+            navigation.navigate('AssetsDetailHistory', {
+              id: id,
+              symbol: symbol,
+              price: price,
+              name: name,
+              imgUrl: imgUrl,
+              balance: balance,
+            });
+          }}
+        />
         <AssetsDetailAbout />
       </ScrollView>
 

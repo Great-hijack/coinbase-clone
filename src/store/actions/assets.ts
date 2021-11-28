@@ -22,7 +22,8 @@ export const fetchAssetsData = () => {
       const coinResponseJson = await coinResponse.json();
       const coinResponseData = coinResponseJson['data'];
 
-      const staticCoins: any = coinResponseData.map(item => item.base);
+      const allStaticCoins: any = coinResponseData.map(item => item.base);
+      const staticCoins: any = allStaticCoins.filter(item => item !== 'ETH2');
 
       let assetsData: Asset[] = [];
       let objectBalance: any = {};

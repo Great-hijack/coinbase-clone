@@ -36,6 +36,11 @@ const AssetsList: FC<AssetsProps> = ({assetsData, isHomeScreen, sortHandler, nav
               onItemClicked={() => {
                 navigation.navigate('AssetsDetail', {
                   id: itemData.item.id,
+                  symbol: itemData.item.symbol,
+                  price: itemData.item.price,
+                  name: itemData.item.name,
+                  imgUrl: itemData.item.imgUrl,
+                  balance: itemData.item.balance,
                 });
               }}
             />

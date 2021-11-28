@@ -1,6 +1,5 @@
-import { AnyAction } from 'redux';
-import Asset from '../../models/Asset';
-import { SET_GRAPH_DATA } from '../actions/history';
+import {AnyAction} from 'redux';
+import {SET_GRAPH_DATA} from '../actions/history';
 
 export interface HistoryState {
   graphData: number[];

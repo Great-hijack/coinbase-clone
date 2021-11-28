@@ -1,17 +1,24 @@
 import React, {FC} from 'react';
-import {TouchableHighlight, View, Image, Text, Animated, StyleSheet} from 'react-native';
+import {TouchableHighlight, View, Image, Text, Animated, StyleSheet, TouchableOpacity} from 'react-native';
 import * as Haptics from 'expo-haptics';
 import Colors from '../constants/Colors';
 import DolloarImg from '../../assets/dollar.png';
+import {getLocaleCurrencyString} from '../utils';
 
 interface CBButtonProps {
+  id: number;
   title: string;
+  imgUrl: string;
   outline?: boolean;
+  price: number;
+  balance: number;
+  symbol: string;
+  onItemClicked: () => void;
 }
 
-const AssetsDetailButton: FC<CBButtonProps> = ({title, outline = false}) => {
+const AssetsDetailButton: FC<CBButtonProps> = ({id, title, imgUrl, outline = false, price, balance, symbol, onItemClicked}) => {
+  const balanceAsUSD = price * balance;
   const animatedValue = new Animated.Value(1);
-
   const handlePressIn = () => {
     Animated.spring(animatedValue, {
       toValue: 0.98,
@@ -32,25 +39,26 @@ const AssetsDetailButton: FC<CBButtonProps> = ({title, outline = false}) => {
 
   return (
     <Animated.View style={[styles.btnContainer, animatedStyle]}>
-      <TouchableHighlight
+      <TouchableOpacity
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         style={{borderRadius: 10}}
         activeOpacity={0.9}
         onPress={() => {
+          onItemClicked();
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }}>
         <View style={[styles.btn, outline && styles.outline]}>
           <View style={styles.btnName}>
-            <Image style={styles.btnImage} source={DolloarImg} />
-            <Text style={styles.btnNameContent}>Bitcoin</Text>
+            <Image style={styles.btnImage} source={id == 0 ? DolloarImg : {uri: `https://www.cryptocompare.com${imgUrl}`}} />
+            <Text style={styles.btnNameContent}>{title}</Text>
           </View>
           <View style={styles.btnInfo}>
-            <Text style={{fontSize: 16}}>$208</Text>
-            <Text style={{color: '#636269'}}>0.0000BTC</Text>
+            <Text style={{fontSize: 16}}>${getLocaleCurrencyString(balanceAsUSD.toFixed(2))}</Text>
+            <Text style={{color: '#636269'}}>{`${balance} ${symbol}`}</Text>
           </View>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     </Animated.View>
   );
 };

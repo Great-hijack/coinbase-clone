@@ -1,6 +1,6 @@
 import React from 'react';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
+import {Provider} from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 
 import watchlistReducer from './src/store/reducers/watchlist';
@@ -8,6 +8,7 @@ import topMoversReducer from './src/store/reducers/topmovers';
 import newsReducer from './src/store/reducers/news';
 import assetsReducer from './src/store/reducers/assets';
 import historyReducer from './src/store/reducers/history';
+import coinHistoryReducer from './src/store/reducers/coinhistory';
 import AppNavigator from './src/navigation/AppNavigator';
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   news: newsReducer,
   assets: assetsReducer,
   history: historyReducer,
+  coinhistory: coinHistoryReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

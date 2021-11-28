@@ -11,10 +11,12 @@ import PricesScreen from '../screens/Prices';
 import SettingsScreen from '../screens/Settings';
 import ActionsScreen from '../screens/Actions';
 import AssetsDetail from '../screens/AssetsDetail';
+import AssetsDetailHistory from '../screens/AssetsDetailHistory';
 
 export type PortfolioStackParamList = {
   PortfolioScreen: undefined;
   AssetsDetail: undefined;
+  AssetsDetailHistory: undefined;
   News: undefined;
 };
 
@@ -25,6 +27,7 @@ const PortfolioNavigator = () => {
     <PortfolioStackNavigator.Navigator screenOptions={NewsOptions}>
       <PortfolioStackNavigator.Screen name="PortfolioScreen" component={PortfolioScreen} options={PortfolioOptions} />
       <PortfolioStackNavigator.Screen name="AssetsDetail" component={AssetsDetail} options={{headerShown: false}} />
+      <PortfolioStackNavigator.Screen name="AssetsDetailHistory" component={AssetsDetailHistory} options={{headerShown: false}} />
       <PortfolioStackNavigator.Screen name="News" component={NewsScreen} />
     </PortfolioStackNavigator.Navigator>
   );
