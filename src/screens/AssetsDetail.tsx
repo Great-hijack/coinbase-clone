@@ -97,7 +97,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Pressable
-          style={{marginLeft: 16}}
+          style={{marginLeft: 16, flexDirection: 'row', justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}
           android_ripple={{color: 'grey', radius: 20, borderless: true}}
           onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={30} color={'#4F4C4F'} style={styles.menuIcon} />
@@ -107,7 +107,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
             <Text style={styles.titleTotal}>{`$${getLocaleCurrencyString(coinPrices[0])}`}</Text>
           </Animated.Text>
         </View>
-        <View style={{marginEnd: 16}}>
+        <View style={{marginEnd: 16, alignSelf: 'center', justifyContent: 'center'}}>
           <Animated.Text style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
             <AntDesign name="star" size={18} color={'#0349FF'} style={styles.bellIcon} />
           </Animated.Text>
@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 8,
     paddingBottom: 10,
+    justifyContent: 'space-between',
   },
   animatedTitleTotal: {
     textAlign: 'center',
@@ -213,6 +214,9 @@ const styles = StyleSheet.create({
   bellIcon: {
     alignSelf: 'flex-end',
     marginRight: 15,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
   },
   balanceText: {
     fontSize: 30,

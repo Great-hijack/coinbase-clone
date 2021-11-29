@@ -62,17 +62,27 @@ const AssetsDetailHistory = ({route, navigation}: Props) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Pressable
-          style={{marginLeft: 16}}
+          style={{marginLeft: 16, flexDirection: 'row', justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}
           android_ripple={{color: 'grey', radius: 20, borderless: true}}
           onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={30} color={'#4F4C4F'} style={styles.menuIcon} />
         </Pressable>
-        <View style={{position: 'absolute', left: '50%', marginLeft: -40, flexDirection: 'row', justifyContent: 'center', flex: 1}}>
+        <View
+          style={{
+            position: 'absolute',
+            left: '50%',
+            marginLeft: -40,
+            top: '50%',
+            marginTop: -14,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            flex: 1,
+          }}>
           <Animated.Text style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
             <Text style={styles.titleTotal}>{`$${getLocaleCurrencyString(balanceAsUSD.toFixed(2))}`}</Text>
           </Animated.Text>
         </View>
-        <View style={{marginEnd: 16}}>
+        <View style={{marginEnd: 16, alignSelf: 'center', justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
           <Animated.View style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
             <View style={styles.topPriceRight}>
               <View style={styles.circleBorder}>
