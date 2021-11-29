@@ -1,13 +1,10 @@
 import React, {useRef, useState, useEffect, useCallback} from 'react';
-import {View, Text, StyleSheet, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Animated, Pressable} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {PortfolioStackParamList} from '../navigation/AppNavigator';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
-import Ionicons from '@expo/vector-icons/build/Ionicons';
-import {AntDesign} from '@expo/vector-icons';
-import {Animated} from 'react-native';
-import {Pressable} from 'react-native';
+import {AntDesign, Ionicons} from '@expo/vector-icons';
 import {RouteProp} from '@react-navigation/core';
 
 import Colors from '../constants/Colors';
@@ -131,7 +128,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
             </View>
           </View>
           <Text style={styles.titleChange}>
-            {Number(coinPrices[1]) > 0 ? '' : '-'}
+            {Number(coinPrices[1]) < 0 ? '-' : ''}
             {`$${coinPrices[1] ? Math.abs(Number(coinPrices[1])) : 0}(${coinPrices[2] ? coinPrices[2] : 0}%)`}
           </Text>
         </View>

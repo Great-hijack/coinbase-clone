@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {TouchableHighlight, View, Image, Text, Animated, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Image, Text, Animated, StyleSheet, TouchableOpacity} from 'react-native';
 import * as Haptics from 'expo-haptics';
 import Colors from '../constants/Colors';
 import DolloarImg from '../../assets/dollar.png';

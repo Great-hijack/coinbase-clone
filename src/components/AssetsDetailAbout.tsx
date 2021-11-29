@@ -1,7 +1,5 @@
 import React, {FC} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
-import {ProgressCircle} from 'react-native-svg-charts';
-import Colors from '../constants/Colors';
 
 interface AssetsDetailAboutProps {
   name: string;

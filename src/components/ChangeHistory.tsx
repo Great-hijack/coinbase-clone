@@ -1,12 +1,6 @@
-import React, {FC, useCallback} from 'react';
-import {View, Text, StyleSheet, TouchableHighlight, Image} from 'react-native';
-import {useDispatch} from 'react-redux';
-import DraggableFlatList, {RenderItemParams} from 'react-native-draggable-flatlist';
-import * as Haptics from 'expo-haptics';
+import React, {FC} from 'react';
+import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 
-import WatchlistItem from './WatchlistItem';
-import * as watchlistActions from '../store/actions/watchlist';
-import Coin from '../models/Coin';
 import Colors from '../constants/Colors';
 import {FlatList} from 'react-native-gesture-handler';
 import {getLocaleCurrencyString} from '../utils';

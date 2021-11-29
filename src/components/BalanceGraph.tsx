@@ -1,6 +1,6 @@
-import React, {FC, useEffect, useState, useMemo} from 'react';
+import React, {FC, useMemo} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native';
-import {LineChart, Grid} from 'react-native-svg-charts';
+import {LineChart} from 'react-native-svg-charts';
 import {DateRange} from '../store/actions/history';
 import {getMinMax} from '../utils';
 
