@@ -67,7 +67,7 @@ const AssetsDetailHistory = ({route, navigation}: Props) => {
           onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={30} color={'#4F4C4F'} style={styles.menuIcon} />
         </Pressable>
-        <View style={{flexDirection: 'row', justifyContent: 'center', flex: 1}}>
+        <View style={{position: 'absolute', left: '50%', marginLeft: -40, flexDirection: 'row', justifyContent: 'center', flex: 1}}>
           <Animated.Text style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
             <Text style={styles.titleTotal}>{`$${getLocaleCurrencyString(balanceAsUSD.toFixed(2))}`}</Text>
           </Animated.Text>
@@ -121,7 +121,15 @@ const AssetsDetailHistory = ({route, navigation}: Props) => {
           <Text style={{fontSize: 16, fontWeight: 'bold'}}>Recurring buys</Text>
           <View style={styles.recurringDescriptionContainer}>
             <SvgUri
-              style={{flex: 1, width: 24, height: 24}}
+              style={{
+                flex: 1,
+                width: 24,
+                height: 24,
+                justifyContent: 'flex-start',
+                flexDirection: 'row',
+                alignItems: 'flex-start',
+                marginStart: -8,
+              }}
               uri="https://images.ctfassets.net/q5ulk4bp65r7/1B2lWSiOAFK6CitniZDOm6/a38890c20ba91c7d730fde6eb1d9bb3e/prime-icon.svg"
             />
             <View style={styles.recurringDetailContainer}>
@@ -148,6 +156,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 8,
     paddingBottom: 10,
+    justifyContent: 'space-between',
   },
   animatedTitleTotal: {
     textAlign: 'center',
