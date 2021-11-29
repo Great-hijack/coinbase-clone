@@ -1,11 +1,22 @@
-import React, {FC} from 'react';
+import React, {FC, useMemo, useState} from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 
 interface AssetsDetailAboutProps {
   name: string;
+  symbol: string;
 }
 
-const AssetsDetailAbout: FC<AssetsDetailAboutProps> = ({name}: AssetsDetailAboutProps) => {
+const AssetsDetailAbout: FC<AssetsDetailAboutProps> = ({name, symbol}: AssetsDetailAboutProps) => {
+  const [aboutContent, setAboutContent] = useState('');
+  useMemo(async () => {
+    const coinResponse = await fetch(
+      `https://www.coinbase.com/api/v2/assets/search?base=USD&country=US&filter=all&include_prices=false&limit=1&order=asc&query=${symbol}&resolution=day&sort=rank`
+    ).then(res => res.json());
+    const coinResponseData = coinResponse['data'][0]['description'];
+    setAboutContent(coinResponseData);
+    return coinResponseData;
+  }, [symbol]);
+
   return (
     <View style={styles.contain}>
       <View style={[styles.itemContain, styles.bestTimeContain]}>
@@ -18,10 +29,7 @@ const AssetsDetailAbout: FC<AssetsDetailAboutProps> = ({name}: AssetsDetailAbout
 
       <View style={styles.about}>
         <Text style={styles.aboutName}>About {name}</Text>
-        <Text style={styles.aboutContent}>
-          Bitcoin is the world's first widely-adopted cryptocurrency. With Bitcoin, people can securely and directly send each other digital
-          money on the internet.
-        </Text>
+        <Text style={styles.aboutContent}>{aboutContent}</Text>
         <Text style={styles.viewMore}>View more</Text>
       </View>
     </View>

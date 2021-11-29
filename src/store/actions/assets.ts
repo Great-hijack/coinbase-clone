@@ -1,6 +1,5 @@
 import {Action} from 'redux';
 import {ThunkDispatch} from 'redux-thunk';
-import {useSelector, useDispatch} from 'react-redux';
 import {AssetsState} from '../reducers/assets';
 
 import Asset from '../../models/Asset';
@@ -17,7 +16,7 @@ export const fetchAssetsData = () => {
   return async (dispatch: ThunkDispatch<AssetsState, void, Action>) => {
     try {
       const coinResponse = await fetch(
-        `https://www.coinbase.com/api/v2/assets/search?base=USD&country=US&filter=all&include_prices=true&limit=5&order=asc&page=1&query=&resolution=day&sort=rank`
+        `https://www.coinbase.com/api/v2/assets/search?base=USD&country=US&filter=all&include_prices=false&limit=5&order=asc&page=1&query=&resolution=day&sort=rank`
       );
       const coinResponseJson = await coinResponse.json();
       const coinResponseData = coinResponseJson['data'];
