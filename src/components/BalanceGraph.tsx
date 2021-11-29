@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState, useRef} from 'react';
+import React, {FC, useEffect, useState, useMemo} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native';
 import {LineChart, Grid} from 'react-native-svg-charts';
 import {DateRange} from '../store/actions/history';
@@ -14,9 +14,7 @@ interface BalanceGraphProps {
 }
 
 const BalanceGraph: FC<BalanceGraphProps> = ({data, range, color, onChangeRange}) => {
-  const [minMaxData, setMinMaxData] = useState([0, 0, 0, 0]);
-
-  useEffect(() => {
+  const minMaxData = useMemo(() => {
     const minMaxInfo = getMinMax(data);
     let minVal = minMaxInfo[0];
     const minIndex = minMaxInfo[1];
@@ -46,7 +44,7 @@ const BalanceGraph: FC<BalanceGraphProps> = ({data, range, color, onChangeRange}
     } else if (maxValLeft < 10) {
       maxValLeft = maxValLeft + 10;
     }
-    setMinMaxData([minVal, minValLeft, maxVal, maxValLeft]);
+    return [minVal, minValLeft, maxVal, maxValLeft];
   }, [data]);
 
   return (
