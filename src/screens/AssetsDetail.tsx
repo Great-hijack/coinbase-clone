@@ -125,12 +125,15 @@ const AssetsDetail = ({route, navigation}: Props) => {
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>{name} price</Text>
           <View style={{width: '100%', flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.balanceText}>{`$${getLocaleCurrencyString(coinPrices[0])}`}</Text>
+            <Text style={styles.balanceText}>{`$${getLocaleCurrencyString(coinPrices[0] ? coinPrices[0] : 0)}`}</Text>
             <View style={styles.titleStarView}>
               <AntDesign name="star" size={18} color={'#0349FF'} style={styles.titleStar} />
             </View>
           </View>
-          <Text style={styles.titleChange}>{`$${coinPrices[1]}(${coinPrices[2]}%)`}</Text>
+          <Text style={styles.titleChange}>
+            {Number(coinPrices[1]) > 0 ? '' : '-'}
+            {`$${coinPrices[1] ? Math.abs(Number(coinPrices[1])) : 0}(${coinPrices[2] ? coinPrices[2] : 0}%)`}
+          </Text>
         </View>
 
         <BalanceGraph data={graphData} onChangeRange={setRange} color="#CC4D19" range={range} />
