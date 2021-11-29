@@ -8,17 +8,10 @@ import Ionicons from '@expo/vector-icons/build/Ionicons';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import {Animated} from 'react-native';
 import {Pressable} from 'react-native';
+import {SvgUri} from 'react-native-svg';
 import {RouteProp} from '@react-navigation/core';
-
-import Colors from '../constants/Colors';
-import BalanceGraph from '../components/BalanceGraph';
-import AssetsDetailButton from '../components/AssetsDetailButton';
-import AssetsDetailAbout from '../components/AssetsDetailAbout';
-import {CoinHistoryState} from '../store/reducers/coinhistory';
-import * as coinHistoryActions from '../store/actions/coinhistory';
 import CBButton from '../components/CBButton';
 import {balanceHistory} from '../data/BalanceHistory';
-import DemoImg from '../../assets/icon.png';
 import ChangeHistory from '../components/ChangeHistory';
 import {getLocaleCurrencyString} from '../utils';
 import {Balance} from '../store/actions/history';
@@ -127,7 +120,10 @@ const AssetsDetailHistory = ({route, navigation}: Props) => {
         <View style={styles.recurringCointainer}>
           <Text style={{fontSize: 16, fontWeight: 'bold'}}>Recurring buys</Text>
           <View style={styles.recurringDescriptionContainer}>
-            <Image style={{flex: 1, width: 24, height: 24}} source={DemoImg} />
+            <SvgUri
+              style={{flex: 1, width: 24, height: 24}}
+              uri="https://images.ctfassets.net/q5ulk4bp65r7/1B2lWSiOAFK6CitniZDOm6/a38890c20ba91c7d730fde6eb1d9bb3e/prime-icon.svg"
+            />
             <View style={styles.recurringDetailContainer}>
               <Text style={{fontWeight: 'bold', fontSize: 14}}>Learn more about recurring buys</Text>
               <Text>Invest daily, weekly, or monthly</Text>
