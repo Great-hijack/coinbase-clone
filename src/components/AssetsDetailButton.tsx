@@ -54,8 +54,8 @@ const AssetsDetailButton: FC<CBButtonProps> = ({id, title, imgUrl, outline = fal
             <Text style={styles.btnNameContent}>{title}</Text>
           </View>
           <View style={styles.btnInfo}>
-            <Text style={{fontSize: 16}}>${getLocaleCurrencyString(balanceAsUSD.toFixed(2))}</Text>
-            <Text style={{color: '#636269'}}>{`${balance} ${symbol}`}</Text>
+            <Text style={styles.btnPrice}>${getLocaleCurrencyString(balanceAsUSD.toFixed(2))}</Text>
+            <Text style={styles.btnBalance}>{`${balance} ${symbol}`}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -120,6 +120,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
     alignContent: 'flex-end',
+  },
+  btnPrice: {
+    fontSize: 16,
+  },
+  btnBalance: {
+    color: '#636269',
   },
 });
 

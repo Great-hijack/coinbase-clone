@@ -94,17 +94,17 @@ const AssetsDetail = ({route, navigation}: Props) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Pressable
-          style={{marginLeft: 16, flexDirection: 'row', justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}
+          style={styles.arrowBack}
           android_ripple={{color: 'grey', radius: 20, borderless: true}}
           onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={30} color={'#4F4C4F'} style={styles.menuIcon} />
         </Pressable>
-        <View style={{flexDirection: 'row', justifyContent: 'center', flex: 1}}>
+        <View style={styles.headerPrice}>
           <Animated.Text style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
             <Text style={styles.titleTotal}>{`$${getLocaleCurrencyString(coinPrices[0])}`}</Text>
           </Animated.Text>
         </View>
-        <View style={{marginEnd: 16, alignSelf: 'center', justifyContent: 'center'}}>
+        <View style={styles.headerRight}>
           <Animated.Text style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
             <AntDesign name="star" size={18} color={'#0349FF'} style={styles.bellIcon} />
           </Animated.Text>
@@ -121,7 +121,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
         nestedScrollEnabled={false}>
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>{name} price</Text>
-          <View style={{width: '100%', flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+          <View style={styles.topPriceContainer}>
             <Text style={styles.balanceText}>{`$${getLocaleCurrencyString(coinPrices[0] ? coinPrices[0] : 0)}`}</Text>
             <View style={styles.titleStarView}>
               <AntDesign name="star" size={18} color={'#0349FF'} style={styles.titleStar} />
@@ -177,6 +177,23 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     justifyContent: 'space-between',
   },
+  arrowBack: {
+    marginLeft: 16,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+  headerPrice: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  headerRight: {
+    marginEnd: 16,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
   animatedTitleTotal: {
     textAlign: 'center',
     alignSelf: 'center',
@@ -198,6 +215,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'gray',
+  },
+  topPriceContainer: {
+    width: '100%',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   title: {
     fontWeight: 'bold',

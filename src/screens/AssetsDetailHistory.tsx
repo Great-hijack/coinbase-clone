@@ -58,27 +58,17 @@ const AssetsDetailHistory = ({route, navigation}: Props) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Pressable
-          style={{marginLeft: 16, flexDirection: 'row', justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}
+          style={styles.arrowBack}
           android_ripple={{color: 'grey', radius: 20, borderless: true}}
           onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={30} color={'#4F4C4F'} style={styles.menuIcon} />
         </Pressable>
-        <View
-          style={{
-            position: 'absolute',
-            left: '50%',
-            marginLeft: -40,
-            top: '50%',
-            marginTop: -14,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            flex: 1,
-          }}>
+        <View style={styles.headerPrice}>
           <Animated.Text style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
             <Text style={styles.titleTotal}>{`$${getLocaleCurrencyString(balanceAsUSD.toFixed(2))}`}</Text>
           </Animated.Text>
         </View>
-        <View style={{marginEnd: 16, alignSelf: 'center', justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
+        <View style={styles.headerRight}>
           <Animated.View style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
             <View style={styles.topPriceRight}>
               <View style={styles.circleBorder}>
@@ -124,22 +114,14 @@ const AssetsDetailHistory = ({route, navigation}: Props) => {
         </View>
 
         <View style={styles.recurringCointainer}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>Recurring buys</Text>
+          <Text style={styles.recurringTitle}>Recurring buys</Text>
           <View style={styles.recurringDescriptionContainer}>
             <SvgUri
-              style={{
-                flex: 1,
-                width: 24,
-                height: 24,
-                justifyContent: 'flex-start',
-                flexDirection: 'row',
-                alignItems: 'flex-start',
-                marginStart: -8,
-              }}
+              style={styles.recurringImg}
               uri="https://images.ctfassets.net/q5ulk4bp65r7/1B2lWSiOAFK6CitniZDOm6/a38890c20ba91c7d730fde6eb1d9bb3e/prime-icon.svg"
             />
             <View style={styles.recurringDetailContainer}>
-              <Text style={{fontWeight: 'bold', fontSize: 14}}>Learn more about recurring buys</Text>
+              <Text style={styles.recurringDetailFirstContent}>Learn more about recurring buys</Text>
               <Text>Invest daily, weekly, or monthly</Text>
             </View>
           </View>
@@ -164,10 +146,34 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     justifyContent: 'space-between',
   },
+  arrowBack: {
+    marginLeft: 16,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+  },
+  headerPrice: {
+    position: 'absolute',
+    left: '50%',
+    marginLeft: -40,
+    top: '50%',
+    marginTop: -14,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flex: 1,
+  },
   animatedTitleTotal: {
     textAlign: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
+  },
+  headerRight: {
+    marginEnd: 16,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
   },
   titleTotal: {
     fontWeight: 'bold',
@@ -249,16 +255,33 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 20,
   },
+  recurringTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   recurringDescriptionContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
   },
+  recurringImg: {
+    flex: 1,
+    width: 24,
+    height: 24,
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginStart: -8,
+  },
   recurringDetailContainer: {
     flex: 8,
     flexDirection: 'column',
     marginStart: 8,
+  },
+  recurringDetailFirstContent: {
+    fontWeight: 'bold',
+    fontSize: 14,
   },
 });
 

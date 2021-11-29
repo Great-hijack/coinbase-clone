@@ -23,9 +23,9 @@ const AssetsListItem: FC<AssetsListItemProps> = ({id, name, symbol, price, balan
       onPress={() => {
         onItemClicked();
       }}>
-      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+      <View style={styles.itemContainer}>
         <Image style={styles.logo} source={id == 0 ? DolloarImg : {uri: `https://www.cryptocompare.com/${imgUrl}`}} />
-        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+        <View style={styles.contentContainer}>
           <View>
             <Text style={styles.nameText}>{name}</Text>
           </View>
@@ -46,6 +46,10 @@ const styles = StyleSheet.create({
     paddingVertical: '4%',
     borderRadius: 8,
   },
+  itemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   logo: {
     width: 32,
     height: 32,
@@ -53,6 +57,12 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 0.3,
     borderColor: Colors.border,
+  },
+  contentContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   nameText: {
     fontSize: 18,
