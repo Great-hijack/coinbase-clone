@@ -5,8 +5,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useScrollToTop} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {Ionicons} from '@expo/vector-icons';
-import {PortfolioStackParamList} from '../navigation/AppNavigator';
+import * as Progress from 'react-native-progress';
 
+import {PortfolioStackParamList} from '../navigation/AppNavigator';
 import * as watchlistActions from '../store/actions/watchlist';
 import * as assetsActions from '../store/actions/assets';
 import * as historyActions from '../store/actions/history';
@@ -44,7 +45,7 @@ const Portfolio = ({navigation}: Props) => {
   const assetsData = useSelector((state: RootState) => state.assets.assetsData);
   const graphData = useSelector((state: RootState) => state.history.graphData);
 
-  const [refreshing, setRefreshing] = useState(false);
+  const refreshing = useRef(true);
   const [range, setRange] = useState('1H');
   const [isShowTotal, setShowTotal] = useState(false);
   const totalAnimValue = useRef(new Animated.Value(1)).current;
@@ -77,19 +78,25 @@ const Portfolio = ({navigation}: Props) => {
 
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-    loadData();
-  }, [loadData]);
-
-  useEffect(() => {
-    loadGraphData();
-  }, [loadGraphData]);
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
+    refreshing.current = true;
     loadData().then(() => {
-      setRefreshing(false);
+      refreshing.current = false;
     });
   }, [loadData, refreshing]);
+
+  useEffect(() => {
+    refreshing.current = true;
+    loadGraphData().then(() => {
+      refreshing.current = false;
+    });
+  }, [loadGraphData, refreshing]);
+
+  // const onRefresh = useCallback(() => {
+  //   setRefreshing(true);
+  //   loadData().then(() => {
+  //     setRefreshing(false);
+  //   });
+  // }, [loadData, refreshing]);
 
   const sortHandler = () => {};
 
@@ -128,7 +135,7 @@ const Portfolio = ({navigation}: Props) => {
           </View>
         </View>
       </View>
-
+      <View style={styles.progressBar}>{refreshing.current && <Progress.Circle size={30} indeterminate={true} color="gray" />}</View>
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
         showsVerticalScrollIndicator={false}
@@ -136,8 +143,7 @@ const Portfolio = ({navigation}: Props) => {
         onScroll={event => {
           handleScroll(event);
         }}
-        nestedScrollEnabled={false}
-        refreshControl={<RefreshControl tintColor="rgb(233, 233, 243)" refreshing={refreshing} onRefresh={onRefresh} />}>
+        nestedScrollEnabled={false}>
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>Your balance</Text>
           <Text style={styles.balanceText}>${total} </Text>
@@ -253,6 +259,14 @@ const styles = StyleSheet.create({
   balanceText: {
     fontSize: 30,
     fontWeight: '700',
+  },
+  progressBar: {
+    position: 'absolute',
+    marginTop: 120,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
   },
 });
 

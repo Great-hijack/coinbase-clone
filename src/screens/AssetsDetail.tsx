@@ -6,6 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
 import {AntDesign, Ionicons} from '@expo/vector-icons';
 import {RouteProp} from '@react-navigation/core';
+import * as Progress from 'react-native-progress';
 
 import Colors from '../constants/Colors';
 import BalanceGraph from '../components/BalanceGraph';
@@ -25,8 +26,6 @@ type AssetsDetailRouteProp = RouteProp<
       name: string;
       imgUrl: string;
       balance: number;
-      changeCount: number;
-      percentChange: number;
     };
   },
   'params'
@@ -42,7 +41,7 @@ interface RootState {
 }
 
 const AssetsDetail = ({route, navigation}: Props) => {
-  const {id, symbol, price, name, imgUrl, balance, changeCount, percentChange} = route.params;
+  const {id, symbol, price, name, imgUrl, balance} = route.params;
   const graphData = useSelector((state: RootState) => state.coinhistory.coinGraphData);
   const ref = useRef(null);
   const [range, setRange] = useState('1H');
@@ -50,6 +49,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
   const [coinPrices, setCoinPrices] = useState(['']);
   const totalAnimValue = useRef(new Animated.Value(1)).current;
   const dispatch = useDispatch();
+  const refreshing = useRef(true);
 
   const loadGraphData = useCallback(async () => {
     try {
@@ -60,8 +60,11 @@ const AssetsDetail = ({route, navigation}: Props) => {
   }, [dispatch, range]);
 
   useEffect(() => {
-    loadGraphData();
-  }, [loadGraphData]);
+    refreshing.current = true;
+    loadGraphData().then(() => {
+      refreshing.current = false;
+    });
+  }, [loadGraphData, refreshing]);
 
   useEffect(() => {
     Animated.timing(totalAnimValue, {
@@ -70,6 +73,26 @@ const AssetsDetail = ({route, navigation}: Props) => {
       useNativeDriver: true,
     }).start();
   }, [isShowTotal]);
+
+  type Props = {
+    symbol: string;
+  };
+
+  const coinPrice = async ({symbol}: Props) => {
+    const cryptoResponse = await fetch(
+      `https://min-api.cryptocompare.com/data/pricemultifull?tsyms=USD&relaxedValidation=true&fsyms=${symbol}`
+    );
+    const cryptoResponseData = await cryptoResponse.json();
+    setCoinPrices([
+      Number(cryptoResponseData['RAW'][symbol]['USD'].PRICE).toFixed(2),
+      Number(cryptoResponseData['RAW'][symbol]['USD'].CHANGE24HOUR).toFixed(2),
+      Number(cryptoResponseData['RAW'][symbol]['USD'].CHANGEPCT24HOUR).toFixed(2),
+    ]);
+  };
+
+  useEffect(() => {
+    coinPrice({symbol});
+  }, []);
 
   const handleScroll = (event: any) => {
     const positionY = event.nativeEvent.contentOffset.y;
@@ -92,7 +115,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
         </Pressable>
         <View style={styles.headerPrice}>
           <Animated.Text style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
-            <Text style={styles.titleTotal}>{`$${getLocaleCurrencyString(price)}`}</Text>
+            <Text style={styles.titleTotal}>{`$${getLocaleCurrencyString(coinPrices[0])}`}</Text>
           </Animated.Text>
         </View>
         <View style={styles.headerRight}>
@@ -102,6 +125,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
         </View>
       </View>
 
+      <View style={styles.progressBar}>{refreshing.current && <Progress.Circle size={30} indeterminate={true} color="gray" />}</View>
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
         onScroll={event => {
@@ -113,14 +137,14 @@ const AssetsDetail = ({route, navigation}: Props) => {
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>{name} price</Text>
           <View style={styles.topPriceContainer}>
-            <Text style={styles.balanceText}>{`$${getLocaleCurrencyString(price)}`}</Text>
+            <Text style={styles.balanceText}>{`$${getLocaleCurrencyString(coinPrices[0] ? coinPrices[0] : '')}`}</Text>
             <View style={styles.titleStarView}>
               <AntDesign name="star" size={18} color={'#0349FF'} style={styles.titleStar} />
             </View>
           </View>
           <Text style={styles.titleChange}>
-            {Number(changeCount) < 0 ? '-' : ''}
-            {`$${changeCount ? Math.abs(Number(changeCount)) : 0}(${percentChange}%)`}
+            {Number(coinPrices[1]) < 0 ? '-' : ''}
+            {`$${coinPrices[1] ? Math.abs(Number(coinPrices[1])) : ''}(${coinPrices[2] ? coinPrices[2] : ''}%)`}
           </Text>
         </View>
 
@@ -275,6 +299,14 @@ const styles = StyleSheet.create({
   },
   tradeContent: {
     color: 'white',
+  },
+  progressBar: {
+    position: 'absolute',
+    marginTop: 120,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
   },
 });
 
