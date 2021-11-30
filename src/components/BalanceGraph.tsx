@@ -2,7 +2,7 @@ import React, {FC, useMemo} from 'react';
 import {View, StyleSheet, Text, TouchableOpacity, Dimensions} from 'react-native';
 import {LineChart} from 'react-native-svg-charts';
 import {DateRange} from '../store/actions/history';
-import {getMinMax} from '../utils';
+import {getLocaleCurrencyString, getMinMax} from '../utils';
 
 const windowsWidth = Dimensions.get('window').width;
 
@@ -53,10 +53,10 @@ const BalanceGraph: FC<BalanceGraphProps> = ({data, range, color, onChangeRange}
         <View>
           <LineChart style={{height: 200}} data={data} svg={{stroke: color, strokeWidth: 2}} contentInset={{top: 20, bottom: 20}} />
           <Text style={[styles.minValText, {left: minMaxData[1]}]}>
-            {minMaxData[0] == 0 && minMaxData[2] == 0 ? '' : `$${minMaxData[0]}`}
+            {minMaxData[0] == 0 && minMaxData[2] == 0 ? '' : `$${getLocaleCurrencyString(minMaxData[0])}`}
           </Text>
           <Text style={[styles.maxValText, {left: minMaxData[3]}]}>
-            {minMaxData[0] == 0 && minMaxData[2] == 0 ? '' : `$${minMaxData[2]}`}
+            {minMaxData[0] == 0 && minMaxData[2] == 0 ? '' : `$${getLocaleCurrencyString(minMaxData[2])}`}
           </Text>
         </View>
       )}

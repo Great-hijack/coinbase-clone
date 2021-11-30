@@ -53,7 +53,7 @@ const ChangeHistory: FC<TopMoversProps> = ({changeHistory, price}) => {
       }}>
       <Text style={styles.watchlistText}>History</Text>
       <View style={[{height: changeHistory ? changeHistory.length * 75 : 0}, styles.watchlistContainer]}>
-        <FlatList data={changeHistory} scrollEnabled={false} renderItem={renderItem} />
+        <FlatList data={changeHistory} scrollEnabled={false} renderItem={renderItem} keyExtractor={item => item[0].toString()} />
       </View>
     </View>
   );

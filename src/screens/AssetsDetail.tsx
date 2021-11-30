@@ -17,7 +17,18 @@ import {getLocaleCurrencyString} from '../utils/index';
 
 type AssetsDetailNavigationProp = StackNavigationProp<PortfolioStackParamList, 'AssetsDetail'>;
 type AssetsDetailRouteProp = RouteProp<
-  {params: {id: number; symbol: string; price: number; name: string; imgUrl: string; balance: number}},
+  {
+    params: {
+      id: number;
+      symbol: string;
+      price: number;
+      name: string;
+      imgUrl: string;
+      balance: number;
+      changeCount: number;
+      percentChange: number;
+    };
+  },
   'params'
 >;
 
@@ -31,7 +42,7 @@ interface RootState {
 }
 
 const AssetsDetail = ({route, navigation}: Props) => {
-  const {id, symbol, price, name, imgUrl, balance} = route.params;
+  const {id, symbol, price, name, imgUrl, balance, changeCount, percentChange} = route.params;
   const graphData = useSelector((state: RootState) => state.coinhistory.coinGraphData);
   const ref = useRef(null);
   const [range, setRange] = useState('1H');
@@ -70,26 +81,6 @@ const AssetsDetail = ({route, navigation}: Props) => {
     }
   };
 
-  type Props = {
-    symbol: string;
-  };
-
-  const coinPrice = async ({symbol}: Props) => {
-    const cryptoResponse = await fetch(
-      `https://min-api.cryptocompare.com/data/pricemultifull?tsyms=USD&relaxedValidation=true&fsyms=${symbol}`
-    );
-    const cryptoResponseData = await cryptoResponse.json();
-    setCoinPrices([
-      Number(cryptoResponseData['RAW'][symbol]['USD'].PRICE).toFixed(2),
-      Number(cryptoResponseData['RAW'][symbol]['USD'].CHANGE24HOUR).toFixed(2),
-      Number(cryptoResponseData['RAW'][symbol]['USD'].CHANGEPCT24HOUR).toFixed(2),
-    ]);
-  };
-
-  useEffect(() => {
-    coinPrice({symbol});
-  }, []);
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -101,7 +92,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
         </Pressable>
         <View style={styles.headerPrice}>
           <Animated.Text style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
-            <Text style={styles.titleTotal}>{`$${getLocaleCurrencyString(coinPrices[0])}`}</Text>
+            <Text style={styles.titleTotal}>{`$${getLocaleCurrencyString(price)}`}</Text>
           </Animated.Text>
         </View>
         <View style={styles.headerRight}>
@@ -122,14 +113,14 @@ const AssetsDetail = ({route, navigation}: Props) => {
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>{name} price</Text>
           <View style={styles.topPriceContainer}>
-            <Text style={styles.balanceText}>{`$${getLocaleCurrencyString(coinPrices[0] ? coinPrices[0] : 0)}`}</Text>
+            <Text style={styles.balanceText}>{`$${getLocaleCurrencyString(price)}`}</Text>
             <View style={styles.titleStarView}>
               <AntDesign name="star" size={18} color={'#0349FF'} style={styles.titleStar} />
             </View>
           </View>
           <Text style={styles.titleChange}>
-            {Number(coinPrices[1]) < 0 ? '-' : ''}
-            {`$${coinPrices[1] ? Math.abs(Number(coinPrices[1])) : 0}(${coinPrices[2] ? coinPrices[2] : 0}%)`}
+            {Number(changeCount) < 0 ? '-' : ''}
+            {`$${changeCount ? Math.abs(Number(changeCount)) : 0}(${percentChange}%)`}
           </Text>
         </View>
 

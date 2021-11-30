@@ -3,6 +3,7 @@ import {View, StyleSheet, FlatList} from 'react-native';
 
 import AssetsListItem from './AssetsListItem';
 import Asset from '../models/Asset';
+import {CoinHistoryState} from '../store/reducers/coinhistory';
 
 interface AssetsProps {
   assetsData: Asset[];
@@ -41,6 +42,8 @@ const AssetsList: FC<AssetsProps> = ({assetsData, isHomeScreen, sortHandler, nav
                   name: itemData.item.name,
                   imgUrl: itemData.item.imgUrl,
                   balance: itemData.item.balance,
+                  changeCount: itemData.item.changeCount.toFixed(2),
+                  percentChange: itemData.item.percentChange.toFixed(2),
                 });
               }}
             />
