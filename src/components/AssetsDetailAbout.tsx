@@ -1,5 +1,6 @@
 import React, {FC, useMemo, useState} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, GestureResponderEvent} from 'react-native';
+import ViewMoreText from 'react-native-view-more-text';
 
 interface AssetsDetailAboutProps {
   name: string;
@@ -8,14 +9,32 @@ interface AssetsDetailAboutProps {
 
 const AssetsDetailAbout: FC<AssetsDetailAboutProps> = ({name, symbol}: AssetsDetailAboutProps) => {
   const [aboutContent, setAboutContent] = useState('');
+  const [isAbout, setIsAbout] = useState(false);
   useMemo(async () => {
     const coinResponse = await fetch(
       `https://www.coinbase.com/api/v2/assets/search?base=USD&country=US&filter=all&include_prices=false&limit=1&order=asc&query=${symbol}&resolution=day&sort=rank`
     ).then(res => res.json());
     const coinResponseData = coinResponse['data'][0]['description'];
     setAboutContent(coinResponseData);
+    setIsAbout(true);
     return coinResponseData;
   }, [symbol]);
+
+  const renderViewMores = (onPress: ((event: GestureResponderEvent) => void) | undefined) => {
+    return (
+      <Text style={styles.viewMore} onPress={onPress}>
+        View More
+      </Text>
+    );
+  };
+
+  const renderViewLesss = (onPress: ((event: GestureResponderEvent) => void) | undefined) => {
+    return (
+      <Text style={styles.viewMore} onPress={onPress}>
+        View Less
+      </Text>
+    );
+  };
 
   return (
     <View style={styles.contain}>
@@ -29,8 +48,11 @@ const AssetsDetailAbout: FC<AssetsDetailAboutProps> = ({name, symbol}: AssetsDet
 
       <View style={styles.about}>
         <Text style={styles.aboutName}>About {name}</Text>
-        <Text style={styles.aboutContent}>{aboutContent}</Text>
-        <Text style={styles.viewMore}>View more</Text>
+        {isAbout && (
+          <ViewMoreText numberOfLines={3} renderViewMore={renderViewMores} renderViewLess={renderViewLesss} textStyle={styles.aboutContent}>
+            <Text>{aboutContent}</Text>
+          </ViewMoreText>
+        )}
       </View>
     </View>
   );
@@ -40,6 +62,7 @@ const styles = StyleSheet.create({
   contain: {
     width: '100%',
     alignSelf: 'flex-start',
+    paddingBottom: 30,
   },
 
   itemContain: {
