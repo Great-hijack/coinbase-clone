@@ -20,8 +20,8 @@ export const API_PARAMS = {
     timeDiff: 7 * 24 * 60 * 60,
   },
   '1M': {
-    url: 'histoday',
-    limit: 30,
+    url: 'histohour',
+    limit: 24 * 30,
     timeDiff: 30 * 24 * 60 * 60,
   },
   '1Y': {
@@ -68,6 +68,14 @@ export const fetchGraphData = ({symbol, range}: Props) => {
         dispatch({
           type: SET_COIN_HISTORY_DATA,
           coinGraphData: filteredGraphData,
+        });
+      } else if (range === '1M') {
+        const filteredMonthGraphData = historyData?.filter((item, index) => {
+          return index % 6 === 0;
+        });
+        dispatch({
+          type: SET_COIN_HISTORY_DATA,
+          coinGraphData: filteredMonthGraphData,
         });
       } else {
         dispatch({
