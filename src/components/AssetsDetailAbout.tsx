@@ -41,7 +41,7 @@ const AssetsDetailAbout: FC<AssetsDetailAboutProps> = ({name, symbol}: AssetsDet
       <View style={[styles.itemContain, styles.bestTimeContain]}>
         <Text style={styles.title}>When's the best time to buy?</Text>
         <View style={styles.timeContentView}>
-          <Text style={styles.subTitle}>Timimg any investment is hard, which is why many investors use dollar cost averaging.</Text>
+          <Text style={styles.subTitle}>Timing any investment is hard, which is why many investors use dollar cost averaging.</Text>
           <Image style={styles.image} source={{uri: 'https://i.imgur.com/9EEaSaS.png'}} />
         </View>
       </View>
