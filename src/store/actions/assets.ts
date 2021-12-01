@@ -15,13 +15,15 @@ export const fetchAssetsData = () => {
   return async (dispatch: ThunkDispatch<AssetsState, void, Action>) => {
     try {
       const coinResponse = await fetch(
-        `https://www.coinbase.com/api/v2/assets/search?base=USD&country=US&filter=all&include_prices=false&limit=5&order=asc&page=1&query=&resolution=day&sort=rank`
+        `https://www.coinbase.com/api/v2/assets/search?base=USD&country=US&filter=all&include_prices=false&limit=10&order=asc&page=1&query=&resolution=day&sort=rank`
       );
       const coinResponseJson = await coinResponse.json();
       const coinResponseData = coinResponseJson['data'];
 
       const allStaticCoins: any = coinResponseData.map(item => item.base);
-      const staticCoins: any = allStaticCoins.filter(item => item !== 'ETH2');
+      const staticCoins: any = allStaticCoins.filter(item => {
+        return item !== 'ETH2' && item !== 'BNB';
+      });
 
       let assetsData: Asset[] = [];
       let objectBalance: any = {};

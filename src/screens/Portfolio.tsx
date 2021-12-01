@@ -91,13 +91,6 @@ const Portfolio = ({navigation}: Props) => {
     });
   }, [loadGraphData, refreshing]);
 
-  // const onRefresh = useCallback(() => {
-  //   setRefreshing(true);
-  //   loadData().then(() => {
-  //     setRefreshing(false);
-  //   });
-  // }, [loadData, refreshing]);
-
   const sortHandler = () => {};
 
   const ref = useRef(null);

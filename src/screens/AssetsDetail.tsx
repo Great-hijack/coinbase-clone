@@ -148,7 +148,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
           </Text>
         </View>
 
-        <BalanceGraph data={graphData} onChangeRange={setRange} color="#CC4D19" range={range} />
+        <BalanceGraph data={graphData} onChangeRange={setRange} color={symbol === 'BTC' ? '#CC4D19' : '#0349FF'} range={range} />
         <AssetsDetailButton
           id={id}
           title={name}
