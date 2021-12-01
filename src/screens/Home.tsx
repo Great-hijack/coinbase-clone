@@ -9,14 +9,17 @@ import {ScrollView} from 'react-native-gesture-handler';
 import * as Progress from 'react-native-progress';
 
 import CBButton from '../components/CBButton';
-import MoverItem from '../components/MoverItem';
 import {AssetsState} from '../store/reducers/assets';
+import {TopMoversState} from '../store/reducers/topmovers';
 import * as assetsActions from '../store/actions/assets';
+import * as topmoversActions from '../store/actions/topmovers';
 import VisaImg from '../../assets/visa.png';
 import {getLocaleCurrencyString} from '../utils';
+import TopMovers from '../components/TopMoversList';
 
 interface RootState {
   assets: AssetsState;
+  topMovers: TopMoversState;
 }
 
 type HomeScreenNavigationProp = StackNavigationProp<HomeStackParamList, 'HomeScreen'>;
@@ -27,6 +30,7 @@ type Props = {
 
 const Home = ({navigation}: Props) => {
   const assetsData = useSelector((state: RootState) => state.assets.assetsData);
+  const topMoversData = useSelector((state: RootState) => state.topMovers.topMoversData);
   const dispatch = useDispatch();
   const ref = useRef(null);
   const [isShowTotal, setShowTotal] = useState(false);
@@ -35,6 +39,7 @@ const Home = ({navigation}: Props) => {
   const loadData = useCallback(async () => {
     try {
       dispatch(assetsActions.fetchAssetsData());
+      dispatch(topmoversActions.fetchTopMoversData());
     } catch (err) {
       console.log(err);
     }
@@ -83,11 +88,11 @@ const Home = ({navigation}: Props) => {
         </View>
 
         <View style={styles.headerRightContainer}>
-          <View style={styles.headerGiftParent}>
+          <View style={[styles.headerGiftParent, {backgroundColor: isShowTotal ? '#00000000' : '#F4F8FF'}]}>
             <Ionicons name="gift-outline" size={24} color="#0053FF" />
-            <Text style={{color: '#0053FF', display: isShowTotal ? 'none' : 'flex'}}>Get $ 10</Text>
+            <Text style={[styles.getGiftCount, {display: isShowTotal ? 'none' : 'flex'}]}>Get $10</Text>
           </View>
-          <View>
+          <View style={styles.notificationParent}>
             <Ionicons name="ios-notifications-outline" size={25} color={'#4F4C4F'} style={styles.bellIcon} />
             <View style={styles.badgeWrapper}>
               <Text style={styles.badgeText}>4</Text>
@@ -122,16 +127,7 @@ const Home = ({navigation}: Props) => {
         </View>
 
         <View style={styles.moverContainer}>
-          <Text style={styles.moverTitle}>Top movers</Text>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} pagingEnabled={false}>
-            <MoverItem />
-            <MoverItem />
-            <MoverItem />
-            <MoverItem />
-            <MoverItem />
-            <MoverItem />
-            <MoverItem />
-          </ScrollView>
+          <TopMovers coinData={topMoversData} />
         </View>
 
         <View style={styles.coinbaseContainer}>
@@ -140,7 +136,7 @@ const Home = ({navigation}: Props) => {
             <View style={styles.coinImageParent}>
               <Image source={VisaImg} style={styles.coinImage} />
             </View>
-            <View style={{width: '100%', height: 1, backgroundColor: 'rgba(0, 0, 0, 0.6)'}}></View>
+            <View style={{width: '100%', height: StyleSheet.hairlineWidth, backgroundColor: 'gray'}}></View>
             <View style={styles.journalParent}>
               <Text style={styles.journalTitle}>Join the waitlist</Text>
               <Text style={styles.journalContent}>Get rewards when you spend crypto or US dollars with our Visa debit card</Text>
@@ -164,7 +160,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: 6,
     paddingBottom: 10,
     justifyContent: 'space-between',
   },
@@ -196,7 +192,7 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'absolute',
     right: 5,
-    top: -10,
+    top: -8,
     backgroundColor: '#FF0000',
     height: 18,
     width: 18,
@@ -217,8 +213,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   headerGiftParent: {
-    backgroundColor: '#F4F8FF',
-    marginEnd: 10,
+    marginEnd: 6,
     padding: 4,
     borderRadius: 15,
     flexDirection: 'row',
@@ -226,10 +221,21 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
   },
+  getGiftCount: {
+    color: '#0053FF',
+    fontWeight: 'bold',
+  },
+  notificationParent: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 4,
+  },
   totalContainer: {
     width: '100%',
     paddingHorizontal: '6%',
-    marginTop: 8,
+    marginTop: 6,
   },
   headerText: {
     fontSize: 16,

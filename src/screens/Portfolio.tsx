@@ -115,16 +115,18 @@ const Portfolio = ({navigation}: Props) => {
         <View style={{flex: 1}}>
           <Ionicons name="ios-menu-outline" size={30} color={'#4F4C4F'} style={styles.menuIcon} />
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={styles.headerPriceParent}>
           <Animated.Text style={{opacity: totalAnimValue}}>
             <Text style={styles.titleTotal}>{`$${total}`}</Text>
           </Animated.Text>
         </View>
 
-        <View style={{flex: 1}}>
-          <Ionicons name="ios-notifications-outline" size={25} color={'#4F4C4F'} style={styles.bellIcon} />
-          <View style={styles.badgeWrapper}>
-            <Text style={styles.badgeText}>4</Text>
+        <View>
+          <View style={styles.notificationParent}>
+            <Ionicons name="ios-notifications-outline" size={25} color={'#4F4C4F'} style={styles.bellIcon} />
+            <View style={styles.badgeWrapper}>
+              <Text style={styles.badgeText}>4</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -170,6 +172,16 @@ const styles = StyleSheet.create({
     marginTop: 30,
     paddingBottom: 10,
   },
+  headerPriceParent: {
+    position: 'absolute',
+    left: '50%',
+    marginLeft: -40,
+    top: '50%',
+    marginTop: -14,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flex: 1,
+  },
   menuIcon: {
     marginLeft: 15,
   },
@@ -184,11 +196,18 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginRight: 15,
   },
+  notificationParent: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 4,
+  },
   badgeWrapper: {
     flex: 1,
     position: 'absolute',
     right: 5,
-    top: -10,
+    top: -8,
     backgroundColor: '#FF0000',
     height: 18,
     width: 18,

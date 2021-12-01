@@ -1,6 +1,6 @@
-import { Action } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { TopMoversState } from '../reducers/topmovers';
+import {Action} from 'redux';
+import {ThunkDispatch} from 'redux-thunk';
+import {TopMoversState} from '../reducers/topmovers';
 import Coin from '../../models/Coin';
 import cmpData from '../../data/CoinMarketCapData';
 
@@ -19,9 +19,7 @@ export const fetchTopMoversData = () => {
         quote_currency: string;
         base_currency: string;
       }
-      const filteredData = cbResponseData.filter(
-        (coin: CBRequiredData) => coin.quote_currency === 'USD'
-      );
+      const filteredData = cbResponseData.filter((coin: CBRequiredData) => coin.quote_currency === 'USD');
 
       filteredData.forEach((coin: CBRequiredData) => {
         availableCoins.push(coin.base_currency);
@@ -36,37 +34,35 @@ export const fetchTopMoversData = () => {
       let dataAsArray = Object.values(cryptoResponseData.RAW);
 
       // Sort by percent change 24hrs (descending)
-      dataAsArray.sort((a: any, b: any) =>
-        Math.abs(a.USD.CHANGEPCT24HOUR) < Math.abs(b.USD.CHANGEPCT24HOUR)
-          ? 1
-          : -1
-      );
+      dataAsArray.sort((a: any, b: any) => (Math.abs(a.USD.CHANGEPCT24HOUR) < Math.abs(b.USD.CHANGEPCT24HOUR) ? 1 : -1));
 
       // Get a maximum of 6 top movers which are available on Coinbase
       const coinData: Coin[] = [];
       for (const data of dataAsArray) {
         const cryptoData: any = data;
         // Get ID and name from coin market cap data
-        const cmpDetails = cmpData.data.find(
-          (cmpCoin) => cryptoData.USD.FROMSYMBOL === cmpCoin.symbol
-        );
-        const coinID = cmpDetails?.id ?? 0;
-        const coinName = cmpDetails?.name ?? 'Unknown';
+        const cmpDetails = cmpData.data.find(cmpCoin => cryptoData.USD.FROMSYMBOL === cmpCoin.symbol);
+        if (cmpDetails?.id !== undefined) {
+          const coinID = cmpDetails?.id ?? 0;
+          const coinName = cmpDetails?.name ?? 'Unknown';
 
-        coinData.push(
-          new Coin(
-            coinID,
-            coinName,
-            cryptoData.USD.FROMSYMBOL,
-            cryptoData.USD.PRICE,
-            cryptoData.USD.CHANGEPCT24HOUR
-          )
-        );
-        if (coinData.length === 6) {
+          coinData.push(
+            new Coin(
+              coinID,
+              coinName,
+              cryptoData.USD.FROMSYMBOL,
+              cryptoData.USD.PRICE,
+              cryptoData.USD.CHANGE24HOUR,
+              cryptoData.USD.CHANGEPCT24HOUR,
+              cryptoData.USD.IMAGEURL
+            )
+          );
+        }
+
+        if (coinData.length === 20) {
           break;
         }
       }
-
       dispatch({
         type: SET_TOPMOVERS_DATA,
         coinData: coinData,
