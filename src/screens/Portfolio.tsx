@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Text, RefreshControl, ScrollView, SafeAreaView, LogBox, Animated} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, SafeAreaView, LogBox, Animated} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {useScrollToTop} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';

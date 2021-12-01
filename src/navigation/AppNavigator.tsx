@@ -20,7 +20,13 @@ export type PortfolioStackParamList = {
   News: undefined;
 };
 
+export type HomeStackParamList = {
+  HomeScreen: undefined;
+  News: undefined;
+};
+
 const PortfolioStackNavigator = createNativeStackNavigator<PortfolioStackParamList>();
+const HomeStackNavigator = createNativeStackNavigator<HomeStackParamList>();
 
 const PortfolioNavigator = () => {
   return (
@@ -33,12 +39,21 @@ const PortfolioNavigator = () => {
   );
 };
 
+const HomeNavigator = () => {
+  return (
+    <HomeStackNavigator.Navigator screenOptions={NewsOptions}>
+      <HomeStackNavigator.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}} />
+      <HomeStackNavigator.Screen name="News" component={NewsScreen} />
+    </HomeStackNavigator.Navigator>
+  );
+};
+
 const TabBarNavigator = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
     <TabBarNavigator.Navigator tabBar={props => <TabBar {...props} />}>
-      <TabBarNavigator.Screen name="Home" component={HomeScreen} />
+      <TabBarNavigator.Screen name="Home" component={HomeNavigator} />
       <TabBarNavigator.Screen name="Portfolio" component={PortfolioNavigator} />
       <TabBarNavigator.Screen name="Actions" component={ActionsScreen} />
       <TabBarNavigator.Screen name="Trade" component={PricesScreen} />
