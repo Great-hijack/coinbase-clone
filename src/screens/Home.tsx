@@ -1,14 +1,23 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Text, Animated, Image} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
+import {StyleSheet, View, Text, Animated, Image, LogBox} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {HomeStackParamList} from '../navigation/AppNavigator';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Ionicons} from '@expo/vector-icons';
 import {ScrollView} from 'react-native-gesture-handler';
+import * as Progress from 'react-native-progress';
 
 import CBButton from '../components/CBButton';
 import MoverItem from '../components/MoverItem';
+import {AssetsState} from '../store/reducers/assets';
+import * as assetsActions from '../store/actions/assets';
 import VisaImg from '../../assets/visa.png';
+import {getLocaleCurrencyString} from '../utils';
+
+interface RootState {
+  assets: AssetsState;
+}
 
 type HomeScreenNavigationProp = StackNavigationProp<HomeStackParamList, 'HomeScreen'>;
 
@@ -17,8 +26,27 @@ type Props = {
 };
 
 const Home = ({navigation}: Props) => {
+  const assetsData = useSelector((state: RootState) => state.assets.assetsData);
+  const dispatch = useDispatch();
   const ref = useRef(null);
   const [isShowTotal, setShowTotal] = useState(false);
+  const refreshing = useRef(true);
+
+  const loadData = useCallback(async () => {
+    try {
+      dispatch(assetsActions.fetchAssetsData());
+    } catch (err) {
+      console.log(err);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    refreshing.current = true;
+    loadData().then(() => {
+      refreshing.current = false;
+    });
+  }, [loadData, refreshing]);
 
   const handleScroll = (event: any) => {
     const positionY = event.nativeEvent.contentOffset.y;
@@ -38,6 +66,10 @@ const Home = ({navigation}: Props) => {
     }).start();
   }, [isShowTotal]);
 
+  const total = getLocaleCurrencyString(
+    assetsData.reduce((preVal, currentVal) => preVal + currentVal.price * currentVal.balance, 0).toFixed(2)
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -46,7 +78,7 @@ const Home = ({navigation}: Props) => {
         </View>
         <View style={styles.headerPriceParent}>
           <Animated.Text style={{opacity: totalAnimValue}}>
-            <Text style={styles.titleTotal}>{`$2222`}</Text>
+            <Text style={styles.titleTotal}>{`$${total}`}</Text>
           </Animated.Text>
         </View>
 
@@ -64,6 +96,7 @@ const Home = ({navigation}: Props) => {
         </View>
       </View>
 
+      <View style={styles.progressBar}>{refreshing.current && <Progress.Circle size={30} indeterminate={true} color="gray" />}</View>
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
         showsVerticalScrollIndicator={false}
@@ -74,7 +107,7 @@ const Home = ({navigation}: Props) => {
         nestedScrollEnabled={false}>
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>Your balance</Text>
-          <Text style={styles.balanceText}>$3333 </Text>
+          <Text style={styles.balanceText}>{`$${total}`}</Text>
         </View>
 
         <View style={styles.watchListContainer}>
@@ -308,6 +341,14 @@ const styles = StyleSheet.create({
   borrowTitle: {
     fontWeight: 'bold',
     fontSize: 21,
+  },
+  progressBar: {
+    position: 'absolute',
+    marginTop: 120,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
   },
 });
 
