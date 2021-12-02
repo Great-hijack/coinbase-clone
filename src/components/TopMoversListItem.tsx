@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import {TouchableHighlight, View, Text, StyleSheet, Image, Animated} from 'react-native';
 
 import Colors from '../constants/Colors';
+import {getLocaleCurrencyString} from '../utils';
 
 interface TopMoversListItemProps {
   id: number;
@@ -50,11 +51,12 @@ const TopMoversListItem: FC<TopMoversListItemProps> = ({id, symbol, price, perce
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text style={styles.tickerText}>{symbol}</Text>
           <Text style={styles.priceText}>
-            $
+            {/* $
             {price.toLocaleString(undefined, {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
-            })}
+            })} */}
+            {`$${getLocaleCurrencyString(price.toFixed(2))}`}
           </Text>
         </View>
         <View>
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
     color: Colors.secondarySubtitle,
   },
   changeText: {
-    fontSize: 26,
+    fontSize: 22,
     marginTop: 2,
   },
 });
