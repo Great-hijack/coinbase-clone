@@ -143,10 +143,6 @@ const Home = ({navigation}: Props) => {
             </View>
           </View>
         </View>
-
-        <View style={styles.borrowContainer}>
-          <Text style={styles.borrowTitle}>Borrow</Text>
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
