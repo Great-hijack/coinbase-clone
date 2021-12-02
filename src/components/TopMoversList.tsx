@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
   },
   topMoversContainer: {
     height: 160,
-    paddingLeft: '6%',
   },
 });
 
