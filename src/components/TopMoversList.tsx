@@ -16,7 +16,6 @@ const TopMovers: FC<TopMoversProps> = ({coinData}) => {
         data={coinData}
         keyExtractor={item => item.id.toString()}
         horizontal
-        showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         snapToOffsets={[...Array(coinData.length)].map((x, i) => 158 * i + 162)}
         decelerationRate={0}
@@ -47,9 +46,11 @@ const styles = StyleSheet.create({
     fontSize: 21,
     marginTop: 32,
     marginBottom: 10,
+    paddingHorizontal: '6%',
   },
   topMoversContainer: {
     height: 160,
+    paddingStart: '6%',
   },
 });
 

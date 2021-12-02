@@ -40,7 +40,7 @@ const TopMoversListItem: FC<TopMoversListItemProps> = ({id, symbol, price, perce
       onPress={() => {
         console.log(symbol);
       }}
-      style={{width: 124, marginRight: 17}}>
+      style={{minWidth: 124, marginRight: 17}}>
       <Animated.View style={[styles.listItem, animatedStyle]}>
         <Image
           style={styles.logo}
@@ -80,7 +80,7 @@ const TopMoversListItem: FC<TopMoversListItemProps> = ({id, symbol, price, perce
 
 const styles = StyleSheet.create({
   listItem: {
-    width: 124,
+    minWidth: 124,
     borderWidth: 1,
     borderRadius: 8,
     borderColor: Colors.border,

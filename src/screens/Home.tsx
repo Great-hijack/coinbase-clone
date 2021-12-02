@@ -118,8 +118,6 @@ const Home = ({navigation}: Props) => {
         onScroll={event => {
           handleScroll(event);
         }}
-        nestedScrollEnabled={true}
-        scrollEnabled={false}
         refreshControl={<RefreshControl tintColor="rgb(233, 233, 243)" refreshing={scrollRefreshing} onRefresh={onScrollRefresh} />}>
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>Your balance</Text>
@@ -297,7 +295,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     width: '100%',
-    paddingHorizontal: '6%',
     marginTop: 30,
   },
   moverTitle: {
