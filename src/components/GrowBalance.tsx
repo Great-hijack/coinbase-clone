@@ -25,16 +25,7 @@ const GrowBalance: FC<GrowBalanceProps> = ({}) => {
           </View>
         </ProgressCircle>
       </View>
-      <View style={[styles.itemContain, styles.earnedContain]}>
-        <Text style={styles.title}>Interest earned</Text>
-        <Text style={styles.subTitle}>Earn up to 4.00% APY on your crypto on Coinbase</Text>
-        <View style={styles.bottom}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={styles.cash}>$1,016.499998</Text>
-            <Text style={styles.percent}>2.00% APY</Text>
-          </View>
-        </View>
-      </View>
+
       <View style={[styles.itemContain, styles.borrowContain]}>
         <View style={{flex: 1, marginRight: 10}}>
           <Text style={styles.title}>Borrow cash</Text>
