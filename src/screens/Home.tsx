@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {StyleSheet, View, Text, Animated, Image, LogBox, ActivityIndicator} from 'react-native';
+import {StyleSheet, View, Text, Animated, Image, LogBox, ActivityIndicator, RefreshControl} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {HomeStackParamList} from '../navigation/AppNavigator';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -36,6 +36,7 @@ const Home = ({navigation}: Props) => {
   const ref = useRef(null);
   const [isShowTotal, setShowTotal] = useState(false);
   const refreshing = useRef(true);
+  const [scrollRefreshing, setscrollRefreshing] = useState(false);
 
   const loadData = useCallback(async () => {
     try {
@@ -71,6 +72,13 @@ const Home = ({navigation}: Props) => {
       useNativeDriver: true,
     }).start();
   }, [isShowTotal]);
+
+  const onScrollRefresh = useCallback(() => {
+    setscrollRefreshing(true);
+    loadData().then(() => {
+      setscrollRefreshing(false);
+    });
+  }, [loadData, scrollRefreshing]);
 
   const total = getLocaleCurrencyString(
     assetsData.reduce((preVal, currentVal) => preVal + currentVal.price * currentVal.balance, 0).toFixed(2)
@@ -109,7 +117,8 @@ const Home = ({navigation}: Props) => {
         onScroll={event => {
           handleScroll(event);
         }}
-        nestedScrollEnabled={false}>
+        nestedScrollEnabled={false}
+        refreshControl={<RefreshControl tintColor="rgb(233, 233, 243)" refreshing={scrollRefreshing} onRefresh={onScrollRefresh} />}>
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>Your balance</Text>
           <Text style={styles.balanceText}>{`$${total}`}</Text>

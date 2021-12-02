@@ -1,5 +1,5 @@
 import React, {useRef, useState, useEffect, useCallback} from 'react';
-import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Animated, Pressable} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Animated, Pressable, RefreshControl} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {PortfolioStackParamList} from '../navigation/AppNavigator';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -51,6 +51,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
   const totalAnimValue = useRef(new Animated.Value(1)).current;
   const dispatch = useDispatch();
   const refreshing = useRef(true);
+  const [scrollRefreshing, setscrollRefreshing] = useState(false);
 
   const loadGraphData = useCallback(async () => {
     try {
@@ -95,6 +96,13 @@ const AssetsDetail = ({route, navigation}: Props) => {
     coinPrice({symbol});
   }, []);
 
+  const onScrollRefresh = useCallback(() => {
+    setscrollRefreshing(true);
+    loadGraphData().then(() => {
+      setscrollRefreshing(false);
+    });
+  }, [loadGraphData, scrollRefreshing]);
+
   const handleScroll = (event: any) => {
     const positionY = event.nativeEvent.contentOffset.y;
 
@@ -134,7 +142,8 @@ const AssetsDetail = ({route, navigation}: Props) => {
         }}
         showsVerticalScrollIndicator={false}
         ref={ref}
-        nestedScrollEnabled={false}>
+        nestedScrollEnabled={false}
+        refreshControl={<RefreshControl tintColor="rgb(233, 233, 243)" refreshing={scrollRefreshing} onRefresh={onScrollRefresh} />}>
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>{name} price</Text>
           <View style={styles.topPriceContainer}>

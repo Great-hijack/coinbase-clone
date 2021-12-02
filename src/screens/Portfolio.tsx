@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Text, ScrollView, SafeAreaView, LogBox, Animated} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, SafeAreaView, LogBox, Animated, RefreshControl} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {useScrollToTop} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -47,9 +47,11 @@ const Portfolio = ({navigation}: Props) => {
   const graphData = useSelector((state: RootState) => state.history.graphData);
 
   const refreshing = useRef(true);
+  const graphRefreshing = useRef(true);
   const [range, setRange] = useState('1H');
   const [isShowTotal, setShowTotal] = useState(false);
   const totalAnimValue = useRef(new Animated.Value(1)).current;
+  const [scrollRefreshing, setscrollRefreshing] = useState(false);
 
   useEffect(() => {
     Animated.timing(totalAnimValue, {
@@ -86,16 +88,17 @@ const Portfolio = ({navigation}: Props) => {
   }, [loadData, refreshing]);
 
   useEffect(() => {
-    refreshing.current = true;
+    graphRefreshing.current = true;
     loadGraphData().then(() => {
-      refreshing.current = false;
+      graphRefreshing.current = false;
     });
-  }, [loadGraphData, refreshing]);
+  }, [loadGraphData, graphRefreshing]);
 
   const sortHandler = () => {};
 
   const ref = useRef(null);
   useScrollToTop(ref);
+
   const handleScroll = (event: any) => {
     const positionY = event.nativeEvent.contentOffset.y;
 
@@ -105,6 +108,13 @@ const Portfolio = ({navigation}: Props) => {
       setShowTotal(false);
     }
   };
+
+  const onScrollRefresh = useCallback(() => {
+    setscrollRefreshing(true);
+    loadData().then(() => {
+      setscrollRefreshing(false);
+    });
+  }, [loadData, scrollRefreshing]);
 
   const total = getLocaleCurrencyString(
     assetsData.reduce((preVal, currentVal) => preVal + currentVal.price * currentVal.balance, 0).toFixed(2)
@@ -131,7 +141,12 @@ const Portfolio = ({navigation}: Props) => {
           </View>
         </View>
       </View>
-      <Spinner visible={refreshing.current} textContent={''} size={'large'} textStyle={styles.spinnerTextStyle} />
+      <Spinner
+        visible={refreshing.current || graphRefreshing.current}
+        textContent={''}
+        size={'large'}
+        textStyle={styles.spinnerTextStyle}
+      />
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
         showsVerticalScrollIndicator={false}
@@ -139,7 +154,8 @@ const Portfolio = ({navigation}: Props) => {
         onScroll={event => {
           handleScroll(event);
         }}
-        nestedScrollEnabled={false}>
+        nestedScrollEnabled={false}
+        refreshControl={<RefreshControl tintColor="rgb(233, 233, 243)" refreshing={scrollRefreshing} onRefresh={onScrollRefresh} />}>
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>Your balance</Text>
           <Text style={styles.balanceText}>${total} </Text>
