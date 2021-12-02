@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {StyleSheet, View, Text, Animated, Image, LogBox, ActivityIndicator, RefreshControl} from 'react-native';
+import {StyleSheet, View, Text, Animated, Image, LogBox, ActivityIndicator, RefreshControl, ImageBackground} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {HomeStackParamList} from '../navigation/AppNavigator';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -14,7 +14,8 @@ import {AssetsState} from '../store/reducers/assets';
 import {TopMoversState} from '../store/reducers/topmovers';
 import * as assetsActions from '../store/actions/assets';
 import * as topmoversActions from '../store/actions/topmovers';
-import VisaImg from '../../assets/visa.png';
+import VisaImg from '../../assets/card.jpg';
+import BackImg from '../../assets/back.png';
 import {getLocaleCurrencyString} from '../utils';
 import TopMovers from '../components/TopMoversList';
 
@@ -145,7 +146,9 @@ const Home = ({navigation}: Props) => {
           <Text style={styles.moverTitle}>Coinbase Card</Text>
           <View style={styles.coinbaseContentParent}>
             <View style={styles.coinImageParent}>
-              <Image source={VisaImg} style={styles.coinImage} />
+              <ImageBackground style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}} source={BackImg}>
+                <Image source={VisaImg} style={styles.coinImage} />
+              </ImageBackground>
             </View>
             <View style={{width: '100%', height: StyleSheet.hairlineWidth, backgroundColor: 'gray'}}></View>
             <View style={styles.journalParent}>
@@ -309,6 +312,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: '6%',
     marginTop: 40,
+    marginBottom: 20,
   },
   coinbaseContentParent: {
     marginTop: 20,
