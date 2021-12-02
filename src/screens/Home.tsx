@@ -1,12 +1,13 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {StyleSheet, View, Text, Animated, Image, LogBox} from 'react-native';
+import {StyleSheet, View, Text, Animated, Image, LogBox, ActivityIndicator} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {HomeStackParamList} from '../navigation/AppNavigator';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Ionicons} from '@expo/vector-icons';
 import {ScrollView} from 'react-native-gesture-handler';
 import * as Progress from 'react-native-progress';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import CBButton from '../components/CBButton';
 import {AssetsState} from '../store/reducers/assets';
@@ -100,8 +101,7 @@ const Home = ({navigation}: Props) => {
           </View>
         </View>
       </View>
-
-      <View style={styles.progressBar}>{refreshing.current && <Progress.Circle size={30} indeterminate={true} color="gray" />}</View>
+      <Spinner visible={refreshing.current} textContent={''} size={'large'} textStyle={styles.spinnerTextStyle} />
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
         showsVerticalScrollIndicator={false}
@@ -149,6 +149,9 @@ const Home = ({navigation}: Props) => {
 };
 
 const styles = StyleSheet.create({
+  spinnerTextStyle: {
+    color: 'gray',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

@@ -7,6 +7,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {AntDesign, Ionicons} from '@expo/vector-icons';
 import {RouteProp} from '@react-navigation/core';
 import * as Progress from 'react-native-progress';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import Colors from '../constants/Colors';
 import BalanceGraph from '../components/BalanceGraph';
@@ -125,7 +126,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
         </View>
       </View>
 
-      <View style={styles.progressBar}>{refreshing.current && <Progress.Circle size={30} indeterminate={true} color="gray" />}</View>
+      <Spinner visible={refreshing.current} textContent={''} size={'large'} textStyle={styles.spinnerTextStyle} />
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
         onScroll={event => {
@@ -307,6 +308,9 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
+  },
+  spinnerTextStyle: {
+    color: 'gray',
   },
 });
 
