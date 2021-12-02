@@ -16,6 +16,7 @@ const TopMovers: FC<TopMoversProps> = ({coinData}) => {
         data={coinData}
         keyExtractor={item => item.id.toString()}
         horizontal
+        showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         snapToOffsets={[...Array(coinData.length)].map((x, i) => 158 * i + 162)}
         decelerationRate={0}

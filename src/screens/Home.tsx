@@ -117,8 +117,10 @@ const Home = ({navigation}: Props) => {
         onScroll={event => {
           handleScroll(event);
         }}
-        nestedScrollEnabled={false}
-        refreshControl={<RefreshControl tintColor="rgb(233, 233, 243)" refreshing={scrollRefreshing} onRefresh={onScrollRefresh} />}>
+        nestedScrollEnabled={true}
+        refreshControl={
+          <RefreshControl enabled={true} tintColor="rgb(233, 233, 243)" refreshing={scrollRefreshing} onRefresh={onScrollRefresh} />
+        }>
         <View style={styles.totalContainer}>
           <Text style={styles.headerText}>Your balance</Text>
           <Text style={styles.balanceText}>{`$${total}`}</Text>
