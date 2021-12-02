@@ -1,12 +1,5 @@
-import React, { FC } from 'react';
-import {
-  TouchableHighlight,
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Animated,
-} from 'react-native';
+import React, {FC} from 'react';
+import {TouchableHighlight, View, Text, StyleSheet, Image, Animated} from 'react-native';
 
 import Colors from '../constants/Colors';
 
@@ -17,12 +10,7 @@ interface TopMoversListItemProps {
   percentChange: number;
 }
 
-const TopMoversListItem: FC<TopMoversListItemProps> = ({
-  id,
-  symbol,
-  price,
-  percentChange,
-}) => {
+const TopMoversListItem: FC<TopMoversListItemProps> = ({id, symbol, price, percentChange}) => {
   const animatedValue = new Animated.Value(1);
 
   const handlePressIn = () => {
@@ -40,19 +28,18 @@ const TopMoversListItem: FC<TopMoversListItemProps> = ({
   };
 
   const animatedStyle = {
-    transform: [{ scale: animatedValue }],
+    transform: [{scale: animatedValue}],
   };
 
   return (
     <TouchableHighlight
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
-      underlayColor='#FAFBFE'
+      underlayColor="#FAFBFE"
       onPress={() => {
         console.log(symbol);
       }}
-      style={{ width: 143, marginRight: 17 }}
-    >
+      style={{width: 124, marginRight: 17}}>
       <Animated.View style={[styles.listItem, animatedStyle]}>
         <Image
           style={styles.logo}
@@ -60,7 +47,7 @@ const TopMoversListItem: FC<TopMoversListItemProps> = ({
             uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${id.toString()}.png`,
           }}
         />
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text style={styles.tickerText}>{symbol}</Text>
           <Text style={styles.priceText}>
             $
@@ -74,14 +61,12 @@ const TopMoversListItem: FC<TopMoversListItemProps> = ({
           <Text
             style={[
               {
-                color:
-                  percentChange > 0 ? Colors.positiveGreen : Colors.negativeRed,
+                color: percentChange > 0 ? Colors.positiveGreen : Colors.negativeRed,
               },
               styles.changeText,
             ]}
             numberOfLines={1}
-            selectable
-          >
+            selectable>
             {percentChange > 0 ? '+' : ''}
             {percentChange.toFixed(2)}%
           </Text>
@@ -93,17 +78,17 @@ const TopMoversListItem: FC<TopMoversListItemProps> = ({
 
 const styles = StyleSheet.create({
   listItem: {
-    width: 143,
+    width: 124,
     borderWidth: 1,
     borderRadius: 8,
     borderColor: Colors.border,
     paddingHorizontal: 16,
-    paddingVertical: 25,
+    paddingVertical: 14,
   },
   logo: {
     width: 32,
     height: 32,
-    marginBottom: 16,
+    marginBottom: 14,
     borderRadius: 16,
     borderWidth: 0.5,
     borderColor: Colors.border,
