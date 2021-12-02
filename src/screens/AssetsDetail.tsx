@@ -6,7 +6,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
 import {AntDesign, Ionicons} from '@expo/vector-icons';
 import {RouteProp} from '@react-navigation/core';
-import * as Progress from 'react-native-progress';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Colors from '../constants/Colors';
@@ -16,6 +15,7 @@ import AssetsDetailAbout from '../components/AssetsDetailAbout';
 import {CoinHistoryState} from '../store/reducers/coinhistory';
 import * as coinHistoryActions from '../store/actions/coinhistory';
 import {getLocaleCurrencyString} from '../utils/index';
+import OverlaySpinner from '../components/Loading';
 
 type AssetsDetailNavigationProp = StackNavigationProp<PortfolioStackParamList, 'AssetsDetail'>;
 type AssetsDetailRouteProp = RouteProp<
@@ -134,7 +134,15 @@ const AssetsDetail = ({route, navigation}: Props) => {
         </View>
       </View>
 
-      <Spinner visible={refreshing.current} textContent={''} size={'large'} textStyle={styles.spinnerTextStyle} />
+      <Spinner
+        visible={refreshing.current}
+        textContent={''}
+        size={'large'}
+        textStyle={styles.spinnerTextStyle}
+        color={'#535864'}
+        overlayColor={'white'}
+        customIndicator={OverlaySpinner()}
+      />
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
         onScroll={event => {
@@ -319,7 +327,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   spinnerTextStyle: {
-    color: 'gray',
+    color: '#00000000',
   },
 });
 

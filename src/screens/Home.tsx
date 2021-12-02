@@ -16,8 +16,10 @@ import * as assetsActions from '../store/actions/assets';
 import * as topmoversActions from '../store/actions/topmovers';
 import VisaImg from '../../assets/card.jpg';
 import BackImg from '../../assets/back.png';
+
 import {getLocaleCurrencyString} from '../utils';
 import TopMovers from '../components/TopMoversList';
+import OverlaySpinner from '../components/Loading';
 
 interface RootState {
   assets: AssetsState;
@@ -110,7 +112,15 @@ const Home = ({navigation}: Props) => {
           </View>
         </View>
       </View>
-      <Spinner visible={refreshing.current} textContent={''} size={'large'} textStyle={styles.spinnerTextStyle} />
+      <Spinner
+        visible={refreshing.current}
+        textContent={''}
+        size={'large'}
+        textStyle={styles.spinnerTextStyle}
+        color={'#535864'}
+        overlayColor={'white'}
+        customIndicator={OverlaySpinner()}
+      />
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
         showsVerticalScrollIndicator={false}
@@ -161,7 +171,7 @@ const Home = ({navigation}: Props) => {
 
 const styles = StyleSheet.create({
   spinnerTextStyle: {
-    color: 'gray',
+    color: '#00000000',
   },
   container: {
     flex: 1,

@@ -26,6 +26,7 @@ import Colors from '../constants/Colors';
 import {balanceHistory} from '../data/BalanceHistory';
 import {HistoryState} from '../store/reducers/history';
 import {getLocaleCurrencyString} from '../utils';
+import OverlaySpinner from '../components/Loading';
 
 interface RootState {
   watchlist: WatchlistState;
@@ -146,6 +147,9 @@ const Portfolio = ({navigation}: Props) => {
         textContent={''}
         size={'large'}
         textStyle={styles.spinnerTextStyle}
+        color={'#535864'}
+        overlayColor={'white'}
+        customIndicator={OverlaySpinner()}
       />
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
@@ -298,7 +302,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   spinnerTextStyle: {
-    color: 'gray',
+    color: '#00000000',
   },
 });
 
