@@ -64,9 +64,11 @@ const TabNavigator = () => {
 
 const AppNavigator = () => {
   return (
-    <NavigationContainer>
-      <TabNavigator />
-    </NavigationContainer>
+    <>
+      <NavigationContainer>
+        <TabNavigator />
+      </NavigationContainer>
+    </>
   );
 };
 

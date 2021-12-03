@@ -1,12 +1,12 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {StyleSheet, View, Text, Animated, Image, LogBox, ActivityIndicator, RefreshControl, ImageBackground} from 'react-native';
+import {StyleSheet, View, Text, Animated, Image, LogBox, RefreshControl, ImageBackground} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
+
 import {HomeStackParamList} from '../navigation/AppNavigator';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Ionicons} from '@expo/vector-icons';
 import {ScrollView} from 'react-native-gesture-handler';
-import * as Progress from 'react-native-progress';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import CBButton from '../components/CBButton';
@@ -19,7 +19,7 @@ import BackImg from '../../assets/back.png';
 
 import {getLocaleCurrencyString} from '../utils';
 import TopMovers from '../components/TopMoversList';
-import OverlaySpinner from '../components/Loading';
+import Splash from './Splash';
 
 interface RootState {
   assets: AssetsState;
@@ -88,84 +88,93 @@ const Home = ({navigation}: Props) => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <View>
-          <Ionicons name="ios-menu-outline" size={30} color={'#4F4C4F'} style={styles.menuIcon} />
-        </View>
-        <View style={styles.headerPriceParent}>
-          <Animated.Text style={{opacity: totalAnimValue}}>
-            <Text style={styles.titleTotal}>{`$${total}`}</Text>
-          </Animated.Text>
-        </View>
-
-        <View style={styles.headerRightContainer}>
-          <View style={[styles.headerGiftParent, {backgroundColor: isShowTotal ? '#00000000' : '#F4F8FF'}]}>
-            <Ionicons name="gift-outline" size={24} color="#0053FF" />
-            <Text style={[styles.getGiftCount, {display: isShowTotal ? 'none' : 'flex'}]}>Get $10</Text>
+    <>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <View>
+            <Ionicons name="ios-menu-outline" size={30} color={'#4F4C4F'} style={styles.menuIcon} />
           </View>
-          <View style={styles.notificationParent}>
-            <Ionicons name="ios-notifications-outline" size={25} color={'#4F4C4F'} style={styles.bellIcon} />
-            <View style={styles.badgeWrapper}>
-              <Text style={styles.badgeText}>4</Text>
+          <View style={styles.headerPriceParent}>
+            <Animated.Text style={{opacity: totalAnimValue}}>
+              <Text style={styles.titleTotal}>{`$${total}`}</Text>
+            </Animated.Text>
+          </View>
+
+          <View style={styles.headerRightContainer}>
+            <View style={[styles.headerGiftParent, {backgroundColor: isShowTotal ? '#00000000' : '#F4F8FF'}]}>
+              <Ionicons name="gift-outline" size={24} color="#0053FF" />
+              <Text style={[styles.getGiftCount, {display: isShowTotal ? 'none' : 'flex'}]}>Get $10</Text>
+            </View>
+            <View style={styles.notificationParent}>
+              <Ionicons name="ios-notifications-outline" size={25} color={'#4F4C4F'} style={styles.bellIcon} />
+              <View style={styles.badgeWrapper}>
+                <Text style={styles.badgeText}>4</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-      <Spinner
-        visible={refreshing.current}
-        textContent={''}
-        size={'large'}
-        textStyle={styles.spinnerTextStyle}
-        color={'#535864'}
-        overlayColor={'white'}
-        customIndicator={OverlaySpinner()}
-      />
-      <ScrollView
-        contentContainerStyle={{alignItems: 'center'}}
-        showsVerticalScrollIndicator={false}
-        ref={ref}
-        onScroll={event => {
-          handleScroll(event);
-        }}
-        refreshControl={<RefreshControl tintColor="rgb(233, 233, 243)" refreshing={scrollRefreshing} onRefresh={onScrollRefresh} />}>
-        <View style={styles.totalContainer}>
-          <Text style={styles.headerText}>Your balance</Text>
-          <Text style={styles.balanceText}>{`$${total}`}</Text>
-        </View>
+        <Spinner
+          visible={refreshing.current}
+          textContent={''}
+          size={'large'}
+          textStyle={styles.spinnerTextStyle}
+          color={'#535864'}
+          overlayColor={'transparent'}
+          customIndicator={Splash()}
+        />
+        <ScrollView
+          contentContainerStyle={{alignItems: 'center'}}
+          showsVerticalScrollIndicator={false}
+          ref={ref}
+          onScroll={event => {
+            handleScroll(event);
+          }}
+          refreshControl={<RefreshControl tintColor="rgb(233, 233, 243)" refreshing={scrollRefreshing} onRefresh={onScrollRefresh} />}>
+          <View style={styles.totalContainer}>
+            <Text style={styles.headerText}>Your balance</Text>
+            <Text style={styles.balanceText}>{`$${total}`}</Text>
+          </View>
 
-        <View style={styles.watchListContainer}>
-          <Text style={styles.watchListTitle}>Watchlist</Text>
-          <View style={styles.watchContentContainer}>
-            <Text style={styles.watchContent}>Make the most out of Coinbase by watching some assets.</Text>
-            <View
-              style={{justifyContent: 'center', alignContent: 'center', alignItems: 'center', alignSelf: 'center', flex: 1, width: '112%'}}>
-              <CBButton title="See all assets" outline />
+          <View style={styles.watchListContainer}>
+            <Text style={styles.watchListTitle}>Watchlist</Text>
+            <View style={styles.watchContentContainer}>
+              <Text style={styles.watchContent}>Make the most out of Coinbase by watching some assets.</Text>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignContent: 'center',
+                  alignItems: 'center',
+                  alignSelf: 'center',
+                  flex: 1,
+                  width: '112%',
+                }}>
+                <CBButton title="See all assets" outline />
+              </View>
             </View>
           </View>
-        </View>
 
-        <View style={styles.moverContainer}>
-          <TopMovers coinData={topMoversData} />
-        </View>
+          <View style={styles.moverContainer}>
+            <TopMovers coinData={topMoversData} />
+          </View>
 
-        <View style={styles.coinbaseContainer}>
-          <Text style={styles.moverTitle}>Coinbase Card</Text>
-          <View style={styles.coinbaseContentParent}>
-            <View style={styles.coinImageParent}>
-              <ImageBackground style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}} source={BackImg}>
-                <Image source={VisaImg} style={styles.coinImage} />
-              </ImageBackground>
-            </View>
-            <View style={{width: '100%', height: StyleSheet.hairlineWidth, backgroundColor: 'gray'}}></View>
-            <View style={styles.journalParent}>
-              <Text style={styles.journalTitle}>Join the waitlist</Text>
-              <Text style={styles.journalContent}>Get rewards when you spend crypto or US dollars with our Visa debit card</Text>
+          <View style={styles.coinbaseContainer}>
+            <Text style={styles.moverTitle}>Coinbase Card</Text>
+            <View style={styles.coinbaseContentParent}>
+              <View style={styles.coinImageParent}>
+                <ImageBackground style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}} source={BackImg}>
+                  <Image source={VisaImg} style={styles.coinImage} />
+                </ImageBackground>
+              </View>
+              <View style={{width: '100%', height: StyleSheet.hairlineWidth, backgroundColor: 'gray'}}></View>
+              <View style={styles.journalParent}>
+                <Text style={styles.journalTitle}>Join the waitlist</Text>
+                <Text style={styles.journalContent}>Get rewards when you spend crypto or US dollars with our Visa debit card</Text>
+              </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 };
 
