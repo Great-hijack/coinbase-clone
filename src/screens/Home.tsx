@@ -14,12 +14,12 @@ import {AssetsState} from '../store/reducers/assets';
 import {TopMoversState} from '../store/reducers/topmovers';
 import * as assetsActions from '../store/actions/assets';
 import * as topmoversActions from '../store/actions/topmovers';
-import VisaImg from '../../assets/card.jpg';
-import BackImg from '../../assets/back.png';
+import {appImages} from '../utils/images';
 
 import {getLocaleCurrencyString} from '../utils';
 import TopMovers from '../components/TopMoversList';
 import Splash from './Splash';
+import OverlaySpinner from '../components/Loading';
 
 interface RootState {
   assets: AssetsState;
@@ -120,8 +120,18 @@ const Home = ({navigation}: Props) => {
           textStyle={styles.spinnerTextStyle}
           color={'#535864'}
           overlayColor={'transparent'}
+          customIndicator={OverlaySpinner()}
+        />
+        <Spinner
+          visible={refreshing.current}
+          textContent={''}
+          size={'large'}
+          textStyle={styles.spinnerTextStyle}
+          color={'#535864'}
+          overlayColor={'transparent'}
           customIndicator={Splash()}
         />
+
         <ScrollView
           contentContainerStyle={{alignItems: 'center'}}
           showsVerticalScrollIndicator={false}
@@ -161,8 +171,8 @@ const Home = ({navigation}: Props) => {
             <Text style={styles.moverTitle}>Coinbase Card</Text>
             <View style={styles.coinbaseContentParent}>
               <View style={styles.coinImageParent}>
-                <ImageBackground style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}} source={BackImg}>
-                  <Image source={VisaImg} style={styles.coinImage} />
+                <ImageBackground style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}} source={appImages.BackImg}>
+                  <Image source={appImages.VisaImg} style={styles.coinImage} />
                 </ImageBackground>
               </View>
               <View style={{width: '100%', height: StyleSheet.hairlineWidth, backgroundColor: 'gray'}}></View>

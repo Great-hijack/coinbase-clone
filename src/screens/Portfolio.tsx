@@ -1,11 +1,10 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Text, ScrollView, SafeAreaView, LogBox, Animated, RefreshControl} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, SafeAreaView, LogBox, Animated, RefreshControl, ActivityIndicator, Image} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {useScrollToTop} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {Ionicons} from '@expo/vector-icons';
-import * as Progress from 'react-native-progress';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import {PortfolioStackParamList} from '../navigation/AppNavigator';
@@ -27,6 +26,8 @@ import {balanceHistory} from '../data/BalanceHistory';
 import {HistoryState} from '../store/reducers/history';
 import {getLocaleCurrencyString} from '../utils';
 import OverlaySpinner from '../components/Loading';
+import Splash from './Splash';
+import {appImages} from '../utils/images';
 
 interface RootState {
   watchlist: WatchlistState;
@@ -148,9 +149,10 @@ const Portfolio = ({navigation}: Props) => {
         size={'large'}
         textStyle={styles.spinnerTextStyle}
         color={'#535864'}
-        overlayColor={'white'}
+        overlayColor={'transparent'}
         customIndicator={OverlaySpinner()}
       />
+
       <ScrollView
         contentContainerStyle={{alignItems: 'center'}}
         showsVerticalScrollIndicator={false}

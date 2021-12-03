@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Image} from 'react-native';
-import LoadingImg from '../../assets/loading.gif';
+import {appImages} from '../utils/images';
 
 const OverlaySpinner = () => {
   return (
@@ -11,12 +11,12 @@ const OverlaySpinner = () => {
         left: 0,
         right: 0,
         top: 0,
-        bottom: 0,
+        bottom: 85,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#00000000',
+        backgroundColor: '#FFFFFF',
       }}>
-      <Image source={LoadingImg} />
+      <Image source={appImages.LoadingImg} />
     </View>
   );
 };
