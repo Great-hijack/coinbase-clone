@@ -48,7 +48,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
   const [range, setRange] = useState('1H');
   const [isShowTotal, setShowTotal] = useState(false);
   const [coinPrices, setCoinPrices] = useState(['']);
-  const totalAnimValue = useRef(new Animated.Value(1)).current;
+  const totalAnimValue = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
   const refreshing = useRef(true);
   const [scrollRefreshing, setscrollRefreshing] = useState(false);
@@ -140,7 +140,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
         size={'large'}
         textStyle={styles.spinnerTextStyle}
         color={'#535864'}
-        overlayColor={'white'}
+        overlayColor={'transparent'}
         customIndicator={OverlaySpinner()}
       />
       <ScrollView

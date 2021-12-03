@@ -26,7 +26,7 @@ type Props = {
 const AssetsDetailHistory = ({route, navigation}: Props) => {
   const {id, symbol, price, name, imgUrl, balance} = route.params;
   const balanceAsUSD = price * balance;
-  const totalAnimValue = useRef(new Animated.Value(1)).current;
+  const totalAnimValue = useRef(new Animated.Value(0)).current;
   const [isShowTotal, setShowTotal] = useState(false);
   const [balances, setBalances] = useState<Balance[]>();
   const ref = useRef(null);
