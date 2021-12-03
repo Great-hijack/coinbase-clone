@@ -6,15 +6,12 @@ const windowsWidth = Dimensions.get('window').width;
 const windowsHeight = Dimensions.get('window').height;
 
 const Splash = () => {
-  const animateRef = useRef<View>(null);
+  const animateRef = useRef<View | Animatable>(null);
 
   useEffect(() => {
     setTimeout(() => {
-      animateRef?.current.animate('zoomOut', 1000);
+      animateRef ? animateRef.current.animate('zoomOut', 1000) : '';
     }, 1500);
-    // setTimeout(() => {
-    //   navigation.navigate('TabNavigator');
-    // }, 2400);
   }, []);
 
   const size = windowsHeight * 2;
