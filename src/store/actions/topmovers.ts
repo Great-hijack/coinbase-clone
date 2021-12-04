@@ -10,8 +10,9 @@ export const fetchTopMoversData = () => {
   return async (dispatch: ThunkDispatch<TopMoversState, void, Action>) => {
     try {
       // Get all coins available on Coinbase
-      const cbResponse = await fetch('https://api.pro.coinbase.com/products');
-      const cbResponseData = await cbResponse.json();
+      const cbResponseData = await fetch('https://api.pro.coinbase.com/products')
+        .then(res => res.json())
+        .catch(err => console.log(err));
 
       let availableCoins: string[] = [];
 
@@ -26,10 +27,11 @@ export const fetchTopMoversData = () => {
       });
 
       // Get coin prices from cryptocompare API
-      const cryptoResponse = await fetch(
+      const cryptoResponseData = await fetch(
         `https://min-api.cryptocompare.com/data/pricemultifull?tsyms=USD&relaxedValidation=true&fsyms=${availableCoins.join()}`
-      );
-      const cryptoResponseData = await cryptoResponse.json();
+      )
+        .then(res => res.json())
+        .catch(err => console.log(err));
 
       let dataAsArray = Object.values(cryptoResponseData.RAW);
 

@@ -1,29 +1,10 @@
 import React from 'react';
-import {View, Image, StyleSheet, Animated, Easing} from 'react-native';
-import {appImages} from '../utils/images';
-import {AntDesign} from '@expo/vector-icons';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 
 const OverlaySpinner = () => {
-  const spinValue = new Animated.Value(0);
-  Animated.loop(
-    Animated.timing(spinValue, {
-      toValue: 1,
-      duration: 3000,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    })
-  ).start();
-
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
-
   return (
     <View style={styles.container}>
-      {/* <Image source={appImages.LoadingImg} /> */}
-      {/* <AntDesign name="loading2" size={24} color="#575965" /> */}
-      {/* <Animated.Image style={{transform: [{rotate: spin}]}} source={() => <AntDesign name="loading2" size={24} color="#575965" />} /> */}
+      <ActivityIndicator size="large" color="#545863" />
     </View>
   );
 };

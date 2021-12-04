@@ -59,7 +59,9 @@ export const fetchGraphData = ({balanceHistory, range}: Props) => {
       const fetchHistoryData = coins.map(coin => {
         const response = fetch(
           `https://min-api.cryptocompare.com/data/v2/${API_PARAMS[range].url}?fsym=${coin}&tsym=USD&limit=${API_PARAMS[range].limit}`
-        ).then(res => res.json());
+        )
+          .then(res => res.json())
+          .catch(err => console.log(err));
 
         return response;
       });

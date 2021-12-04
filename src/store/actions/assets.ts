@@ -5,7 +5,7 @@ import {AssetsState} from '../reducers/assets';
 import Asset from '../../models/Asset';
 import {balanceHistory} from '../../data/BalanceHistory';
 import Coin from '../../models/Coin';
-import {changeAssetsPosition, getCoinData, getCoinPrice} from '../../utils';
+import {changeAssetsPosition} from '../../utils';
 
 import cmpData from '../../data/CoinMarketCapData';
 
@@ -14,12 +14,14 @@ export const SET_ASSETS_DATA = 'SET_ASSETS_DATA';
 export const fetchAssetsData = () => {
   return async (dispatch: ThunkDispatch<AssetsState, void, Action>) => {
     try {
-      const coinResponse = await fetch(
+      const coinResponseJson = await fetch(
         `https://www.coinbase.com/api/v2/assets/search?base=USD&country=US&filter=all&include_prices=false&limit=10&order=asc&page=1&query=&resolution=day&sort=rank`
-      );
-      const coinResponseJson = await coinResponse.json();
+      )
+        .then(res => res.json())
+        .catch(err => {
+          console.log(err);
+        });
       const coinResponseData = coinResponseJson['data'];
-
       const allStaticCoins: any = coinResponseData.map(item => item.base);
       const staticCoins: any = allStaticCoins.filter(item => {
         return item !== 'ETH2' && item !== 'BNB';
@@ -50,10 +52,13 @@ export const fetchAssetsData = () => {
           });
         coins = coins.slice(0, 3);
       }
-      const cryptoResponse = await fetch(
+
+      const cryptoResponseData = await fetch(
         `https://min-api.cryptocompare.com/data/pricemultifull?tsyms=USD&relaxedValidation=true&fsyms=${coins.join()}`
-      );
-      const cryptoResponseData = await cryptoResponse.json();
+      )
+        .then(res => res.json())
+        .catch(err => console.log(err));
+
       const coinData = coins.map(item => {
         const coinDetails = cryptoResponseData.RAW[item].USD;
         const cmpDetails = cmpData.data.find(cmpCoin => coinDetails.FROMSYMBOL === cmpCoin.symbol);

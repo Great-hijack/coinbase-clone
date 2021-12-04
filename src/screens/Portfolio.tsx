@@ -83,6 +83,7 @@ const Portfolio = ({navigation}: Props) => {
   }, [dispatch, range]);
 
   useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     refreshing.current = true;
     loadData().then(() => {
       refreshing.current = false;

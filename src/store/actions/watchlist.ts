@@ -12,10 +12,11 @@ export const fetchCoinData = () => {
     const coins = ['USDC', 'BTC', 'XRP', 'BCH', 'ETH', 'DOGE', 'LTC'];
 
     try {
-      const cryptoResponse = await fetch(
+      const cryptoResponseData = await fetch(
         `https://min-api.cryptocompare.com/data/pricemultifull?tsyms=USD&relaxedValidation=true&fsyms=${coins.join()}`
-      );
-      const cryptoResponseData = await cryptoResponse.json();
+      )
+        .then(res => res.json())
+        .catch(err => console.log(err));
 
       const coinData: Coin[] = [];
       coins.forEach(coin => {

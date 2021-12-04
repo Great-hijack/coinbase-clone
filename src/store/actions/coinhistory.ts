@@ -54,10 +54,11 @@ type Props = {
 export const fetchGraphData = ({symbol, range}: Props) => {
   return async (dispatch: ThunkDispatch<AssetsState, void, Action>) => {
     try {
-      const response = await fetch(
+      const fetchHistoryData = await fetch(
         `https://min-api.cryptocompare.com/data/v2/${API_PARAMS[range].url}?fsym=${symbol}&tsym=USD&limit=${API_PARAMS[range].limit}`
-      );
-      const fetchHistoryData = await response.json();
+      )
+        .then(res => res.json())
+        .catch(err => console.log(err));
       const _history = fetchHistoryData['Data']['Data'];
       const historyData = _history.map(item => item.high);
 
