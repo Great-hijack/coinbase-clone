@@ -22,7 +22,7 @@ const WatchlistItem: FC<WatchlistItemProps> = ({id, name, symbol, price, percent
         console.log(symbol);
       }}>
       <View style={isActive ? [styles.activeListItem, styles.listItem] : styles.listItem}>
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={styles.logoView}>
           <Image
             style={styles.logo}
             source={{
@@ -67,6 +67,10 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowRadius: 15,
     shadowOpacity: 0.05,
+  },
+  logoView: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   logo: {
     width: 32,

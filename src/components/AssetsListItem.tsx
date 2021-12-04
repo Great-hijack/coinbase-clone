@@ -1,8 +1,8 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet, Image, TouchableHighlight, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import Colors from '../constants/Colors';
 import {getLocaleCurrencyString} from '../utils';
-import DolloarImg from '../../assets/dollar.png';
+import {appImages} from '../utils/images';
 
 interface AssetsListItemProps {
   id: number;
@@ -24,7 +24,7 @@ const AssetsListItem: FC<AssetsListItemProps> = ({id, name, symbol, price, balan
         onItemClicked();
       }}>
       <View style={styles.itemContainer}>
-        <Image style={styles.logo} source={id == 0 ? DolloarImg : {uri: `https://www.cryptocompare.com/${imgUrl}`}} />
+        <Image style={styles.logo} source={id == 0 ? appImages.DolloarImg : {uri: `https://www.cryptocompare.com/${imgUrl}`}} />
         <View style={styles.contentContainer}>
           <View>
             <Text style={styles.nameText}>{name}</Text>

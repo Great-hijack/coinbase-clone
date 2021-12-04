@@ -45,12 +45,7 @@ const ChangeHistory: FC<TopMoversProps> = ({changeHistory, price}) => {
   };
 
   return (
-    <View
-      style={{
-        width: '100%',
-        alignSelf: 'flex-start',
-        marginLeft: '6%',
-      }}>
+    <View style={styles.container}>
       <Text style={styles.watchlistText}>History</Text>
       <View style={[{height: changeHistory ? changeHistory.length * 75 : 0}, styles.watchlistContainer]}>
         <FlatList data={changeHistory} scrollEnabled={false} renderItem={renderItem} keyExtractor={item => item[0].toString()} />
@@ -60,6 +55,11 @@ const ChangeHistory: FC<TopMoversProps> = ({changeHistory, price}) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    alignSelf: 'flex-start',
+    marginLeft: '6%',
+  },
   watchlistText: {
     fontWeight: 'bold',
     fontSize: 21,

@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Text, ScrollView, SafeAreaView, LogBox, Animated, RefreshControl, ActivityIndicator, Image} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, SafeAreaView, LogBox, Animated, RefreshControl} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {useScrollToTop} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -26,8 +26,6 @@ import {balanceHistory} from '../data/BalanceHistory';
 import {HistoryState} from '../store/reducers/history';
 import {getLocaleCurrencyString} from '../utils';
 import OverlaySpinner from '../components/Loading';
-import Splash from './Splash';
-import {appImages} from '../utils/images';
 
 interface RootState {
   watchlist: WatchlistState;
@@ -55,6 +53,10 @@ const Portfolio = ({navigation}: Props) => {
   const totalAnimValue = useRef(new Animated.Value(1)).current;
   const [scrollRefreshing, setscrollRefreshing] = useState(false);
 
+  const ref = useRef(null);
+  useScrollToTop(ref);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     Animated.timing(totalAnimValue, {
       toValue: isShowTotal ? 1 : 0,
@@ -63,7 +65,6 @@ const Portfolio = ({navigation}: Props) => {
     }).start();
   }, [isShowTotal]);
 
-  const dispatch = useDispatch();
   const loadData = useCallback(async () => {
     try {
       dispatch(watchlistActions.fetchCoinData());
@@ -82,7 +83,6 @@ const Portfolio = ({navigation}: Props) => {
   }, [dispatch, range]);
 
   useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     refreshing.current = true;
     loadData().then(() => {
       refreshing.current = false;
@@ -98,17 +98,10 @@ const Portfolio = ({navigation}: Props) => {
 
   const sortHandler = () => {};
 
-  const ref = useRef(null);
-  useScrollToTop(ref);
-
   const handleScroll = (event: any) => {
     const positionY = event.nativeEvent.contentOffset.y;
 
-    if (positionY > 50) {
-      setShowTotal(true);
-    } else {
-      setShowTotal(false);
-    }
+    setShowTotal(positionY > 50);
   };
 
   const onScrollRefresh = useCallback(() => {
@@ -150,7 +143,7 @@ const Portfolio = ({navigation}: Props) => {
         textStyle={styles.spinnerTextStyle}
         color={'#535864'}
         overlayColor={'transparent'}
-        customIndicator={OverlaySpinner()}
+        customIndicator={<OverlaySpinner />}
       />
 
       <ScrollView

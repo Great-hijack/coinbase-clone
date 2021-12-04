@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {StyleSheet, View, Text, Animated, Image, LogBox, RefreshControl, ImageBackground} from 'react-native';
+import {StyleSheet, View, Text, Animated, Image, RefreshControl, ImageBackground} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 import {HomeStackParamList} from '../navigation/AppNavigator';
@@ -51,7 +51,6 @@ const Home = ({navigation}: Props) => {
   }, [dispatch]);
 
   useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     refreshing.current = true;
     loadData().then(() => {
       refreshing.current = false;
@@ -60,11 +59,7 @@ const Home = ({navigation}: Props) => {
 
   const handleScroll = (event: any) => {
     const positionY = event.nativeEvent.contentOffset.y;
-    if (positionY > 50) {
-      setShowTotal(true);
-    } else {
-      setShowTotal(false);
-    }
+    setShowTotal(positionY > 50);
   };
   const totalAnimValue = useRef(new Animated.Value(1)).current;
 
@@ -120,7 +115,7 @@ const Home = ({navigation}: Props) => {
           textStyle={styles.spinnerTextStyle}
           color={'#535864'}
           overlayColor={'transparent'}
-          customIndicator={OverlaySpinner()}
+          customIndicator={<OverlaySpinner />}
         />
         <Spinner
           visible={refreshing.current}
@@ -129,7 +124,7 @@ const Home = ({navigation}: Props) => {
           textStyle={styles.spinnerTextStyle}
           color={'#535864'}
           overlayColor={'transparent'}
-          customIndicator={Splash()}
+          customIndicator={<Splash />}
         />
 
         <ScrollView
@@ -149,15 +144,7 @@ const Home = ({navigation}: Props) => {
             <Text style={styles.watchListTitle}>Watchlist</Text>
             <View style={styles.watchContentContainer}>
               <Text style={styles.watchContent}>Make the most out of Coinbase by watching some assets.</Text>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignContent: 'center',
-                  alignItems: 'center',
-                  alignSelf: 'center',
-                  flex: 1,
-                  width: '112%',
-                }}>
+              <View style={styles.assetBtnContainer}>
                 <CBButton title="See all assets" outline />
               </View>
             </View>
@@ -171,11 +158,11 @@ const Home = ({navigation}: Props) => {
             <Text style={styles.moverTitle}>Coinbase Card</Text>
             <View style={styles.coinbaseContentParent}>
               <View style={styles.coinImageParent}>
-                <ImageBackground style={{flex: 1, justifyContent: 'center', flexDirection: 'row'}} source={appImages.BackImg}>
+                <ImageBackground style={styles.backImgStyle} source={appImages.BackImg}>
                   <Image source={appImages.VisaImg} style={styles.coinImage} />
                 </ImageBackground>
               </View>
-              <View style={{width: '100%', height: StyleSheet.hairlineWidth, backgroundColor: 'gray'}}></View>
+              <View style={styles.journalView}></View>
               <View style={styles.journalParent}>
                 <Text style={styles.journalTitle}>Join the waitlist</Text>
                 <Text style={styles.journalContent}>Get rewards when you spend crypto or US dollars with our Visa debit card</Text>
@@ -331,6 +318,12 @@ const styles = StyleSheet.create({
     fontSize: 21,
   },
 
+  assetBtnContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    width: '112%',
+  },
   coinbaseContainer: {
     flex: 1,
     flexDirection: 'column',
@@ -355,9 +348,19 @@ const styles = StyleSheet.create({
     paddingBottom: 25,
     paddingTop: 10,
   },
+  backImgStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
   coinImage: {
     width: 80,
     height: 120,
+  },
+  journalView: {
+    width: '100%',
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: 'gray',
   },
   journalParent: {
     flexDirection: 'column',

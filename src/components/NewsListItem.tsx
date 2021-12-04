@@ -1,11 +1,5 @@
-import React, { FC } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableHighlight,
-} from 'react-native';
+import React, {FC} from 'react';
+import {View, Text, StyleSheet, Image, TouchableHighlight} from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import Colors from '../constants/Colors';
 
@@ -17,13 +11,7 @@ interface NewsListItemProps {
   url: string;
 }
 
-const NewsListItem: FC<NewsListItemProps> = ({
-  newsOutlet,
-  date,
-  title,
-  image,
-  url,
-}) => {
+const NewsListItem: FC<NewsListItemProps> = ({newsOutlet, date, title, image, url}) => {
   const handleNewsPress = async (url: string) => {
     await WebBrowser.openBrowserAsync(url, {
       readerMode: true,
@@ -34,12 +22,8 @@ const NewsListItem: FC<NewsListItemProps> = ({
   };
 
   return (
-    <TouchableHighlight
-      style={styles.listItem}
-      underlayColor='#FBFAFB'
-      onPress={handleNewsPress.bind(this, url)}
-    >
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+    <TouchableHighlight style={styles.listItem} underlayColor="#FBFAFB" onPress={handleNewsPress.bind(this, url)}>
+      <View style={styles.itemView}>
         <View style={styles.textContainer}>
           <Text style={styles.header}>
             {newsOutlet} <Text style={styles.bulletPoint}>•</Text> {date}
@@ -48,7 +32,7 @@ const NewsListItem: FC<NewsListItemProps> = ({
             {title}
           </Text>
         </View>
-        <Image source={{ uri: image }} style={styles.image} />
+        <Image source={{uri: image}} style={styles.image} />
       </View>
     </TouchableHighlight>
   );
@@ -60,6 +44,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: '4%',
     paddingVertical: '4%',
     borderRadius: 8,
+  },
+  itemView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   textContainer: {
     width: '75%',

@@ -2,8 +2,8 @@ import React, {FC} from 'react';
 import {View, Image, Text, Animated, StyleSheet, TouchableOpacity} from 'react-native';
 import * as Haptics from 'expo-haptics';
 import Colors from '../constants/Colors';
-import DolloarImg from '../../assets/dollar.png';
 import {getLocaleCurrencyString} from '../utils';
+import {appImages} from '../utils/images';
 
 interface CBButtonProps {
   id: number;
@@ -50,7 +50,7 @@ const AssetsDetailButton: FC<CBButtonProps> = ({id, title, imgUrl, outline = fal
         }}>
         <View style={[styles.btn, outline && styles.outline]}>
           <View style={styles.btnName}>
-            <Image style={styles.btnImage} source={id == 0 ? DolloarImg : {uri: `https://www.cryptocompare.com${imgUrl}`}} />
+            <Image style={styles.btnImage} source={id == 0 ? appImages.DolloarImg : {uri: `https://www.cryptocompare.com${imgUrl}`}} />
             <Text style={styles.btnNameContent}>{title}</Text>
           </View>
           <View style={styles.btnInfo}>

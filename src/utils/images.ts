@@ -17,4 +17,5 @@ export const appImages = {
   VisaImg: require('../../assets/visa.png'),
   BackImg: require('../../assets/back.png'),
   LoadingImg: require('../../assets/loading.gif'),
+  DolloarImg: require('../../assets/dollar.png'),
 };

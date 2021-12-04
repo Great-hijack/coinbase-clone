@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import {View, Text, StyleSheet, TouchableHighlight, Image} from 'react-native';
-import {useDispatch} from 'react-redux';
 
 import Coin from '../models/Coin';
 import Colors from '../constants/Colors';
@@ -12,8 +11,6 @@ interface TopMoversProps {
 }
 
 const Watchlist: FC<TopMoversProps> = ({coinData}) => {
-  const dispatch = useDispatch();
-
   const renderItem = ({item}) => {
     return (
       <TouchableHighlight
@@ -22,7 +19,7 @@ const Watchlist: FC<TopMoversProps> = ({coinData}) => {
           console.log(item.symbol);
         }}>
         <View style={styles.listItem}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View style={styles.itemView}>
             <Image
               style={styles.logo}
               source={{
@@ -85,6 +82,10 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingHorizontal: 0,
     justifyContent: 'space-between',
+  },
+  itemView: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   logo: {
     width: 32,

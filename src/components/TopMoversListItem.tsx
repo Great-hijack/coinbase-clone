@@ -40,7 +40,7 @@ const TopMoversListItem: FC<TopMoversListItemProps> = ({id, symbol, price, perce
       onPress={() => {
         console.log(symbol);
       }}
-      style={{minWidth: 124, marginRight: 17}}>
+      style={styles.touchStyle}>
       <Animated.View style={[styles.listItem, animatedStyle]}>
         <Image
           style={styles.logo}
@@ -48,16 +48,9 @@ const TopMoversListItem: FC<TopMoversListItemProps> = ({id, symbol, price, perce
             uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${id.toString()}.png`,
           }}
         />
-        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <View style={styles.symboleView}>
           <Text style={styles.tickerText}>{symbol}</Text>
-          <Text style={styles.priceText}>
-            {/* $
-            {price.toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })} */}
-            {`$${getLocaleCurrencyString(price.toFixed(2))}`}
-          </Text>
+          <Text style={styles.priceText}>{`$${getLocaleCurrencyString(price.toFixed(2))}`}</Text>
         </View>
         <View>
           <Text
@@ -79,6 +72,10 @@ const TopMoversListItem: FC<TopMoversListItemProps> = ({id, symbol, price, perce
 };
 
 const styles = StyleSheet.create({
+  touchStyle: {
+    minWidth: 124,
+    marginRight: 17,
+  },
   listItem: {
     minWidth: 124,
     borderWidth: 1,
@@ -94,6 +91,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 0.5,
     borderColor: Colors.border,
+  },
+  symboleView: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   tickerText: {
     fontSize: 15,

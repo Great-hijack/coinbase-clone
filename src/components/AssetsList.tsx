@@ -3,7 +3,6 @@ import {View, StyleSheet, FlatList} from 'react-native';
 
 import AssetsListItem from './AssetsListItem';
 import Asset from '../models/Asset';
-import {CoinHistoryState} from '../store/reducers/coinhistory';
 
 interface AssetsProps {
   assetsData: Asset[];
@@ -14,17 +13,13 @@ interface AssetsProps {
 
 const AssetsList: FC<AssetsProps> = ({assetsData, isHomeScreen, sortHandler, navigation}) => {
   return (
-    <View
-      style={{
-        width: '100%',
-        alignSelf: 'flex-start',
-      }}>
+    <View style={styles.container}>
       <FlatList
         scrollEnabled={!isHomeScreen}
         showsVerticalScrollIndicator={false}
         data={isHomeScreen ? assetsData : assetsData}
         keyExtractor={item => item.id.toString()}
-        style={{marginHorizontal: 8, marginTop: 32}}
+        style={styles.flatStyle}
         renderItem={itemData => {
           return (
             <AssetsListItem
@@ -55,6 +50,10 @@ const AssetsList: FC<AssetsProps> = ({assetsData, isHomeScreen, sortHandler, nav
 };
 
 const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    alignSelf: 'flex-start',
+  },
   listHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -62,6 +61,10 @@ const styles = StyleSheet.create({
     marginTop: 32,
     marginBottom: 10,
     marginHorizontal: '6%',
+  },
+  flatStyle: {
+    marginHorizontal: 8,
+    marginTop: 32,
   },
   newsText: {
     fontSize: 20,

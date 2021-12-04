@@ -19,15 +19,15 @@ const GrowBalance: FC<GrowBalanceProps> = ({}) => {
             <Text style={styles.getStarted}>Get started</Text>
           </View>
         </View>
-        <ProgressCircle style={{height: 100, width: 100}} progress={0} strokeWidth={10}>
-          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        <ProgressCircle style={styles.circleStyle} progress={0} strokeWidth={10}>
+          <View style={styles.circleView}>
             <Text style={styles.percentText}>0%</Text>
           </View>
         </ProgressCircle>
       </View>
 
       <View style={[styles.itemContain, styles.borrowContain]}>
-        <View style={{flex: 1, marginRight: 10}}>
+        <View style={styles.borrowView}>
           <Text style={styles.title}>Borrow cash</Text>
           <Text style={styles.subTitle}>Borrow up to $100,000 using Bitcoin as collateral</Text>
           <View style={styles.bottom}>
@@ -76,6 +76,10 @@ const styles = StyleSheet.create({
   borrowContain: {
     flexDirection: 'row',
   },
+  borrowView: {
+    flex: 1,
+    marginRight: 10,
+  },
   title: {
     fontSize: 19,
     fontWeight: 'bold',
@@ -84,6 +88,14 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: 'gray',
     marginTop: 5,
+  },
+  circleStyle: {
+    height: 100,
+    width: 100,
+  },
+  circleView: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   getStarted: {
     fontSize: 20,

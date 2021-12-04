@@ -1,11 +1,5 @@
-import React, { FC } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-} from 'react-native';
+import React, {FC} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native';
 
 import NewsListItem from './NewsListItem';
 import News from '../models/News';
@@ -17,18 +11,9 @@ interface NewsProps {
   viewMoreHandler?: any;
 }
 
-const NewsList: FC<NewsProps> = ({
-  newsData,
-  isHomeScreen,
-  viewMoreHandler,
-}) => {
+const NewsList: FC<NewsProps> = ({newsData, isHomeScreen, viewMoreHandler}) => {
   return (
-    <View
-      style={{
-        width: '100%',
-        alignSelf: 'flex-start',
-      }}
-    >
+    <View style={styles.container}>
       {isHomeScreen && (
         <View style={styles.listHeader}>
           <Text style={styles.newsText}>News</Text>
@@ -43,9 +28,9 @@ const NewsList: FC<NewsProps> = ({
         scrollEnabled={!isHomeScreen}
         showsVerticalScrollIndicator={false}
         data={isHomeScreen ? newsData.slice(0, 5) : newsData}
-        keyExtractor={(item) => item.url}
-        style={{ marginHorizontal: 8 }}
-        renderItem={(itemData) => {
+        keyExtractor={item => item.url}
+        style={styles.flatStyle}
+        renderItem={itemData => {
           return (
             <NewsListItem
               newsOutlet={itemData.item.newsOutlet}
@@ -62,6 +47,10 @@ const NewsList: FC<NewsProps> = ({
 };
 
 const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    alignSelf: 'flex-start',
+  },
   listHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -78,6 +67,9 @@ const styles = StyleSheet.create({
     color: Colors.cbBlue,
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  flatStyle: {
+    marginHorizontal: 8,
   },
 });
 

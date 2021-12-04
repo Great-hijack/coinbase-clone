@@ -106,11 +106,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
   const handleScroll = (event: any) => {
     const positionY = event.nativeEvent.contentOffset.y;
 
-    if (positionY > 50) {
-      setShowTotal(true);
-    } else {
-      setShowTotal(false);
-    }
+    setShowTotal(positionY > 50);
   };
 
   return (
@@ -217,6 +213,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
   },
+  arrowBackRipple: {},
   headerPrice: {
     flexDirection: 'row',
     justifyContent: 'center',
