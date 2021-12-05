@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontWeight: 'bold',
     fontSize: 30,
-    fontFamily: 'serif',
+    // fontFamily: 'serif',
     marginTop: -windowsHeight * 0.8,
   },
 });

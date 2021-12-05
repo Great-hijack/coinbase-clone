@@ -4,6 +4,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import {RouteProp} from '@react-navigation/core';
+import moment from 'moment';
+
 import {PortfolioStackParamList} from '../navigation/AppNavigator';
 import {getLocaleCurrencyString} from '../utils';
 
@@ -56,28 +58,15 @@ const AssetsDetailProperty = ({navigation, route}: Props) => {
         ref={ref}
         nestedScrollEnabled={false}>
         <View style={styles.itemContainer}>
-          <Text style={styles.itemLeftText}>Price per coin</Text>
-          <Text style={styles.itemRightText}>$222222</Text>
-        </View>
-        <View style={styles.itemContainer}>
-          <Text style={styles.itemLeftText}>Confirmations</Text>
-          <Text style={styles.itemRightText}>$222222</Text>
-        </View>
-        <View style={styles.itemContainer}>
-          <Text style={styles.itemLeftText}>Fee</Text>
-          <Text style={styles.itemRightText}>{changeSymbol}</Text>
-        </View>
-        <View style={styles.itemContainer}>
-          <Text style={styles.itemLeftText}>To</Text>
-          <Text style={styles.itemRightText}>1PVIR23400P</Text>
-        </View>
-        <View style={styles.itemContainer}>
           <Text style={styles.itemLeftText}>Date</Text>
-          <Text style={styles.itemRightText}>$222222</Text>
+          <Text style={styles.itemRightText}>{moment(changeTime).format('h:mm A - MMM DD,YYYY')}</Text>
         </View>
         <View style={styles.itemContainer}>
           <Text style={styles.itemLeftText}>Status</Text>
-          <Text style={styles.itemRightText}>$222222</Text>
+          <View style={styles.statusParent}>
+            <View style={styles.statusMark}></View>
+            <Text style={styles.itemRightText}>Completed</Text>
+          </View>
         </View>
       </ScrollView>
 
@@ -187,6 +176,18 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  statusParent: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  statusMark: {
+    height: 10,
+    width: 10,
+    borderRadius: 10,
+    marginEnd: 4,
+    backgroundColor: '#0E7649',
   },
 });
 
