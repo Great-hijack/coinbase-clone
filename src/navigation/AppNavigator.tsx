@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from 'react-native-screens/native-stack';
+import * as Font from 'expo-font';
+import {StyleSheet, View, Text, Animated, Image, RefreshControl, ImageBackground} from 'react-native';
+import {useFonts} from '@use-expo/font';
 
 import TabBar from '../components/TabBar';
 import PortfolioScreen, {screenOptions as PortfolioOptions} from '../screens/Portfolio';
@@ -13,6 +16,8 @@ import ActionsScreen from '../screens/Actions';
 import AssetsDetail from '../screens/AssetsDetail';
 import AssetsDetailHistory from '../screens/AssetsDetailHistory';
 import AssetsDetailProperty from '../screens/AssetsDetailProperty';
+import Spinner from 'react-native-loading-spinner-overlay';
+import OverlaySpinner from '../components/Loading';
 
 export type PortfolioStackParamList = {
   PortfolioScreen: undefined;
@@ -65,11 +70,24 @@ const TabNavigator = () => {
   );
 };
 
+const customFonts = {
+  'alicione demo': require('../../assets/font/alicione demo.otf'),
+  'Inter-SemiBoldItalic': 'https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12',
+};
+
 const AppNavigator = () => {
+  const [isLoaded] = useFonts(customFonts);
+
   return (
     <>
       <NavigationContainer>
-        <TabNavigator />
+        {isLoaded ? (
+          <>
+            <TabNavigator />
+          </>
+        ) : (
+          <></>
+        )}
       </NavigationContainer>
     </>
   );

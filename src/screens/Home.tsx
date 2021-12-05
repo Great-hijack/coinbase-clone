@@ -8,6 +8,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Ionicons} from '@expo/vector-icons';
 import {ScrollView} from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
+import {useFonts} from 'expo-font';
 
 import CBButton from '../components/CBButton';
 import {AssetsState} from '../store/reducers/assets';
@@ -139,7 +140,6 @@ const Home = ({navigation}: Props) => {
             <Text style={styles.headerText}>Your balance</Text>
             <Text style={styles.balanceText}>{`$${total}`}</Text>
           </View>
-
           <View style={styles.watchListContainer}>
             <Text style={styles.watchListTitle}>Watchlist</Text>
             <View style={styles.watchContentContainer}>
@@ -267,6 +267,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'gray',
+    fontFamily: 'alicione demo',
   },
   title: {
     fontWeight: 'bold',

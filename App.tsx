@@ -2,8 +2,6 @@ import React from 'react';
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import ReduxThunk from 'redux-thunk';
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
-import {NavigationContainer} from '@react-navigation/native';
 
 import watchlistReducer from './src/store/reducers/watchlist';
 import topMoversReducer from './src/store/reducers/topmovers';
