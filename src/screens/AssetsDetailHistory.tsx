@@ -122,8 +122,21 @@ const AssetsDetailHistory = ({route, navigation}: Props) => {
           </View>
         </View>
 
-        <CBButton title="Add New" outline />
-        <ChangeHistory changeHistory={balances} price={price} />
+        <CBButton title="Add new" outline />
+        <ChangeHistory
+          changeHistory={balances}
+          price={price}
+          name={name}
+          onItemClicked={(changeTime, changeSymbol, changeAmount) => {
+            navigation.navigate('AssetsDetailProperty', {
+              changeTime: changeTime,
+              changeSymbol: changeSymbol,
+              name: name,
+              changeAmount: changeAmount,
+              price: price,
+            });
+          }}
+        />
       </ScrollView>
     </SafeAreaView>
   );

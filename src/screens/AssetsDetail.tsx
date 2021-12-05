@@ -51,6 +51,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
   const totalAnimValue = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
   const refreshing = useRef(true);
+  const [priceRefreshing, setpriceRefreshing] = useState(true);
   const [scrollRefreshing, setscrollRefreshing] = useState(false);
 
   const loadGraphData = useCallback(async () => {
@@ -60,6 +61,13 @@ const AssetsDetail = ({route, navigation}: Props) => {
       console.log(err);
     }
   }, [dispatch, range]);
+
+  useEffect(() => {
+    setpriceRefreshing(true);
+    coinPrice({symbol}).then(() => {
+      setpriceRefreshing(false);
+    });
+  }, []);
 
   useEffect(() => {
     refreshing.current = true;
@@ -80,21 +88,20 @@ const AssetsDetail = ({route, navigation}: Props) => {
     symbol: string;
   };
 
-  const coinPrice = async ({symbol}: Props) => {
-    const cryptoResponse = await fetch(
-      `https://min-api.cryptocompare.com/data/pricemultifull?tsyms=USD&relaxedValidation=true&fsyms=${symbol}`
-    );
-    const cryptoResponseData = await cryptoResponse.json();
-    setCoinPrices([
-      Number(cryptoResponseData['RAW'][symbol]['USD'].PRICE).toFixed(2),
-      Number(cryptoResponseData['RAW'][symbol]['USD'].CHANGE24HOUR).toFixed(2),
-      Number(cryptoResponseData['RAW'][symbol]['USD'].CHANGEPCT24HOUR).toFixed(2),
-    ]);
-  };
-
-  useEffect(() => {
-    coinPrice({symbol});
-  }, []);
+  const coinPrice = useCallback(
+    async ({symbol}: Props) => {
+      const cryptoResponse = await fetch(
+        `https://min-api.cryptocompare.com/data/pricemultifull?tsyms=USD&relaxedValidation=true&fsyms=${symbol}`
+      );
+      const cryptoResponseData = await cryptoResponse.json();
+      setCoinPrices([
+        Number(cryptoResponseData['RAW'][symbol]['USD'].PRICE).toFixed(2),
+        Number(cryptoResponseData['RAW'][symbol]['USD'].CHANGE24HOUR).toFixed(2),
+        Number(cryptoResponseData['RAW'][symbol]['USD'].CHANGEPCT24HOUR).toFixed(2),
+      ]);
+    },
+    [dispatch]
+  );
 
   const onScrollRefresh = useCallback(() => {
     setscrollRefreshing(true);
@@ -131,7 +138,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
       </View>
 
       <Spinner
-        visible={refreshing.current}
+        visible={priceRefreshing || refreshing.current}
         textContent={''}
         size={'large'}
         textStyle={styles.spinnerTextStyle}

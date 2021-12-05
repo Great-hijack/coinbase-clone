@@ -1,29 +1,41 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
+import {View, Text, StyleSheet, TouchableHighlight, Pressable} from 'react-native';
 
 import Colors from '../constants/Colors';
 import {FlatList} from 'react-native-gesture-handler';
 import {getLocaleCurrencyString} from '../utils';
 import {Balance} from '../store/actions/history';
 
+type itemProps = {
+  balance: string;
+};
+
 interface TopMoversProps {
   changeHistory: Balance[] | undefined;
   price: number;
+  name: string;
+  onItemClicked: (changeTime: number, changeSymbol: string, changeAmount: number) => void;
 }
 
-const ChangeHistory: FC<TopMoversProps> = ({changeHistory, price}) => {
+type Props = {
+  changeHistory: Balance[] | undefined;
+  price: number;
+
+  navigation: any;
+};
+
+const ChangeHistory: FC<TopMoversProps> = ({changeHistory, price, name, onItemClicked}) => {
   const renderItem = ({item}) => {
     return (
-      <TouchableHighlight
-        underlayColor={'#FAFBFE'}
+      <Pressable
         onPress={() => {
-          console.log(item.symbol);
+          onItemClicked(item[0], item[1], item[2]);
         }}>
         <View style={styles.listItem}>
           <View style={{flexDirection: 'row'}}>
-            <View>
-              <Text style={styles.nameText}>{item[2] >= 0 ? `Received ${item[1]}` : `Converted from ${item[1]}`}</Text>
-              <Text style={styles.tickerText}>{item[2] >= 0 ? `Using ${item[1]} Wallet` : `From ${item[1]} address`}</Text>
+            <View style={{justifyContent: 'center', alignItems: 'flex-start'}}>
+              <Text style={styles.nameText}>{item[2] >= 0 ? `Received ${name}` : `Sent ${name}`}</Text>
+              <Text style={[styles.tickerText, item[2] < 0 && {display: 'none'}]}>{item[2] >= 0 ? `From ${name} address` : ``}</Text>
             </View>
           </View>
           <View>
@@ -40,7 +52,7 @@ const ChangeHistory: FC<TopMoversProps> = ({changeHistory, price}) => {
             </Text>
           </View>
         </View>
-      </TouchableHighlight>
+      </Pressable>
     );
   };
 

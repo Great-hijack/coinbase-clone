@@ -159,7 +159,7 @@ const Home = ({navigation}: Props) => {
             <View style={styles.coinbaseContentParent}>
               <View style={styles.coinImageParent}>
                 <ImageBackground style={styles.backImgStyle} source={appImages.BackImg}>
-                  <Image source={appImages.VisaImg} style={styles.coinImage} />
+                  <Image source={appImages.CardImg} style={styles.coinImage} />
                 </ImageBackground>
               </View>
               <View style={styles.journalView}></View>

@@ -15,7 +15,7 @@ export const fetchAssetsData = () => {
   return async (dispatch: ThunkDispatch<AssetsState, void, Action>) => {
     try {
       const coinResponseJson = await fetch(
-        `https://www.coinbase.com/api/v2/assets/search?base=USD&country=US&filter=all&include_prices=false&limit=10&order=asc&page=1&query=&resolution=day&sort=rank`
+        `https://www.coinbase.com/api/v2/assets/search?base=USD&country=US&filter=listed&include_prices=false&limit=10&order=asc&page=1&query=&resolution=day&sort=rank`
       )
         .then(res => res.json())
         .catch(err => {
