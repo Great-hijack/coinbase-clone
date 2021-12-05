@@ -33,7 +33,7 @@ export const fetchAssetsData = () => {
       let usdCoinIndex: number = 0;
       balanceHistory.forEach(item => {
         let coinKey = item[1];
-        objectBalance[coinKey] = objectBalance[coinKey] ? objectBalance[coinKey] + item[2] : item[2];
+        objectBalance[coinKey] = objectBalance[coinKey] ? Number(objectBalance[coinKey]) + Number(item[2]) : item[2];
       });
 
       Object.keys(objectBalance).forEach(key => {
@@ -80,7 +80,12 @@ export const fetchAssetsData = () => {
         let name = datum.name;
         let symbol = datum.symbol;
         let price = datum.price;
-        let balance = objectBalance[datum.symbol] ? objectBalance[datum.symbol] : 0;
+        let balance = objectBalance[datum.symbol]
+          ? objectBalance[datum.symbol].toString().length > 4
+            ? objectBalance[datum.symbol].toFixed(4)
+            : objectBalance[datum.symbol]
+          : 0;
+
         let imgUrl = datum.imgUrl;
         let changeCount = datum.changeCount;
         let percentChange = datum.percentChange;
