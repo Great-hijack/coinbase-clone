@@ -58,7 +58,8 @@ const styles = StyleSheet.create({
   animText: {
     color: '#FFF',
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 30,
+    fontFamily: 'serif',
     marginTop: -windowsHeight * 0.8,
   },
 });
