@@ -17,8 +17,6 @@ import ActionsScreen from '../screens/Actions';
 import AssetsDetail from '../screens/AssetsDetail';
 import AssetsDetailHistory from '../screens/AssetsDetailHistory';
 import AssetsDetailProperty from '../screens/AssetsDetailProperty';
-import Spinner from 'react-native-loading-spinner-overlay';
-import OverlaySpinner from '../components/Loading';
 
 export type PortfolioStackParamList = {
   PortfolioScreen: undefined;
@@ -71,24 +69,11 @@ const TabNavigator = () => {
   );
 };
 
-const customFonts = {
-  alicione: Asset.fromModule(require('../../assets/font/alicione.otf')),
-  'Sora-SemiBold': Asset.fromModule(require('../../assets/font/Sora-SemiBold.ttf')),
-};
-
 const AppNavigator = () => {
-  const [isLoaded] = useFonts(customFonts);
-
   return (
     <>
       <NavigationContainer>
-        {isLoaded ? (
-          <>
-            <TabNavigator />
-          </>
-        ) : (
-          <></>
-        )}
+        <TabNavigator />
       </NavigationContainer>
     </>
   );
