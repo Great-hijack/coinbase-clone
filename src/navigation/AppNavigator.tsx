@@ -17,6 +17,8 @@ import ActionsScreen from '../screens/Actions';
 import AssetsDetail from '../screens/AssetsDetail';
 import AssetsDetailHistory from '../screens/AssetsDetailHistory';
 import AssetsDetailProperty from '../screens/AssetsDetailProperty';
+import Spinner from 'react-native-loading-spinner-overlay';
+import OverlaySpinner from '../components/Loading';
 
 export type PortfolioStackParamList = {
   PortfolioScreen: undefined;
@@ -69,11 +71,23 @@ const TabNavigator = () => {
   );
 };
 
+const customFonts = {
+  'CoinbaseDisplay-Medium': Asset.fromModule(require('../../assets/font/CoinbaseDisplay-Medium.otf')),
+};
+
 const AppNavigator = () => {
+  const [isLoaded] = useFonts(customFonts);
+
   return (
     <>
       <NavigationContainer>
-        <TabNavigator />
+        {isLoaded ? (
+          <>
+            <TabNavigator />
+          </>
+        ) : (
+          <></>
+        )}
       </NavigationContainer>
     </>
   );

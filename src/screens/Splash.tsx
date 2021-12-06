@@ -1,7 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {StyleSheet, Dimensions, View, Text, Animated} from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import {appImages} from '../utils/images';
 
 const {width: windowsWidth, height: windowsHeight} = Dimensions.get('window');
 
@@ -35,7 +34,9 @@ const Splash = () => {
 
   return (
     <Animatable.View ref={animateRef} style={styles.screen} easing={'ease-in-out-expo'} pointerEvents={'box-none'}>
-      <Animatable.Image style={styles.animText} animation={zoomOut} delay={800} source={appImages.SplashImg} />
+      <Animatable.Text style={styles.animText} animation={zoomOut} delay={800} duration={1000}>
+        coinbase
+      </Animatable.Text>
     </Animatable.View>
   );
 };
@@ -50,13 +51,14 @@ const styles = StyleSheet.create({
     left: windowsWidth / 2 - windowsHeight,
     height: windowsHeight * 2,
     width: windowsHeight * 2,
-    backgroundColor: '#0049FF',
+    backgroundColor: '#0000ff',
     borderRadius: windowsHeight,
     zIndex: 100,
   },
   animText: {
-    width: 200,
-    height: 140,
+    color: '#FFF',
+    fontSize: 30,
+    fontFamily: 'CoinbaseDisplay-Medium',
     marginTop: -windowsHeight * 0.8,
   },
 });

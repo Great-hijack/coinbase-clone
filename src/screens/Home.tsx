@@ -8,7 +8,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Ionicons} from '@expo/vector-icons';
 import {ScrollView} from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
-import {useFonts} from 'expo-font';
 
 import CBButton from '../components/CBButton';
 import {AssetsState} from '../store/reducers/assets';
