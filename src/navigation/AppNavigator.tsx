@@ -72,7 +72,7 @@ const TabNavigator = () => {
 };
 
 const customFonts = {
-  'alicione demo': Asset.fromModule(require('../../assets/font/alicione demo.otf')),
+  alicione: Asset.fromModule(require('../../assets/font/alicione.otf')),
 };
 
 const AppNavigator = () => {

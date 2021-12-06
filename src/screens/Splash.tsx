@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   animText: {
     color: '#FFF',
     fontSize: 30,
-    fontFamily: 'alicione demo',
+    fontFamily: 'alicione',
     marginTop: -windowsHeight * 0.8,
   },
 });

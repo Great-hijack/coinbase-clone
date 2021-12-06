@@ -267,7 +267,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: 'gray',
-    fontFamily: 'alicione demo',
   },
   title: {
     fontWeight: 'bold',
