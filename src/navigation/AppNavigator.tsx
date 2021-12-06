@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import * as Font from 'expo-font';
 import {StyleSheet, View, Text, Animated, Image, RefreshControl, ImageBackground} from 'react-native';
 import {useFonts} from '@use-expo/font';
+import {Asset} from 'expo-asset';
 
 import TabBar from '../components/TabBar';
 import PortfolioScreen, {screenOptions as PortfolioOptions} from '../screens/Portfolio';
@@ -71,7 +72,7 @@ const TabNavigator = () => {
 };
 
 const customFonts = {
-  'alicione demo': require('../../assets/font/alicione demo.otf'),
+  'alicione demo': Asset.fromModule(require('../../assets/font/alicione demo.otf')),
 };
 
 const AppNavigator = () => {
