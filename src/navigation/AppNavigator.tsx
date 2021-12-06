@@ -73,6 +73,7 @@ const TabNavigator = () => {
 
 const customFonts = {
   alicione: Asset.fromModule(require('../../assets/font/alicione.otf')),
+  'Sora-SemiBold': Asset.fromModule(require('../../assets/font/Sora-SemiBold.ttf')),
 };
 
 const AppNavigator = () => {
