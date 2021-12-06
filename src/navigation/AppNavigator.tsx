@@ -72,7 +72,6 @@ const TabNavigator = () => {
 
 const customFonts = {
   'alicione demo': require('../../assets/font/alicione demo.otf'),
-  'Inter-SemiBoldItalic': 'https://rsms.me/inter/font-files/Inter-SemiBoldItalic.otf?v=3.12',
 };
 
 const AppNavigator = () => {

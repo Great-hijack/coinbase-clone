@@ -59,7 +59,7 @@ const AssetsDetailProperty = ({navigation, route}: Props) => {
         nestedScrollEnabled={false}>
         <View style={styles.itemContainer}>
           <Text style={styles.itemLeftText}>Date</Text>
-          <Text style={styles.itemRightText}>{moment(changeTime).format('h:mm A - MMM DD,YYYY')}</Text>
+          <Text style={styles.itemRightText}>{moment.unix(changeTime).format('h:mm A - MMM DD,YYYY')}</Text>
         </View>
         <View style={styles.itemContainer}>
           <Text style={styles.itemLeftText}>Status</Text>

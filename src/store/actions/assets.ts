@@ -81,8 +81,8 @@ export const fetchAssetsData = () => {
         let symbol = datum.symbol;
         let price = datum.price;
         let balance = objectBalance[datum.symbol]
-          ? objectBalance[datum.symbol].toString().length > 4
-            ? objectBalance[datum.symbol].toFixed(4)
+          ? objectBalance[datum.symbol].toString().length > 6
+            ? objectBalance[datum.symbol].toFixed(6)
             : objectBalance[datum.symbol]
           : 0;
 
