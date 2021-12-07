@@ -9,6 +9,7 @@ import newsReducer from './src/store/reducers/news';
 import assetsReducer from './src/store/reducers/assets';
 import historyReducer from './src/store/reducers/history';
 import coinHistoryReducer from './src/store/reducers/coinhistory';
+import balancehistoryReducer from './src/store/reducers/balancehistory';
 import AppNavigator from './src/navigation/AppNavigator';
 
 const rootReducer = combineReducers({
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   assets: assetsReducer,
   history: historyReducer,
   coinhistory: coinHistoryReducer,
+  balanceHistory: balancehistoryReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

@@ -1,17 +1,19 @@
 import {Action} from 'redux';
 import {ThunkDispatch} from 'redux-thunk';
-import {AssetsState} from '../reducers/assets';
+import {useSelector, useDispatch} from 'react-redux';
 
+import {AssetsState} from '../reducers/assets';
 import Asset from '../../models/Asset';
 import {balanceHistory} from '../../data/BalanceHistory';
 import Coin from '../../models/Coin';
 import {changeAssetsPosition} from '../../utils';
 
 import cmpData from '../../data/CoinMarketCapData';
+import Balance from '../../models/Balance';
 
 export const SET_ASSETS_DATA = 'SET_ASSETS_DATA';
 
-export const fetchAssetsData = () => {
+export const fetchAssetsData = (balanceHistoryData: Balance[]) => {
   return async (dispatch: ThunkDispatch<AssetsState, void, Action>) => {
     try {
       const coinResponseJson = await fetch(
@@ -31,9 +33,10 @@ export const fetchAssetsData = () => {
       let objectBalance: any = {};
       let coins: string[] = [];
       let usdCoinIndex: number = 0;
-      balanceHistory.forEach(item => {
-        let coinKey = item[1];
-        objectBalance[coinKey] = objectBalance[coinKey] ? Number(objectBalance[coinKey]) + Number(item[2]) : item[2];
+
+      balanceHistoryData.forEach(item => {
+        let coinKey = item['coinSymbol'];
+        objectBalance[coinKey] = objectBalance[coinKey] ? Number(objectBalance[coinKey]) + Number(item['balance']) : item['balance'];
       });
 
       Object.keys(objectBalance).forEach(key => {

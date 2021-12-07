@@ -1,9 +1,9 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import * as Font from 'expo-font';
-import {StyleSheet, View, Text, Animated, Image, RefreshControl, ImageBackground} from 'react-native';
+import {createNativeStackNavigator} from 'react-native-screens/native-stack';
 import {useFonts} from '@use-expo/font';
 import {Asset} from 'expo-asset';
 
@@ -17,8 +17,10 @@ import ActionsScreen from '../screens/Actions';
 import AssetsDetail from '../screens/AssetsDetail';
 import AssetsDetailHistory from '../screens/AssetsDetailHistory';
 import AssetsDetailProperty from '../screens/AssetsDetailProperty';
-import Spinner from 'react-native-loading-spinner-overlay';
-import OverlaySpinner from '../components/Loading';
+
+import * as balanceHistoryActions from '../store/actions/balancehistory';
+import Loading from '../screens/Loading';
+import Deny from '../screens/Deny';
 
 export type PortfolioStackParamList = {
   PortfolioScreen: undefined;
@@ -77,16 +79,37 @@ const customFonts = {
 
 const AppNavigator = () => {
   const [isLoaded] = useFonts(customFonts);
+  const [isGetHistory, setHistory] = useState(false);
+  const [isDeny, setDeny] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setHistory(false);
+    const onBalanceData = async () => {
+      const result = await dispatch(balanceHistoryActions.fetchBalanceHistoryData());
+      return result;
+    };
+
+    onBalanceData()
+      .then(res => {
+        if (res['success'] === 0) {
+          setDeny(true);
+        } else {
+          setHistory(true);
+        }
+      })
+      .catch(err => {});
+  }, []);
 
   return (
     <>
       <NavigationContainer>
-        {isLoaded ? (
+        {isLoaded && isGetHistory ? (
           <>
             <TabNavigator />
           </>
         ) : (
-          <></>
+          <>{isDeny ? <Deny /> : <Loading />}</>
         )}
       </NavigationContainer>
     </>

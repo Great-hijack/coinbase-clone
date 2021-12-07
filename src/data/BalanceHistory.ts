@@ -1,4 +1,4 @@
-import {Balance} from '../store/actions/history';
+import {Balance} from '../store/actions/balancehistory';
 
 export const balanceHistory: Balance[] = [
   [1636146240, 'BTC', 0.02], // '21:04', '11/05/2021'

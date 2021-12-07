@@ -1,5 +1,6 @@
 import {Action} from 'redux';
 import {ThunkDispatch} from 'redux-thunk';
+import Balance from '../../models/Balance';
 import {AssetsState} from '../reducers/assets';
 
 export const SET_GRAPH_DATA = 'SET_GRAPH_DATA';
@@ -36,7 +37,6 @@ export const API_PARAMS = {
   },
 };
 
-export type Balance = Array<string | number>;
 export enum DateRange {
   '1H' = '1H',
   '1D' = '1D',
@@ -47,13 +47,12 @@ export enum DateRange {
 }
 
 type Props = {
-  balanceHistory: Balance[];
+  balanceHistoryData: Balance[];
   range: DateRange;
 };
 
-export const fetchGraphData = ({balanceHistory, range}: Props) => {
-  const timeFrom = Date.now() / 1000 - API_PARAMS[range].timeDiff;
-  const coins = balanceHistory.reduce((prev, current) => [...prev, current[1]], []);
+export const fetchGraphData = ({balanceHistoryData, range}: Props) => {
+  const coins = balanceHistoryData.reduce((prev, current) => [...prev, current['coinSymbol']], []);
   return async (dispatch: ThunkDispatch<AssetsState, void, Action>) => {
     try {
       const fetchHistoryData = coins.map(coin => {
@@ -69,8 +68,10 @@ export const fetchGraphData = ({balanceHistory, range}: Props) => {
       const _historyData = await Promise.all(fetchHistoryData);
       const historyData = _historyData.reduce((prev, current, index) => ({...prev, [coins[index]]: current}), {});
 
-      const graphData = balanceHistory.reduce((prev, current) => {
-        const data = historyData[current[1]].Data.Data.map(item => (item.time > current[0] ? item.high * current[2] : 0));
+      const graphData = balanceHistoryData.reduce((prev, current) => {
+        const data = historyData[current['coinSymbol']].Data.Data.map(item =>
+          item.time > current['exchangeTime'] ? item.high * current['balance'] : 0
+        );
 
         if (prev) {
           return prev.map((v, i) => v + data[i]);

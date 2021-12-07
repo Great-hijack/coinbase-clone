@@ -1,16 +1,23 @@
 import React, {useRef, useState, useEffect} from 'react';
 import {View, Text, StyleSheet, ScrollView, TouchableOpacity, Animated, Pressable} from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {MaterialCommunityIcons, Ionicons} from '@expo/vector-icons';
 import {SvgUri} from 'react-native-svg';
 import {RouteProp} from '@react-navigation/core';
+
 import {PortfolioStackParamList} from '../navigation/AppNavigator';
 import CBButton from '../components/CBButton';
-import {balanceHistory} from '../data/BalanceHistory';
+// import {balanceHistory} from '../data/BalanceHistory';
 import ChangeHistory from '../components/ChangeHistory';
 import {getLocaleCurrencyString} from '../utils';
-import {Balance} from '../store/actions/history';
+import Balance from '../models/Balance';
+import {BalanceHistoryState} from '../store/reducers/balancehistory';
+
+interface RootState {
+  balanceHistory: BalanceHistoryState;
+}
 
 type AssetsDetailHistoryNavigationProp = StackNavigationProp<PortfolioStackParamList, 'AssetsDetailHistory'>;
 type AssetsDetailHistoryRouteProp = RouteProp<
@@ -25,6 +32,7 @@ type Props = {
 
 const AssetsDetailHistory = ({route, navigation}: Props) => {
   const {id, symbol, price, name, imgUrl, balance} = route.params;
+  const balanceHistoryData = useSelector((state: RootState) => state.balanceHistory.balanceHistoryData);
   const balanceAsUSD = price * balance;
   const totalAnimValue = useRef(new Animated.Value(0)).current;
   const [isShowTotal, setShowTotal] = useState(false);
@@ -40,7 +48,7 @@ const AssetsDetailHistory = ({route, navigation}: Props) => {
   }, [isShowTotal]);
 
   useEffect(() => {
-    const filteredBalance = balanceHistory.filter(item => item[1] === symbol);
+    const filteredBalance = balanceHistoryData.filter(item => item['coinSymbol'] === symbol);
     setBalances(filteredBalance);
   }, []);
 

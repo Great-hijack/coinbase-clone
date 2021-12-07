@@ -1,15 +1,17 @@
 import React, {useEffect, useRef} from 'react';
-import {StyleSheet, Dimensions, View, Text, Animated} from 'react-native';
+import {StyleSheet, Dimensions, View} from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 const {width: windowsWidth, height: windowsHeight} = Dimensions.get('window');
 
 const Splash = () => {
-  const animateRef = useRef<View | Animatable>(null);
+  const animateRef = useRef<View & Animatable.View>(null);
 
   useEffect(() => {
     setTimeout(() => {
-      animateRef ? animateRef.current.animate('zoomOut', 1000) : '';
+      if (animateRef.current && typeof animateRef.current.animate === 'function') {
+        animateRef.current.animate('zoomOut', 1000);
+      }
     }, 1500);
   }, []);
 
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
     left: windowsWidth / 2 - windowsHeight,
     height: windowsHeight * 2,
     width: windowsHeight * 2,
-    backgroundColor: '#0000ff',
+    backgroundColor: '#0149FF',
     borderRadius: windowsHeight,
     zIndex: 100,
   },

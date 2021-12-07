@@ -13,6 +13,7 @@ import * as assetsActions from '../store/actions/assets';
 import * as historyActions from '../store/actions/history';
 import {WatchlistState} from '../store/reducers/watchlist';
 import {TopMoversState} from '../store/reducers/topmovers';
+import {BalanceHistoryState} from '../store/reducers/balancehistory';
 import {NewsState} from '../store/reducers/news';
 import {AssetsState} from '../store/reducers/assets';
 
@@ -22,7 +23,7 @@ import AssetsList from '../components/AssetsList';
 import GrowBalance from '../components/GrowBalance';
 import BalanceGraph from '../components/BalanceGraph';
 import Colors from '../constants/Colors';
-import {balanceHistory} from '../data/BalanceHistory';
+// import {balanceHistory} from '../data/BalanceHistory';
 import {HistoryState} from '../store/reducers/history';
 import {getLocaleCurrencyString} from '../utils';
 import OverlaySpinner from '../components/Loading';
@@ -33,6 +34,7 @@ interface RootState {
   news: NewsState;
   assets: AssetsState;
   history: HistoryState;
+  balanceHistory: BalanceHistoryState;
 }
 
 type PortfolioScreenNavigationProp = StackNavigationProp<PortfolioStackParamList, 'PortfolioScreen'>;
@@ -42,6 +44,7 @@ type Props = {
 };
 
 const Portfolio = ({navigation}: Props) => {
+  const balanceHistoryData = useSelector((state: RootState) => state.balanceHistory.balanceHistoryData);
   const watchlistData = useSelector((state: RootState) => state.watchlist.watchlistData);
   const assetsData = useSelector((state: RootState) => state.assets.assetsData);
   const graphData = useSelector((state: RootState) => state.history.graphData);
@@ -68,7 +71,7 @@ const Portfolio = ({navigation}: Props) => {
   const loadData = useCallback(async () => {
     try {
       dispatch(watchlistActions.fetchCoinData());
-      dispatch(assetsActions.fetchAssetsData());
+      dispatch(assetsActions.fetchAssetsData(balanceHistoryData));
     } catch (err) {
       console.log(err);
     }
@@ -76,10 +79,8 @@ const Portfolio = ({navigation}: Props) => {
 
   const loadGraphData = useCallback(async () => {
     try {
-      dispatch(historyActions.fetchGraphData({balanceHistory, range}));
-    } catch (err) {
-      console.log(err);
-    }
+      dispatch(historyActions.fetchGraphData({balanceHistoryData, range}));
+    } catch (err) {}
   }, [dispatch, range]);
 
   useEffect(() => {

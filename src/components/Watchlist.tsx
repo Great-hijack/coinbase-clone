@@ -13,11 +13,7 @@ interface TopMoversProps {
 const Watchlist: FC<TopMoversProps> = ({coinData}) => {
   const renderItem = ({item}) => {
     return (
-      <TouchableHighlight
-        underlayColor={'#FAFBFE'}
-        onPress={() => {
-          console.log(item.symbol);
-        }}>
+      <TouchableHighlight underlayColor={'#FAFBFE'} onPress={() => {}}>
         <View style={styles.listItem}>
           <View style={styles.itemView}>
             <Image

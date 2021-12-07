@@ -11,6 +11,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 import CBButton from '../components/CBButton';
 import {AssetsState} from '../store/reducers/assets';
+import {BalanceHistoryState} from '../store/reducers/balancehistory';
 import {TopMoversState} from '../store/reducers/topmovers';
 import * as assetsActions from '../store/actions/assets';
 import * as topmoversActions from '../store/actions/topmovers';
@@ -24,6 +25,7 @@ import OverlaySpinner from '../components/Loading';
 interface RootState {
   assets: AssetsState;
   topMovers: TopMoversState;
+  balanceHistory: BalanceHistoryState;
 }
 
 type HomeScreenNavigationProp = StackNavigationProp<HomeStackParamList, 'HomeScreen'>;
@@ -33,6 +35,7 @@ type Props = {
 };
 
 const Home = ({navigation}: Props) => {
+  const balanceHistoryData = useSelector((state: RootState) => state.balanceHistory.balanceHistoryData);
   const assetsData = useSelector((state: RootState) => state.assets.assetsData);
   const topMoversData = useSelector((state: RootState) => state.topMovers.topMoversData);
   const dispatch = useDispatch();
@@ -43,7 +46,7 @@ const Home = ({navigation}: Props) => {
 
   const loadData = useCallback(async () => {
     try {
-      dispatch(assetsActions.fetchAssetsData());
+      dispatch(assetsActions.fetchAssetsData(balanceHistoryData));
       dispatch(topmoversActions.fetchTopMoversData());
     } catch (err) {
       console.log(err);
@@ -52,7 +55,7 @@ const Home = ({navigation}: Props) => {
 
   useEffect(() => {
     refreshing.current = true;
-    loadData().then(() => {
+    loadData().then(res => {
       refreshing.current = false;
     });
   }, [loadData, refreshing]);

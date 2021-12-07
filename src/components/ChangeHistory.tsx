@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, TouchableHighlight, Pressable} from 'react-nativ
 import Colors from '../constants/Colors';
 import {FlatList} from 'react-native-gesture-handler';
 import {getLocaleCurrencyString} from '../utils';
-import {Balance} from '../store/actions/history';
+import Balance from '../models/Balance';
 
 type itemProps = {
   balance: string;
@@ -29,17 +29,19 @@ const ChangeHistory: FC<TopMoversProps> = ({changeHistory, price, name, onItemCl
     return (
       <Pressable
         onPress={() => {
-          onItemClicked(item[0], item[1], item[2]);
+          onItemClicked(item['exchangeTime'], item['coinSymbol'], item['balance']);
         }}>
         <View style={styles.listItem}>
           <View style={{flexDirection: 'row'}}>
             <View style={{justifyContent: 'center', alignItems: 'flex-start'}}>
-              <Text style={styles.nameText}>{item[2] >= 0 ? `Received ${name}` : `Sent ${name}`}</Text>
-              <Text style={[styles.tickerText, item[2] < 0 && {display: 'none'}]}>{item[2] >= 0 ? `From ${name} address` : ``}</Text>
+              <Text style={styles.nameText}>{item['balance'] >= 0 ? `Received ${name}` : `Sent ${name}`}</Text>
+              <Text style={[styles.tickerText, item['balance'] < 0 && {display: 'none'}]}>
+                {item['balance'] >= 0 ? `From ${name} address` : ``}
+              </Text>
             </View>
           </View>
           <View>
-            <Text style={styles.priceText}>{`${item[2]} ${item[1]}`}</Text>
+            <Text style={styles.priceText}>{`${item['balance']} ${item['coinSymbol']}`}</Text>
             <Text
               style={[
                 {
@@ -47,8 +49,8 @@ const ChangeHistory: FC<TopMoversProps> = ({changeHistory, price, name, onItemCl
                 },
                 styles.changeText,
               ]}>
-              {item[2] > 0 ? '' : '-'}
-              {`$${getLocaleCurrencyString(Math.abs(item[2] * price).toFixed(2))}`}
+              {item['balance'] > 0 ? '' : '-'}
+              {`$${getLocaleCurrencyString(Math.abs(item['balance'] * price).toFixed(2))}`}
             </Text>
           </View>
         </View>
@@ -60,7 +62,12 @@ const ChangeHistory: FC<TopMoversProps> = ({changeHistory, price, name, onItemCl
     <View style={styles.container}>
       <Text style={styles.watchlistText}>History</Text>
       <View style={[{height: changeHistory ? changeHistory.length * 75 : 0}, styles.watchlistContainer]}>
-        <FlatList data={changeHistory} scrollEnabled={false} renderItem={renderItem} keyExtractor={item => item[0].toString()} />
+        <FlatList
+          data={changeHistory}
+          scrollEnabled={false}
+          renderItem={renderItem}
+          keyExtractor={item => item['exchangeTime'].toString()}
+        />
       </View>
     </View>
   );
