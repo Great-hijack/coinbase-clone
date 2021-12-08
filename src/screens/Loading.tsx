@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React from 'react';
 import {StyleSheet, Dimensions, View, Text} from 'react-native';
 
 const {width: windowsWidth, height: windowsHeight} = Dimensions.get('window');

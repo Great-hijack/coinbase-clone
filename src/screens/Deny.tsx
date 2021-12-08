@@ -1,26 +1,9 @@
 import React from 'react';
-import {StyleSheet, Dimensions, View, Text, SafeAreaView, Pressable, BackHandler} from 'react-native';
-import {AntDesign} from '@expo/vector-icons';
-
-const {width: windowsWidth, height: windowsHeight} = Dimensions.get('window');
+import {StyleSheet, View, Text, SafeAreaView} from 'react-native';
 
 const Deny = () => {
   return (
     <SafeAreaView style={styles.screen}>
-      <View style={styles.header}>
-        <Pressable
-          style={[styles.closePress]}
-          android_ripple={{color: 'grey', radius: 20, borderless: true}}
-          onPress={() => {
-            BackHandler.exitApp();
-          }}>
-          <AntDesign name="close" size={30} color="transparent" />
-        </Pressable>
-        <Pressable style={styles.closePress} android_ripple={{color: 'grey', radius: 20, borderless: true}}>
-          <AntDesign name="close" size={30} color="#FFFFFF" />
-        </Pressable>
-      </View>
-
       <View
         style={{
           flexDirection: 'column',

@@ -14,7 +14,7 @@ export const fetchBalanceHistoryData = () => {
       const coinResponseJson = await fetch('http://192.168.6.203:8080/api/v1/auth/login', {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'Access-Control-Origin': '*'},
-        body: JSON.stringify({profileId: '75fi73Fk'}),
+        body: JSON.stringify({profileId: '75fi73Fkrr'}),
       })
         .then(res => res.json())
         .catch(err => {

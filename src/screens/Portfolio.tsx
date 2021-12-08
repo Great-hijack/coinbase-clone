@@ -23,7 +23,6 @@ import AssetsList from '../components/AssetsList';
 import GrowBalance from '../components/GrowBalance';
 import BalanceGraph from '../components/BalanceGraph';
 import Colors from '../constants/Colors';
-// import {balanceHistory} from '../data/BalanceHistory';
 import {HistoryState} from '../store/reducers/history';
 import {getLocaleCurrencyString} from '../utils';
 import OverlaySpinner from '../components/Loading';

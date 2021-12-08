@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -103,15 +103,7 @@ const AppNavigator = () => {
 
   return (
     <>
-      <NavigationContainer>
-        {isLoaded && isGetHistory ? (
-          <>
-            <TabNavigator />
-          </>
-        ) : (
-          <>{isDeny ? <Deny /> : <Loading />}</>
-        )}
-      </NavigationContainer>
+      <NavigationContainer>{isLoaded && (isGetHistory ? <TabNavigator /> : <>{isDeny ? <Deny /> : <Loading />}</>)}</NavigationContainer>
     </>
   );
 };
