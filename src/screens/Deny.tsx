@@ -1,12 +1,15 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {StyleSheet, View, Text, SafeAreaView, TextInput, Pressable, TouchableHighlight} from 'react-native';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 import * as userActions from '../store/actions/user';
 import * as balanceHistoryActions from '../store/actions/balancehistory';
 
 const Deny = () => {
   const [profileId, setProfileId] = useState('');
+  const [showDialog, setShowDialog] = useState(false);
+  const [isClickFlag, setClickFlag] = useState(false);
   const dispatch = useDispatch();
 
   const handleProfileId = (profileId: string) => {
@@ -18,11 +21,19 @@ const Deny = () => {
   };
 
   useEffect(() => {
+    if (!isClickFlag) {
+      return;
+    }
     const onBalanceData = async () => {
       const result = await dispatch(balanceHistoryActions.fetchBalanceHistoryData(profileId));
       return result;
     };
-    onBalanceData();
+    onBalanceData().then(res => {
+      if (res.success === 0) {
+        setShowDialog(true);
+      }
+    });
+    setClickFlag(false);
   }, [handleProfileId]);
 
   return (
@@ -34,15 +45,37 @@ const Deny = () => {
           <Text style={styles.textTitle}>Please input profile id.</Text>
           <TextInput style={styles.textInput} onChangeText={setProfileId}></TextInput>
           <TouchableHighlight
-            activeOpacity={0.9}
+            activeOpacity={0.1}
             style={styles.signBtn}
+            underlayColor="#0149FF"
             onPress={() => {
+              setClickFlag(true);
               handleProfileId(profileId);
             }}>
             <Text style={styles.btnText}>Sign In</Text>
           </TouchableHighlight>
         </View>
       </View>
+
+      <AwesomeAlert
+        show={showDialog}
+        showProgress={false}
+        title=""
+        message="User not exist.Please try again!"
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={false}
+        showCancelButton={false}
+        showConfirmButton={true}
+        cancelText=""
+        confirmText="Ok"
+        confirmButtonColor="#DD6B55"
+        onCancelPressed={() => {
+          setShowDialog(false);
+        }}
+        onConfirmPressed={() => {
+          setShowDialog(false);
+        }}
+      />
     </SafeAreaView>
   );
 };

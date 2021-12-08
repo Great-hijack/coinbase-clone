@@ -37,14 +37,8 @@ export type HomeStackParamList = {
   News: undefined;
 };
 
-export type SignStackParamList = {
-  TabNavigator: undefined;
-  Deny: undefined;
-};
-
 const PortfolioStackNavigator = createNativeStackNavigator<PortfolioStackParamList>();
 const HomeStackNavigator = createNativeStackNavigator<HomeStackParamList>();
-const SignStackNavigator = createNativeStackNavigator<SignStackParamList>();
 
 const PortfolioNavigator = () => {
   return (
@@ -64,15 +58,6 @@ const HomeNavigator = () => {
       <HomeStackNavigator.Screen name="HomeScreen" component={HomeScreen} options={{headerShown: false}} />
       <HomeStackNavigator.Screen name="News" component={NewsScreen} />
     </HomeStackNavigator.Navigator>
-  );
-};
-
-const SignNavigator = () => {
-  return (
-    <SignStackNavigator.Navigator screenOptions={NewsOptions}>
-      <SignStackNavigator.Screen name="Deny" component={Deny} options={{headerShown: false}} />
-      <SignStackNavigator.Screen name="TabNavigator" component={TabNavigator} options={{headerShown: false}} />
-    </SignStackNavigator.Navigator>
   );
 };
 
