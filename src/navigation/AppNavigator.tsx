@@ -1,5 +1,5 @@
-import React, {useEffect, useState, useRef} from 'react';
-import {useDispatch} from 'react-redux';
+import React, {useEffect, useState, useRef, useMemo} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import * as Font from 'expo-font';
@@ -19,6 +19,8 @@ import AssetsDetailHistory from '../screens/AssetsDetailHistory';
 import AssetsDetailProperty from '../screens/AssetsDetailProperty';
 
 import * as balanceHistoryActions from '../store/actions/balancehistory';
+import * as userActions from '../store/actions/user';
+import user, {UserState} from '../store/reducers/user';
 import Loading from '../screens/Loading';
 import Deny from '../screens/Deny';
 
@@ -35,8 +37,14 @@ export type HomeStackParamList = {
   News: undefined;
 };
 
+export type SignStackParamList = {
+  TabNavigator: undefined;
+  Deny: undefined;
+};
+
 const PortfolioStackNavigator = createNativeStackNavigator<PortfolioStackParamList>();
 const HomeStackNavigator = createNativeStackNavigator<HomeStackParamList>();
+const SignStackNavigator = createNativeStackNavigator<SignStackParamList>();
 
 const PortfolioNavigator = () => {
   return (
@@ -59,6 +67,15 @@ const HomeNavigator = () => {
   );
 };
 
+const SignNavigator = () => {
+  return (
+    <SignStackNavigator.Navigator screenOptions={NewsOptions}>
+      <SignStackNavigator.Screen name="Deny" component={Deny} options={{headerShown: false}} />
+      <SignStackNavigator.Screen name="TabNavigator" component={TabNavigator} options={{headerShown: false}} />
+    </SignStackNavigator.Navigator>
+  );
+};
+
 const TabBarNavigator = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -77,29 +94,38 @@ const customFonts = {
   'CoinbaseDisplay-Medium': Asset.fromModule(require('../../assets/font/CoinbaseDisplay-Medium.otf')),
 };
 
+interface RootState {
+  user: UserState;
+}
+
 const AppNavigator = () => {
   const [isLoaded] = useFonts(customFonts);
-  const [isGetHistory, setHistory] = useState(false);
   const [isDeny, setDeny] = useState(false);
+  const [isGetHistory, setHistory] = useState(false);
+  const userData = useSelector((state: RootState) => state.user.userData);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setHistory(false);
     const onBalanceData = async () => {
-      const result = await dispatch(balanceHistoryActions.fetchBalanceHistoryData());
+      const result = await dispatch(balanceHistoryActions.fetchBalanceHistoryData(userData?.profileId));
       return result;
     };
 
-    onBalanceData()
-      .then(res => {
-        if (res['success'] === 0) {
-          setDeny(true);
-        } else {
-          setHistory(true);
-        }
-      })
-      .catch(err => {});
-  }, []);
+    if (userData?.profileId) {
+      setHistory(false);
+      onBalanceData()
+        .then(res => {
+          if (res['success'] === 0) {
+            setDeny(true);
+          } else {
+            setHistory(true);
+          }
+        })
+        .catch(err => {});
+    } else {
+      setDeny(true);
+    }
+  }, [userData?.profileId]);
 
   return (
     <>
