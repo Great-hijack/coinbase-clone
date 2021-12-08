@@ -4,5 +4,5 @@ import {persistStore, persistReducer} from 'redux-persist';
 export const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['bookmarks'],
+  // whitelist: ['bookmarks'],
 };
