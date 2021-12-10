@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {TouchableHighlight, View, Text, StyleSheet, Image, Animated} from 'react-native';
+import {TouchableHighlight, View, Text, StyleSheet, TouchableOpacity, Image, Animated} from 'react-native';
 
 import Colors from '../constants/Colors';
 import {getLocaleCurrencyString} from '../utils';
@@ -33,10 +33,10 @@ const TopMoversListItem: FC<TopMoversListItemProps> = ({id, symbol, price, perce
   };
 
   return (
-    <TouchableHighlight
+    <TouchableOpacity
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
-      underlayColor="#FAFBFE"
+      activeOpacity={1.0}
       onPress={() => {
         console.log(symbol);
       }}
@@ -67,7 +67,7 @@ const TopMoversListItem: FC<TopMoversListItemProps> = ({id, symbol, price, perce
           </Text>
         </View>
       </Animated.View>
-    </TouchableHighlight>
+    </TouchableOpacity>
   );
 };
 

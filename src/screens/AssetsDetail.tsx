@@ -193,7 +193,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
       </ScrollView>
 
       <View style={styles.tradeView}>
-        <TouchableOpacity style={styles.tradeBtn} activeOpacity={0.8}>
+        <TouchableOpacity style={styles.tradeBtn} activeOpacity={1.0}>
           <Text style={styles.tradeContent}>Trade</Text>
         </TouchableOpacity>
       </View>

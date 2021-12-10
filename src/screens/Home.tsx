@@ -147,7 +147,7 @@ const Home = ({navigation}: Props) => {
             <View style={styles.watchContentContainer}>
               <Text style={styles.watchContent}>Make the most out of Coinbase by watching some assets.</Text>
               <View style={styles.assetBtnContainer}>
-                <CBButton title="See all assets" outline />
+                <CBButton title="See all assets" outline isAnimated={false} />
               </View>
             </View>
           </View>

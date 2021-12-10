@@ -111,7 +111,7 @@ const AssetsDetailHistory = ({route, navigation}: Props) => {
         </View>
 
         <View style={styles.tradeView}>
-          <TouchableOpacity style={styles.tradeBtn} activeOpacity={0.8}>
+          <TouchableOpacity style={styles.tradeBtn}>
             <Text style={styles.tradeContent}>Trade</Text>
           </TouchableOpacity>
         </View>
@@ -130,7 +130,7 @@ const AssetsDetailHistory = ({route, navigation}: Props) => {
           </View>
         </View>
 
-        <CBButton title="Add new" outline />
+        <CBButton title="Add new" outline isAnimated={false} />
         <ChangeHistory
           changeHistory={balances}
           price={price}

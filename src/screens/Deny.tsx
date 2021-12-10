@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {StyleSheet, View, Text, SafeAreaView, TextInput, Pressable, TouchableHighlight} from 'react-native';
+import {StyleSheet, View, Text, SafeAreaView, TextInput, Pressable, TouchableOpacity, TouchableHighlight} from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
 import * as userActions from '../store/actions/user';
@@ -44,16 +44,15 @@ const Deny = () => {
         <View style={styles.inputViewContainer}>
           <Text style={styles.textTitle}>Please input profile id.</Text>
           <TextInput style={styles.textInput} onChangeText={setProfileId}></TextInput>
-          <TouchableHighlight
-            activeOpacity={0.1}
+          <TouchableOpacity
             style={styles.signBtn}
-            underlayColor="#0149FF"
+            activeOpacity={0.5}
             onPress={() => {
               setClickFlag(true);
               handleProfileId(profileId);
             }}>
             <Text style={styles.btnText}>Sign In</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -131,7 +130,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 10,
     fontSize: 16,
-    borderColor: 'gray',
+    borderColor: 'white',
     marginTop: 8,
     width: '100%',
     height: 40,

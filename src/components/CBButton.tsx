@@ -6,9 +6,10 @@ import Colors from '../constants/Colors';
 interface CBButtonProps {
   title: string;
   outline?: boolean;
+  isAnimated?: boolean;
 }
 
-const CBButton: FC<CBButtonProps> = ({title, outline = false}) => {
+const CBButton: FC<CBButtonProps> = ({title, outline = false, isAnimated = true}) => {
   const animatedValue = new Animated.Value(1);
 
   const handlePressIn = () => {
@@ -30,15 +31,13 @@ const CBButton: FC<CBButtonProps> = ({title, outline = false}) => {
   };
 
   return (
-    <Animated.View style={[styles.btnContainer, animatedStyle]}>
+    <Animated.View style={[styles.btnContainer, isAnimated ? animatedStyle : {}]}>
       <TouchableHighlight
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         style={{borderRadius: 10}}
-        activeOpacity={0.9}
-        onPress={() => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        }}>
+        activeOpacity={1.0}
+        onPress={() => {}}>
         <View style={[styles.btn, outline && styles.outline]}>
           <Text style={[styles.btnText, outline && styles.outlineText]}>{title}</Text>
         </View>
