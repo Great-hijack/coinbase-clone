@@ -4,7 +4,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {PortfolioStackParamList} from '../navigation/AppNavigator';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector, useDispatch} from 'react-redux';
-import {AntDesign, Ionicons} from '@expo/vector-icons';
+import {AntDesign, Ionicons, Fontisto} from '@expo/vector-icons';
 import {RouteProp} from '@react-navigation/core';
 import Spinner from 'react-native-loading-spinner-overlay';
 
@@ -115,7 +115,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
 
     setShowTotal(positionY > 50);
   };
-
+  let startIcon = 'star';
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -132,7 +132,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
         </View>
         <View style={styles.headerRight}>
           <Animated.Text style={[{opacity: totalAnimValue}, styles.animatedTitleTotal]}>
-            <AntDesign name="star" size={18} color={'#0349FF'} style={styles.bellIcon} />
+            <Fontisto name="star" size={18} color="#0349FF" style={styles.bellIcon} />
           </Animated.Text>
         </View>
       </View>
@@ -160,7 +160,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
           <View style={styles.topPriceContainer}>
             <Text style={styles.balanceText}>{`$${getLocaleCurrencyString(coinPrices[0] ? coinPrices[0] : '')}`}</Text>
             <View style={styles.titleStarView}>
-              <AntDesign name="star" size={18} color={'#0349FF'} style={styles.titleStar} />
+              <Fontisto name="star" size={18} color="#0349FF" style={styles.titleStar} />
             </View>
           </View>
           <Text style={styles.titleChange}>

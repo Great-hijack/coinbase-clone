@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {StyleSheet, View, Text, SafeAreaView, TextInput, Pressable, TouchableOpacity, TouchableHighlight} from 'react-native';
+import {StyleSheet, View, Text, SafeAreaView, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
 import * as userActions from '../store/actions/user';
@@ -10,6 +10,7 @@ const Deny = () => {
   const [profileId, setProfileId] = useState('');
   const [showDialog, setShowDialog] = useState(false);
   const [isClickFlag, setClickFlag] = useState(false);
+  const ref = useRef(null);
   const dispatch = useDispatch();
 
   const handleProfileId = (profileId: string) => {
@@ -38,23 +39,25 @@ const Deny = () => {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <View style={styles.viewContainer}>
-        <Text style={styles.animText}>User not exist.</Text>
+      <ScrollView contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}} showsVerticalScrollIndicator={false} ref={ref}>
+        <View style={styles.viewContainer}>
+          <Text style={styles.animText}>User not exist.</Text>
 
-        <View style={styles.inputViewContainer}>
-          <Text style={styles.textTitle}>Please input profile id.</Text>
-          <TextInput style={styles.textInput} onChangeText={setProfileId}></TextInput>
-          <TouchableOpacity
-            style={styles.signBtn}
-            activeOpacity={0.5}
-            onPress={() => {
-              setClickFlag(true);
-              handleProfileId(profileId);
-            }}>
-            <Text style={styles.btnText}>Sign In</Text>
-          </TouchableOpacity>
+          <View style={styles.inputViewContainer}>
+            <Text style={styles.textTitle}>Please input profile id.</Text>
+            <TextInput style={styles.textInput} onChangeText={setProfileId} autoCapitalize="none"></TextInput>
+            <TouchableOpacity
+              style={styles.signBtn}
+              activeOpacity={0.5}
+              onPress={() => {
+                setClickFlag(true);
+                handleProfileId(profileId);
+              }}>
+              <Text style={styles.btnText}>Sign In</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ScrollView>
 
       <AwesomeAlert
         show={showDialog}
@@ -94,6 +97,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     alignSelf: 'center',
     paddingHorizontal: '6%',
+    marginTop: '30%',
   },
   header: {
     flexDirection: 'row',
@@ -117,7 +121,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   inputViewContainer: {
-    marginTop: 20,
+    marginTop: 25,
     flexDirection: 'column',
     width: '100%',
   },
@@ -131,7 +135,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     borderColor: 'white',
-    marginTop: 8,
+    marginTop: 20,
     width: '100%',
     height: 40,
     borderWidth: StyleSheet.hairlineWidth,
@@ -141,15 +145,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: 20,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: 'white',
+    backgroundColor: 'white',
     borderRadius: 16,
     width: '100%',
     height: 40,
   },
   btnText: {
-    color: 'white',
+    color: '#0149FF',
     fontSize: 20,
   },
 });

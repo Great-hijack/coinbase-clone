@@ -1,3 +1,4 @@
+import {Asset} from 'expo-asset';
 import Coin from '../models/Coin';
 
 type Props = {
@@ -12,9 +13,8 @@ export const getCoinPrice = ({coinData, symbol}: Props) => {
 };
 
 export const appImages = {
-  BackImg: require('../../assets/back.png'),
-  LoadingImg: require('../../assets/loading.gif'),
-  DolloarImg: require('../../assets/dollar.png'),
-  CardImg: require('../../assets/card.jpg'),
-  SplashImg: require('../../assets/coinbase.jpg'),
+  BackImg: Asset.fromModule(require('../../assets/back.png')),
+  LoadingImg: Asset.fromModule(require('../../assets/loading.gif')),
+  DolloarImg: Asset.fromModule(require('../../assets/dollar.png')),
+  CardImg: Asset.fromModule(require('../../assets/card.png')),
 };

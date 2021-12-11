@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {View, StyleSheet, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList, Image} from 'react-native';
 
 import AssetsListItem from './AssetsListItem';
 import Asset from '../models/Asset';

@@ -5,7 +5,7 @@ import Coin from '../models/Coin';
 import TopMoversListItem from './TopMoversListItem';
 
 interface TopMoversProps {
-  coinData: Coin[];
+  coinData: Array<Coin>;
 }
 
 const TopMovers: FC<TopMoversProps> = ({coinData}) => {
