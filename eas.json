@@ -1,6 +1,6 @@
 {
   "build": {
-    "preview": {
+    "coinbase": {
       "ios": {
         "simulator": true
       }
