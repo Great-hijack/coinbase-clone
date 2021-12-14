@@ -15,8 +15,9 @@ export const fetchBalanceHistoryData = (profileId: string) => {
       })
         .then(res => res.json())
         .catch(err => {
-          console.log(err);
+          console.log('-----timeout-----', err);
         });
+
       if (coinResponseJson.success === 0) {
         return {success: 0, msg: coinResponseJson.msg};
       }

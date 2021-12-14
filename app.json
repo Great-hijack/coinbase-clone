@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "coinbase-clone",
-    "description": "This is a work-in-progress clone of the Coinbase mobile app. https://github.com/arjun-dureja/coinbase-clone",
-    "slug": "coinbase-clone",
+    "name": "Coinbase",
+    "description": "This is a work-in-progress clone of the Coinbase mobile app. https://github.com/arjun-dureja/coinbase",
+    "slug": "Coinbase",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,9 +14,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.zhenzhu.coinbaseclone"
