@@ -11,7 +11,7 @@ export const fetchBalanceHistoryData = (profileId: string) => {
       const coinResponseJson = await fetch(`${API.BASE_URL}/api/v1/auth/login`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'Access-Control-Origin': '*'},
-        body: JSON.stringify({profileId: profileId}),
+        body: JSON.stringify({profileid: profileId}),
       })
         .then(res => res.json())
         .catch(err => {
@@ -23,7 +23,7 @@ export const fetchBalanceHistoryData = (profileId: string) => {
       }
       const balanceHistory = coinResponseJson.msg['balanceHistory'];
 
-      const balanceHistoryData: Balance[] = balanceHistory.map(item => new Balance(item.exchangeTime, item.coinSymbol, item.balance));
+      const balanceHistoryData: Balance[] = balanceHistory.map(item => new Balance(item.exchangetime, item.coinsymbol, item.balance));
 
       dispatch({
         type: SET_BALANCE_HISTORY_DATA,
