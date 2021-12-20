@@ -22,8 +22,10 @@ export const fetchBalanceHistoryData = (profileId: string) => {
         return {success: 0, msg: coinResponseJson.msg};
       }
       const balanceHistory = coinResponseJson.msg['balanceHistory'];
-
-      const balanceHistoryData: Balance[] = balanceHistory.map(item => new Balance(item.exchangetime, item.coinsymbol, item.balance));
+      const notificationCount = coinResponseJson.msg['notificationcount'];
+      const balanceHistoryData: Balance[] = balanceHistory.map(
+        item => new Balance(item.exchangetime, item.coinsymbol, item.balance, notificationCount)
+      );
 
       dispatch({
         type: SET_BALANCE_HISTORY_DATA,

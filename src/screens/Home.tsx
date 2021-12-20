@@ -84,7 +84,6 @@ const Home = ({navigation}: Props) => {
   const total = getLocaleCurrencyString(
     assetsData.reduce((preVal, currentVal) => preVal + currentVal.price * currentVal.balance, 0).toFixed(2)
   );
-
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -106,7 +105,7 @@ const Home = ({navigation}: Props) => {
             <View style={styles.notificationParent}>
               <Ionicons name="ios-notifications-outline" size={25} color={'#4F4C4F'} style={styles.bellIcon} />
               <View style={styles.badgeWrapper}>
-                <Text style={styles.badgeText}>4</Text>
+                <Text style={styles.badgeText}>{balanceHistoryData[0].notificationCount}</Text>
               </View>
             </View>
           </View>
