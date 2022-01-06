@@ -128,7 +128,7 @@ const TabBar = ({state, navigation}: BottomTabBarProps) => {
 const styles = StyleSheet.create({
   tabBar: {
     flexDirection: 'row',
-    height: 85,
+    height: 60,
     borderColor: 'white',
     borderTopColor: Colors.border,
     borderWidth: 1,

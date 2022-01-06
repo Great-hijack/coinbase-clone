@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
-    bottom: -windowsHeight * 0.9,
+    bottom: -windowsHeight * 0.95,
     left: windowsWidth / 2 - windowsHeight,
     height: windowsHeight * 2,
     width: windowsHeight * 2,
