@@ -165,7 +165,7 @@ const AssetsDetail = ({route, navigation}: Props) => {
           </View>
           <Text style={styles.titleChange}>
             {Number(coinPrices[1]) < 0 ? '-' : ''}
-            {`$${coinPrices[1] ? Math.abs(Number(coinPrices[1])) : ''}(${coinPrices[2] ? coinPrices[2] : ''}%)`}
+            {`$${coinPrices[1] ? getLocaleCurrencyString(Math.abs(Number(coinPrices[1]))) : ''}(${coinPrices[2] ? coinPrices[2] : ''}%)`}
           </Text>
         </View>
 
