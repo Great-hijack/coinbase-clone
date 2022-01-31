@@ -14,7 +14,7 @@ interface TopMoversProps {
   changeHistory: Balance[] | undefined;
   price: number;
   name: string;
-  onItemClicked: (changeTime: number, changeSymbol: string, changeAmount: number) => void;
+  onItemClicked: (changeTime: number, changeSymbol: string, changeAmount: number, froms: string, tos: string) => void;
 }
 
 type Props = {
@@ -29,7 +29,7 @@ const ChangeHistory: FC<TopMoversProps> = ({changeHistory, price, name, onItemCl
     return (
       <Pressable
         onPress={() => {
-          onItemClicked(item['exchangeTime'], item['coinSymbol'], item['balance']);
+          onItemClicked(item['exchangeTime'], item['coinSymbol'], item['balance'], item['froms'], item['tos']);
         }}>
         <View style={styles.listItem}>
           <View style={{flexDirection: 'row'}}>

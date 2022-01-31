@@ -135,13 +135,15 @@ const AssetsDetailHistory = ({route, navigation}: Props) => {
           changeHistory={balances}
           price={price}
           name={name}
-          onItemClicked={(changeTime, changeSymbol, changeAmount) => {
+          onItemClicked={(changeTime, changeSymbol, changeAmount, froms, tos) => {
             navigation.navigate('AssetsDetailProperty', {
               changeTime: changeTime,
               changeSymbol: changeSymbol,
               name: name,
               changeAmount: changeAmount,
               price: price,
+              froms: froms,
+              tos: tos,
             });
           }}
         />

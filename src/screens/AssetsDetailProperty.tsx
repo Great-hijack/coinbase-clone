@@ -11,7 +11,7 @@ import {getLocaleCurrencyString} from '../utils';
 
 type AssetsDetailPropertyNavigationProp = StackNavigationProp<PortfolioStackParamList, 'AssetsDetailProperty'>;
 type AssetsDetailPropertyRouteProp = RouteProp<
-  {params: {changeTime: number; changeSymbol: string; changeAmount: number; name: string; price: number}},
+  {params: {changeTime: number; changeSymbol: string; changeAmount: number; name: string; price: number; froms: string; tos: string}},
   'params'
 >;
 
@@ -21,9 +21,8 @@ type Props = {
 };
 
 const AssetsDetailProperty = ({navigation, route}: Props) => {
-  const {changeTime, changeSymbol, changeAmount, name, price} = route.params;
+  const {changeTime, changeSymbol, changeAmount, name, price, froms, tos} = route.params;
   const ref = useRef(null);
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -58,9 +57,30 @@ const AssetsDetailProperty = ({navigation, route}: Props) => {
         ref={ref}
         nestedScrollEnabled={false}>
         <View style={styles.itemContainer}>
+          <Text style={styles.itemLeftText}>Price per coin</Text>
+          <Text style={styles.itemRightText}>{`$${getLocaleCurrencyString(price.toFixed(2))}`}</Text>
+        </View>
+
+        <View style={styles.itemContainer}>
+          <Text style={styles.itemLeftText}>Confirmations</Text>
+          <Text style={styles.itemRightText}>44740</Text>
+        </View>
+
+        <View style={styles.itemContainer}>
+          <Text style={styles.itemLeftText}>Fee</Text>
+          <Text style={styles.itemRightText}>{`${changeSymbol}0.00`}</Text>
+        </View>
+
+        <View style={styles.itemContainer}>
+          <Text style={styles.itemLeftText}>To</Text>
+          <Text style={styles.itemRightText}>{tos}</Text>
+        </View>
+
+        <View style={styles.itemContainer}>
           <Text style={styles.itemLeftText}>Date</Text>
           <Text style={styles.itemRightText}>{moment.unix(changeTime).format('h:mm A - MMM DD,YYYY')}</Text>
         </View>
+
         <View style={styles.itemContainer}>
           <Text style={styles.itemLeftText}>Status</Text>
           <View style={styles.statusParent}>
@@ -144,7 +164,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: '6%',
-    paddingVertical: 8,
+    paddingVertical: 16,
     width: '100%',
   },
   itemRightText: {
